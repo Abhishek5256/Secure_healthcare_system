@@ -18,7 +18,7 @@
     {% if session.username %}
         <p>Logged in as: {{ session.username }}</p>
         <p><a href="/add_patient">Add Patient Record</a></p>
-        <p><a href="/patients">View Patient Records</a></p>
+        <p><a href="/search_patient">Search Patient by ID</a></p>
         <p><a href="/logout">Logout</a></p>
     {% else %}
         <p><a href="/register">Register</a></p>

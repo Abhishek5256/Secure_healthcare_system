@@ -5,7 +5,7 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import init_db
 from auth import register_user, login_user
-from patient import add_patient_record, get_all_patients
+from patient import add_patient_record, get_patient_by_db_id, get_patient_by_patient_id
 
 app = Flask(__name__)
 app.secret_key = "simple-secret-key"
@@ -14,7 +14,6 @@ app.secret_key = "simple-secret-key"
 @app.route("/")
 def home():
     # Display the home page.
-    # The page will show different options depending on whether the user is logged in.
     return render_template("index.html")
 
 
@@ -25,7 +24,6 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
 
-        # Basic validation for required fields
         if not username or not password:
             flash("Username and password are required.")
             return redirect(url_for("register"))
@@ -49,7 +47,6 @@ def login():
         password = request.form["password"]
 
         if login_user(username, password):
-            # Store username in session after successful login
             session["username"] = username
             flash("Login successful.")
             return redirect(url_for("home"))
@@ -93,26 +90,57 @@ def add_patient():
             flash("All patient fields are required.")
             return redirect(url_for("add_patient"))
 
-        add_patient_record(
+        # Save the patient and get the internal database row id
+        new_record_id = add_patient_record(
             patient_id, age, sex, resting_bp, cholesterol,
             fasting_blood_sugar, resting_ecg, exercise_induced_angina
         )
 
-        flash("Patient record added successfully.")
-        return redirect(url_for("view_patients"))
+        flash("Patient added successfully.")
+        return redirect(url_for("patient_result", record_id=new_record_id))
 
     return render_template("add_patient.html")
 
 
-@app.route("/patients")
-def view_patients():
-    # Only logged-in users can view patient records.
+@app.route("/patient/<int:record_id>")
+def patient_result(record_id):
+    # Show only the newly added or selected patient record.
     if "username" not in session:
         flash("Please log in to view patient records.")
         return redirect(url_for("login"))
 
-    patients = get_all_patients()
-    return render_template("patients.html", patients=patients)
+    patient = get_patient_by_db_id(record_id)
+
+    if not patient:
+        flash("Patient record not found.")
+        return redirect(url_for("home"))
+
+    return render_template("patient_result.html", patient=patient)
+
+
+@app.route("/search_patient", methods=["GET", "POST"])
+def search_patient():
+    # Search patient record using Patient ID.
+    if "username" not in session:
+        flash("Please log in to search patient records.")
+        return redirect(url_for("login"))
+
+    if request.method == "POST":
+        patient_id = request.form["patient_id"]
+
+        if not patient_id:
+            flash("Please enter a Patient ID.")
+            return redirect(url_for("search_patient"))
+
+        patient = get_patient_by_patient_id(patient_id)
+
+        if patient:
+            return render_template("patient_result.html", patient=patient)
+        else:
+            flash("No patient found with that Patient ID.")
+            return redirect(url_for("search_patient"))
+
+    return render_template("search_patient.html")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Patient</title>
+</head>
+<body>
+    <h1>Search Patient by Patient ID</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Enter Patient ID:</label>
+        <input type="number" name="patient_id"><br><br>
+        <button type="submit">Search</button>
+    </form>
+
+    <p><a href="/add_patient">Add Patient Record</a></p>
+    <p><a href="/">Back to Home</a></p>
+</body>
+</html>
