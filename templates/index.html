@@ -6,6 +6,16 @@
 <body>
     <h1>Secure Healthcare Patient Record System</h1>
     <p>Welcome to the basic Flask healthcare application.</p>
-    <p>This system will support user login and patient record storage.</p>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <p><a href="/register">Register</a></p>
+    <p><a href="/login">Login</a></p>
 </body>
 </html>

@@ -1,12 +1,12 @@
 # auth.py
-# This file handles user registration and login logic.
+# This file handles registration and login logic securely.
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_connection
 
 
 def register_user(username, password):
-    # Hash the password before storing it in the database.
+    # Convert the password into a secure hash before storing it
     hashed_password = generate_password_hash(password)
 
     conn = get_connection()
@@ -22,7 +22,7 @@ def register_user(username, password):
 
 
 def login_user(username, password):
-    # Check whether the entered login details match a stored user.
+    # Retrieve the matching user and compare the entered password with the stored hash
     conn = get_connection()
     cursor = conn.cursor()
 
