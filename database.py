@@ -1,5 +1,6 @@
 # database.py
-# This file handles SQLite database connection and initial table creation.
+# This file creates the SQLite database and tables for users and patient records.
+# The patient table is designed to match the uploaded heart disease dataset.
 
 import sqlite3
 
@@ -7,18 +8,18 @@ DATABASE_NAME = "healthcare.db"
 
 
 def get_connection():
-    # Creates and returns a connection to the SQLite database.
+    # Create and return a connection to the SQLite database.
     conn = sqlite3.connect(DATABASE_NAME)
     conn.row_factory = sqlite3.Row
     return conn
 
 
 def init_db():
-    # Creates required tables if they do not already exist.
+    # Create the required tables if they do not already exist.
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Users table stores login information
+    # Users table stores login details for system access.
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,14 +28,18 @@ def init_db():
         )
     """)
 
-    # Patients table stores patient health records
+    # Patients table stores structured health record fields taken from the uploaded dataset.
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS patients (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            patient_name TEXT NOT NULL,
+            patient_id INTEGER NOT NULL,
             age INTEGER NOT NULL,
-            blood_pressure TEXT NOT NULL,
-            cholesterol TEXT NOT NULL
+            sex TEXT NOT NULL,
+            resting_bp INTEGER NOT NULL,
+            cholesterol INTEGER NOT NULL,
+            fasting_blood_sugar TEXT NOT NULL,
+            resting_ecg TEXT NOT NULL,
+            exercise_induced_angina TEXT NOT NULL
         )
     """)
 

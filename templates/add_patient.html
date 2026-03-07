@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Patient</title>
+</head>
+<body>
+    <h1>Add Patient Record</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST">
+        <label>Patient ID:</label>
+        <input type="number" name="patient_id"><br><br>
+
+        <label>Age:</label>
+        <input type="number" name="age"><br><br>
+
+        <label>Sex:</label>
+        <select name="sex">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+        </select><br><br>
+
+        <label>Resting BP:</label>
+        <input type="number" name="resting_bp"><br><br>
+
+        <label>Cholesterol:</label>
+        <input type="number" name="cholesterol"><br><br>
+
+        <label>Fasting Blood Sugar:</label>
+        <select name="fasting_blood_sugar">
+            <option value="True">True</option>
+            <option value="False">False</option>
+        </select><br><br>
+
+        <label>Resting ECG:</label>
+        <input type="text" name="resting_ecg"><br><br>
+
+        <label>Exercise Induced Angina:</label>
+        <select name="exercise_induced_angina">
+            <option value="True">True</option>
+            <option value="False">False</option>
+        </select><br><br>
+
+        <button type="submit">Add Patient</button>
+    </form>
+
+    <p><a href="/patients">View Patients</a></p>
+    <p><a href="/">Back to Home</a></p>
+</body>
+</html>

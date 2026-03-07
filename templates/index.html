@@ -4,8 +4,8 @@
     <title>Healthcare System</title>
 </head>
 <body>
-    <h1>Secure Healthcare Patient Record System</h1>
-    <p>Welcome to the basic Flask healthcare application.</p>
+    <h1>Heart Disease Patient Record System</h1>
+    <p>This system stores and retrieves structured patient records based on the uploaded dataset.</p>
 
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -17,5 +17,7 @@
 
     <p><a href="/register">Register</a></p>
     <p><a href="/login">Login</a></p>
+    <p><a href="/add_patient">Add Patient Record Manually</a></p>
+    <p><a href="/patients">View Patient Records</a></p>
 </body>
 </html>

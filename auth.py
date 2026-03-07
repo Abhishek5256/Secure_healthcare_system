@@ -1,12 +1,13 @@
 # auth.py
-# This file handles registration and login logic securely.
+# This file handles user registration and login securely.
+# Passwords are hashed before storage to reduce the risk of credential exposure.
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from database import get_connection
 
 
 def register_user(username, password):
-    # Convert the password into a secure hash before storing it
+    # Hash the password before storing it in the database.
     hashed_password = generate_password_hash(password)
 
     conn = get_connection()
@@ -22,7 +23,7 @@ def register_user(username, password):
 
 
 def login_user(username, password):
-    # Retrieve the matching user and compare the entered password with the stored hash
+    # Retrieve the user and compare the entered password with the stored password hash.
     conn = get_connection()
     cursor = conn.cursor()
 

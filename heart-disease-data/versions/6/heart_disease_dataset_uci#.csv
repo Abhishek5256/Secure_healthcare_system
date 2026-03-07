@@ -1,0 +1,921 @@
+Patient Id,Age,Sex,Resting BP,Cholesterol,Fasting Blood Sugar,resting ecg,Excersie Induced angina
+1,63,Male,145,233,TRUE,lv hypertrophy,FALSE
+2,67,Male,160,286,FALSE,lv hypertrophy,TRUE
+3,67,Male,120,229,FALSE,lv hypertrophy,TRUE
+4,37,Male,130,250,FALSE,normal,FALSE
+5,41,Female,130,204,FALSE,lv hypertrophy,FALSE
+6,56,Male,120,236,FALSE,normal,FALSE
+7,62,Female,140,268,FALSE,lv hypertrophy,FALSE
+8,57,Female,120,354,FALSE,normal,TRUE
+9,63,Male,130,254,FALSE,lv hypertrophy,FALSE
+10,53,Male,140,203,TRUE,lv hypertrophy,TRUE
+11,57,Male,140,192,FALSE,normal,FALSE
+12,56,Female,140,294,FALSE,lv hypertrophy,FALSE
+13,56,Male,130,256,TRUE,lv hypertrophy,TRUE
+14,44,Male,120,263,FALSE,normal,FALSE
+15,52,Male,172,199,TRUE,normal,FALSE
+16,57,Male,150,168,FALSE,normal,FALSE
+17,48,Male,110,229,FALSE,normal,FALSE
+18,54,Male,140,239,FALSE,normal,FALSE
+19,48,Female,130,275,FALSE,normal,FALSE
+20,49,Male,130,266,FALSE,normal,FALSE
+21,64,Male,110,211,FALSE,lv hypertrophy,TRUE
+22,58,Female,150,283,TRUE,lv hypertrophy,FALSE
+23,58,Male,120,284,FALSE,lv hypertrophy,FALSE
+24,58,Male,132,224,FALSE,lv hypertrophy,FALSE
+25,60,Male,130,206,FALSE,lv hypertrophy,TRUE
+26,50,Female,120,219,FALSE,normal,FALSE
+27,58,Female,120,340,FALSE,normal,FALSE
+28,66,Female,150,226,FALSE,normal,FALSE
+29,43,Male,150,247,FALSE,normal,FALSE
+30,40,Male,110,167,FALSE,lv hypertrophy,TRUE
+31,69,Female,140,239,FALSE,normal,FALSE
+32,60,Male,117,230,TRUE,normal,TRUE
+33,64,Male,140,335,FALSE,normal,FALSE
+34,59,Male,135,234,FALSE,normal,FALSE
+35,44,Male,130,233,FALSE,normal,TRUE
+36,42,Male,140,226,FALSE,normal,FALSE
+37,43,Male,120,177,FALSE,lv hypertrophy,TRUE
+38,57,Male,150,276,FALSE,lv hypertrophy,TRUE
+39,55,Male,132,353,FALSE,normal,TRUE
+40,61,Male,150,243,TRUE,normal,TRUE
+41,65,Female,150,225,FALSE,lv hypertrophy,FALSE
+42,40,Male,140,199,FALSE,normal,TRUE
+43,71,Female,160,302,FALSE,normal,FALSE
+44,59,Male,150,212,TRUE,normal,FALSE
+45,61,Female,130,330,FALSE,lv hypertrophy,FALSE
+46,58,Male,112,230,FALSE,lv hypertrophy,FALSE
+47,51,Male,110,175,FALSE,normal,FALSE
+48,50,Male,150,243,FALSE,lv hypertrophy,FALSE
+49,65,Female,140,417,TRUE,lv hypertrophy,FALSE
+50,53,Male,130,197,TRUE,lv hypertrophy,FALSE
+51,41,Female,105,198,FALSE,normal,FALSE
+52,65,Male,120,177,FALSE,normal,FALSE
+53,44,Male,112,290,FALSE,lv hypertrophy,FALSE
+54,44,Male,130,219,FALSE,lv hypertrophy,FALSE
+55,60,Male,130,253,FALSE,normal,TRUE
+56,54,Male,124,266,FALSE,lv hypertrophy,TRUE
+57,50,Male,140,233,FALSE,normal,FALSE
+58,41,Male,110,172,FALSE,lv hypertrophy,FALSE
+59,54,Male,125,273,FALSE,lv hypertrophy,FALSE
+60,51,Male,125,213,FALSE,lv hypertrophy,TRUE
+61,51,Female,130,305,FALSE,normal,TRUE
+62,46,Female,142,177,FALSE,lv hypertrophy,TRUE
+63,58,Male,128,216,FALSE,lv hypertrophy,TRUE
+64,54,Female,135,304,TRUE,normal,FALSE
+65,54,Male,120,188,FALSE,normal,FALSE
+66,60,Male,145,282,FALSE,lv hypertrophy,TRUE
+67,60,Male,140,185,FALSE,lv hypertrophy,FALSE
+68,54,Male,150,232,FALSE,lv hypertrophy,FALSE
+69,59,Male,170,326,FALSE,lv hypertrophy,TRUE
+70,46,Male,150,231,FALSE,normal,FALSE
+71,65,Female,155,269,FALSE,normal,FALSE
+72,67,Male,125,254,TRUE,normal,FALSE
+73,62,Male,120,267,FALSE,normal,TRUE
+74,65,Male,110,248,FALSE,lv hypertrophy,FALSE
+75,44,Male,110,197,FALSE,lv hypertrophy,FALSE
+76,65,Female,160,360,FALSE,lv hypertrophy,FALSE
+77,60,Male,125,258,FALSE,lv hypertrophy,TRUE
+78,51,Female,140,308,FALSE,lv hypertrophy,FALSE
+79,48,Male,130,245,FALSE,lv hypertrophy,FALSE
+80,58,Male,150,270,FALSE,lv hypertrophy,TRUE
+81,45,Male,104,208,FALSE,lv hypertrophy,TRUE
+82,53,Female,130,264,FALSE,lv hypertrophy,FALSE
+83,39,Male,140,321,FALSE,lv hypertrophy,FALSE
+84,68,Male,180,274,TRUE,lv hypertrophy,TRUE
+85,52,Male,120,325,FALSE,normal,FALSE
+86,44,Male,140,235,FALSE,lv hypertrophy,FALSE
+87,47,Male,138,257,FALSE,lv hypertrophy,FALSE
+88,53,Female,128,216,FALSE,lv hypertrophy,FALSE
+89,53,Female,138,234,FALSE,lv hypertrophy,FALSE
+90,51,Female,130,256,FALSE,lv hypertrophy,FALSE
+91,66,Male,120,302,FALSE,lv hypertrophy,FALSE
+92,62,Female,160,164,FALSE,lv hypertrophy,FALSE
+93,62,Male,130,231,FALSE,normal,FALSE
+94,44,Female,108,141,FALSE,normal,FALSE
+95,63,Female,135,252,FALSE,lv hypertrophy,FALSE
+96,52,Male,128,255,FALSE,normal,TRUE
+97,59,Male,110,239,FALSE,lv hypertrophy,TRUE
+98,60,Female,150,258,FALSE,lv hypertrophy,FALSE
+99,52,Male,134,201,FALSE,normal,FALSE
+100,48,Male,122,222,FALSE,lv hypertrophy,FALSE
+101,45,Male,115,260,FALSE,lv hypertrophy,FALSE
+102,34,Male,118,182,FALSE,lv hypertrophy,FALSE
+103,57,Female,128,303,FALSE,lv hypertrophy,FALSE
+104,71,Female,110,265,TRUE,lv hypertrophy,FALSE
+105,49,Male,120,188,FALSE,normal,FALSE
+106,54,Male,108,309,FALSE,normal,FALSE
+107,59,Male,140,177,FALSE,normal,TRUE
+108,57,Male,128,229,FALSE,lv hypertrophy,FALSE
+109,61,Male,120,260,FALSE,normal,TRUE
+110,39,Male,118,219,FALSE,normal,FALSE
+111,61,Female,145,307,FALSE,lv hypertrophy,TRUE
+112,56,Male,125,249,TRUE,lv hypertrophy,TRUE
+113,52,Male,118,186,FALSE,lv hypertrophy,FALSE
+114,43,Female,132,341,TRUE,lv hypertrophy,TRUE
+115,62,Female,130,263,FALSE,normal,FALSE
+116,41,Male,135,203,FALSE,normal,FALSE
+117,58,Male,140,211,TRUE,lv hypertrophy,FALSE
+118,35,Female,138,183,FALSE,normal,FALSE
+119,63,Male,130,330,TRUE,lv hypertrophy,TRUE
+120,65,Male,135,254,FALSE,lv hypertrophy,FALSE
+121,48,Male,130,256,TRUE,lv hypertrophy,TRUE
+122,63,Female,150,407,FALSE,lv hypertrophy,FALSE
+123,51,Male,100,222,FALSE,normal,TRUE
+124,55,Male,140,217,FALSE,normal,TRUE
+125,65,Male,138,282,TRUE,lv hypertrophy,FALSE
+126,45,Female,130,234,FALSE,lv hypertrophy,FALSE
+127,56,Female,200,288,TRUE,lv hypertrophy,TRUE
+128,54,Male,110,239,FALSE,normal,TRUE
+129,44,Male,120,220,FALSE,normal,FALSE
+130,62,Female,124,209,FALSE,normal,FALSE
+131,54,Male,120,258,FALSE,lv hypertrophy,FALSE
+132,51,Male,94,227,FALSE,normal,TRUE
+133,29,Male,130,204,FALSE,lv hypertrophy,FALSE
+134,51,Male,140,261,FALSE,lv hypertrophy,TRUE
+135,43,Female,122,213,FALSE,normal,FALSE
+136,55,Female,135,250,FALSE,lv hypertrophy,FALSE
+137,70,Male,145,174,FALSE,normal,TRUE
+138,62,Male,120,281,FALSE,lv hypertrophy,FALSE
+139,35,Male,120,198,FALSE,normal,TRUE
+140,51,Male,125,245,TRUE,lv hypertrophy,FALSE
+141,59,Male,140,221,FALSE,normal,TRUE
+142,59,Male,170,288,FALSE,lv hypertrophy,FALSE
+143,52,Male,128,205,TRUE,normal,FALSE
+144,64,Male,125,309,FALSE,normal,TRUE
+145,58,Male,105,240,FALSE,lv hypertrophy,TRUE
+146,47,Male,108,243,FALSE,normal,FALSE
+147,57,Male,165,289,TRUE,lv hypertrophy,FALSE
+148,41,Male,112,250,FALSE,normal,FALSE
+149,45,Male,128,308,FALSE,lv hypertrophy,FALSE
+150,60,Female,102,318,FALSE,normal,FALSE
+151,52,Male,152,298,TRUE,normal,FALSE
+152,42,Female,102,265,FALSE,lv hypertrophy,FALSE
+153,67,Female,115,564,FALSE,lv hypertrophy,FALSE
+154,55,Male,160,289,FALSE,lv hypertrophy,TRUE
+155,64,Male,120,246,FALSE,lv hypertrophy,TRUE
+156,70,Male,130,322,FALSE,lv hypertrophy,FALSE
+157,51,Male,140,299,FALSE,normal,TRUE
+158,58,Male,125,300,FALSE,lv hypertrophy,FALSE
+159,60,Male,140,293,FALSE,lv hypertrophy,FALSE
+160,68,Male,118,277,FALSE,normal,FALSE
+161,46,Male,101,197,TRUE,normal,FALSE
+162,77,Male,125,304,FALSE,lv hypertrophy,TRUE
+163,54,Female,110,214,FALSE,normal,FALSE
+164,58,Female,100,248,FALSE,lv hypertrophy,FALSE
+165,48,Male,124,255,TRUE,normal,FALSE
+166,57,Male,132,207,FALSE,normal,TRUE
+167,52,Male,138,223,FALSE,normal,FALSE
+168,54,Female,132,288,TRUE,lv hypertrophy,TRUE
+169,35,Male,126,282,FALSE,lv hypertrophy,TRUE
+170,45,Female,112,160,FALSE,normal,FALSE
+171,70,Male,160,269,FALSE,normal,TRUE
+172,53,Male,142,226,FALSE,lv hypertrophy,TRUE
+173,59,Female,174,249,FALSE,normal,TRUE
+174,62,Female,140,394,FALSE,lv hypertrophy,FALSE
+175,64,Male,145,212,FALSE,lv hypertrophy,FALSE
+176,57,Male,152,274,FALSE,normal,TRUE
+177,52,Male,108,233,TRUE,normal,FALSE
+178,56,Male,132,184,FALSE,lv hypertrophy,TRUE
+179,43,Male,130,315,FALSE,normal,FALSE
+180,53,Male,130,246,TRUE,lv hypertrophy,FALSE
+181,48,Male,124,274,FALSE,lv hypertrophy,FALSE
+182,56,Female,134,409,FALSE,lv hypertrophy,TRUE
+183,42,Male,148,244,FALSE,lv hypertrophy,FALSE
+184,59,Male,178,270,FALSE,lv hypertrophy,FALSE
+185,60,Female,158,305,FALSE,lv hypertrophy,FALSE
+186,63,Female,140,195,FALSE,normal,FALSE
+187,42,Male,120,240,TRUE,normal,FALSE
+188,66,Male,160,246,FALSE,normal,TRUE
+189,54,Male,192,283,FALSE,lv hypertrophy,FALSE
+190,69,Male,140,254,FALSE,lv hypertrophy,FALSE
+191,50,Male,129,196,FALSE,normal,FALSE
+192,51,Male,140,298,FALSE,normal,TRUE
+193,43,Male,132,247,TRUE,lv hypertrophy,TRUE
+194,62,Female,138,294,TRUE,normal,FALSE
+195,68,Female,120,211,FALSE,lv hypertrophy,FALSE
+196,67,Male,100,299,FALSE,lv hypertrophy,TRUE
+197,69,Male,160,234,TRUE,lv hypertrophy,FALSE
+198,45,Female,138,236,FALSE,lv hypertrophy,TRUE
+199,50,Female,120,244,FALSE,normal,FALSE
+200,59,Male,160,273,FALSE,lv hypertrophy,FALSE
+201,50,Female,110,254,FALSE,lv hypertrophy,FALSE
+202,64,Female,180,325,FALSE,normal,TRUE
+203,57,Male,150,126,TRUE,normal,FALSE
+204,64,Female,140,313,FALSE,normal,FALSE
+205,43,Male,110,211,FALSE,normal,FALSE
+206,45,Male,142,309,FALSE,lv hypertrophy,TRUE
+207,58,Male,128,259,FALSE,lv hypertrophy,TRUE
+208,50,Male,144,200,FALSE,lv hypertrophy,TRUE
+209,55,Male,130,262,FALSE,normal,FALSE
+210,62,Female,150,244,FALSE,normal,TRUE
+211,37,Female,120,215,FALSE,normal,FALSE
+212,38,Male,120,231,FALSE,normal,TRUE
+213,41,Male,130,214,FALSE,lv hypertrophy,FALSE
+214,66,Female,178,228,TRUE,normal,TRUE
+215,52,Male,112,230,FALSE,normal,FALSE
+216,56,Male,120,193,FALSE,lv hypertrophy,FALSE
+217,46,Female,105,204,FALSE,normal,FALSE
+218,46,Female,138,243,FALSE,lv hypertrophy,TRUE
+219,64,Female,130,303,FALSE,normal,FALSE
+220,59,Male,138,271,FALSE,lv hypertrophy,FALSE
+221,41,Female,112,268,FALSE,lv hypertrophy,TRUE
+222,54,Female,108,267,FALSE,lv hypertrophy,FALSE
+223,39,Female,94,199,FALSE,normal,FALSE
+224,53,Male,123,282,FALSE,normal,TRUE
+225,63,Female,108,269,FALSE,normal,TRUE
+226,34,Female,118,210,FALSE,normal,FALSE
+227,47,Male,112,204,FALSE,normal,FALSE
+228,67,Female,152,277,FALSE,normal,FALSE
+229,54,Male,110,206,FALSE,lv hypertrophy,TRUE
+230,66,Male,112,212,FALSE,lv hypertrophy,TRUE
+231,52,Female,136,196,FALSE,lv hypertrophy,FALSE
+232,55,Female,180,327,FALSE,st-t abnormality,TRUE
+233,49,Male,118,149,FALSE,lv hypertrophy,FALSE
+234,74,Female,120,269,FALSE,lv hypertrophy,TRUE
+235,54,Female,160,201,FALSE,normal,FALSE
+236,54,Male,122,286,FALSE,lv hypertrophy,TRUE
+237,56,Male,130,283,TRUE,lv hypertrophy,TRUE
+238,46,Male,120,249,FALSE,lv hypertrophy,FALSE
+239,49,Female,134,271,FALSE,normal,FALSE
+240,42,Male,120,295,FALSE,normal,FALSE
+241,41,Male,110,235,FALSE,normal,FALSE
+242,41,Female,126,306,FALSE,normal,FALSE
+243,49,Female,130,269,FALSE,normal,FALSE
+244,61,Male,134,234,FALSE,normal,FALSE
+245,60,Female,120,178,TRUE,normal,FALSE
+246,67,Male,120,237,FALSE,normal,FALSE
+247,58,Male,100,234,FALSE,normal,FALSE
+248,47,Male,110,275,FALSE,lv hypertrophy,TRUE
+249,52,Male,125,212,FALSE,normal,FALSE
+250,62,Male,128,208,TRUE,lv hypertrophy,FALSE
+251,57,Male,110,201,FALSE,normal,TRUE
+252,58,Male,146,218,FALSE,normal,FALSE
+253,64,Male,128,263,FALSE,normal,TRUE
+254,51,Female,120,295,FALSE,lv hypertrophy,FALSE
+255,43,Male,115,303,FALSE,normal,FALSE
+256,42,Female,120,209,FALSE,normal,FALSE
+257,67,Female,106,223,FALSE,normal,FALSE
+258,76,Female,140,197,FALSE,st-t abnormality,FALSE
+259,70,Male,156,245,FALSE,lv hypertrophy,FALSE
+260,57,Male,124,261,FALSE,normal,FALSE
+261,44,Female,118,242,FALSE,normal,FALSE
+262,58,Female,136,319,TRUE,lv hypertrophy,FALSE
+263,60,Female,150,240,FALSE,normal,FALSE
+264,44,Male,120,226,FALSE,normal,FALSE
+265,61,Male,138,166,FALSE,lv hypertrophy,TRUE
+266,42,Male,136,315,FALSE,normal,TRUE
+267,52,Male,128,204,TRUE,normal,TRUE
+268,59,Male,126,218,TRUE,normal,FALSE
+269,40,Male,152,223,FALSE,normal,FALSE
+270,42,Male,130,180,FALSE,normal,FALSE
+271,61,Male,140,207,FALSE,lv hypertrophy,TRUE
+272,66,Male,160,228,FALSE,lv hypertrophy,FALSE
+273,46,Male,140,311,FALSE,normal,TRUE
+274,71,Female,112,149,FALSE,normal,FALSE
+275,59,Male,134,204,FALSE,normal,FALSE
+276,64,Male,170,227,FALSE,lv hypertrophy,FALSE
+277,66,Female,146,278,FALSE,lv hypertrophy,FALSE
+278,39,Female,138,220,FALSE,normal,FALSE
+279,57,Male,154,232,FALSE,lv hypertrophy,FALSE
+280,58,Female,130,197,FALSE,normal,FALSE
+281,57,Male,110,335,FALSE,normal,TRUE
+282,47,Male,130,253,FALSE,normal,FALSE
+283,55,Female,128,205,FALSE,st-t abnormality,TRUE
+284,35,Male,122,192,FALSE,normal,FALSE
+285,61,Male,148,203,FALSE,normal,FALSE
+286,58,Male,114,318,FALSE,st-t abnormality,FALSE
+287,58,Female,170,225,TRUE,lv hypertrophy,TRUE
+288,58,Male,125,220,FALSE,normal,FALSE
+289,56,Male,130,221,FALSE,lv hypertrophy,FALSE
+290,56,Male,120,240,FALSE,normal,FALSE
+291,67,Male,152,212,FALSE,lv hypertrophy,FALSE
+292,55,Female,132,342,FALSE,normal,FALSE
+293,44,Male,120,169,FALSE,normal,TRUE
+294,63,Male,140,187,FALSE,lv hypertrophy,TRUE
+295,63,Female,124,197,FALSE,normal,TRUE
+296,41,Male,120,157,FALSE,normal,FALSE
+297,59,Male,164,176,TRUE,lv hypertrophy,FALSE
+298,57,Female,140,241,FALSE,normal,TRUE
+299,45,Male,110,264,FALSE,normal,FALSE
+300,68,Male,144,193,TRUE,normal,FALSE
+301,57,Male,130,131,FALSE,normal,TRUE
+302,57,Female,130,236,FALSE,lv hypertrophy,FALSE
+303,38,Male,138,175,FALSE,normal,FALSE
+304,28,Male,130,132,FALSE,lv hypertrophy,FALSE
+305,29,Male,120,243,FALSE,normal,FALSE
+306,29,Male,140,,FALSE,normal,FALSE
+307,30,Female,170,237,FALSE,st-t abnormality,FALSE
+308,31,Female,100,219,FALSE,st-t abnormality,FALSE
+309,32,Female,105,198,FALSE,normal,FALSE
+310,32,Male,110,225,FALSE,normal,FALSE
+311,32,Male,125,254,FALSE,normal,FALSE
+312,33,Male,120,298,FALSE,normal,FALSE
+313,34,Female,130,161,FALSE,normal,FALSE
+314,34,Male,150,214,FALSE,st-t abnormality,FALSE
+315,34,Male,98,220,FALSE,normal,FALSE
+316,35,Female,120,160,FALSE,st-t abnormality,FALSE
+317,35,Female,140,167,FALSE,normal,FALSE
+318,35,Male,120,308,FALSE,lv hypertrophy,FALSE
+319,35,Male,150,264,FALSE,normal,FALSE
+320,36,Male,120,166,FALSE,normal,FALSE
+321,36,Male,112,340,FALSE,normal,FALSE
+322,36,Male,130,209,FALSE,normal,FALSE
+323,36,Male,150,160,FALSE,normal,FALSE
+324,37,Female,120,260,FALSE,normal,FALSE
+325,37,Female,130,211,FALSE,normal,FALSE
+326,37,Female,130,173,FALSE,st-t abnormality,FALSE
+327,37,Male,130,283,FALSE,st-t abnormality,FALSE
+328,37,Male,130,194,FALSE,normal,FALSE
+329,37,Male,120,223,FALSE,normal,FALSE
+330,37,Male,130,315,FALSE,normal,FALSE
+331,38,Female,120,275,,normal,FALSE
+332,38,Male,140,297,FALSE,normal,FALSE
+333,38,Male,145,292,FALSE,normal,FALSE
+334,39,Female,110,182,FALSE,st-t abnormality,FALSE
+335,39,Male,120,,FALSE,st-t abnormality,FALSE
+336,39,Male,120,200,FALSE,normal,TRUE
+337,39,Male,120,204,FALSE,normal,FALSE
+338,39,Male,130,,FALSE,normal,FALSE
+339,39,Male,190,241,FALSE,normal,FALSE
+340,39,Male,120,339,FALSE,normal,FALSE
+341,39,Male,160,147,TRUE,normal,FALSE
+342,39,Male,110,273,FALSE,normal,FALSE
+343,39,Male,130,307,FALSE,normal,FALSE
+344,40,Male,130,275,FALSE,normal,FALSE
+345,40,Male,140,289,FALSE,normal,FALSE
+346,40,Male,130,215,FALSE,normal,FALSE
+347,40,Male,130,281,FALSE,normal,FALSE
+348,40,Male,140,,FALSE,normal,FALSE
+349,41,Female,110,250,FALSE,st-t abnormality,FALSE
+350,41,Female,125,184,FALSE,normal,FALSE
+351,41,Female,130,245,FALSE,normal,FALSE
+352,41,Male,120,291,FALSE,st-t abnormality,FALSE
+353,41,Male,120,295,FALSE,normal,FALSE
+354,41,Male,125,269,FALSE,normal,FALSE
+355,41,Male,112,250,FALSE,normal,FALSE
+356,42,Female,115,211,FALSE,st-t abnormality,FALSE
+357,42,Male,120,196,FALSE,normal,FALSE
+358,42,Male,120,198,FALSE,normal,FALSE
+359,42,Male,150,268,FALSE,normal,FALSE
+360,42,Male,120,228,FALSE,normal,TRUE
+361,42,Male,160,147,FALSE,normal,FALSE
+362,42,Male,140,358,FALSE,normal,FALSE
+363,43,Female,100,223,FALSE,normal,FALSE
+364,43,Female,120,201,FALSE,normal,FALSE
+365,43,Female,120,215,FALSE,st-t abnormality,FALSE
+366,43,Female,120,249,FALSE,st-t abnormality,FALSE
+367,43,Female,120,266,FALSE,normal,FALSE
+368,43,Female,150,186,FALSE,normal,FALSE
+369,43,Female,150,,FALSE,normal,FALSE
+370,43,Male,142,207,FALSE,normal,FALSE
+371,44,Female,120,218,FALSE,st-t abnormality,FALSE
+372,44,Male,120,184,FALSE,normal,FALSE
+373,44,Male,130,215,FALSE,normal,FALSE
+374,44,Male,150,412,FALSE,normal,FALSE
+375,45,Female,130,237,FALSE,normal,FALSE
+376,45,Female,180,,FALSE,normal,FALSE
+377,45,Female,132,297,FALSE,normal,FALSE
+378,45,Male,140,224,TRUE,normal,FALSE
+379,45,Male,135,,FALSE,normal,FALSE
+380,45,Male,120,225,FALSE,normal,FALSE
+381,45,Male,140,224,FALSE,normal,FALSE
+382,46,Female,130,238,FALSE,normal,FALSE
+383,46,Male,140,275,FALSE,normal,TRUE
+384,46,Male,120,230,FALSE,normal,FALSE
+385,46,Male,150,163,,normal,FALSE
+386,46,Male,110,238,FALSE,st-t abnormality,TRUE
+387,46,Male,110,240,FALSE,st-t abnormality,FALSE
+388,46,Male,180,280,FALSE,st-t abnormality,FALSE
+389,47,Female,140,257,FALSE,normal,FALSE
+390,47,Female,130,,FALSE,normal,FALSE
+391,47,Male,110,249,FALSE,normal,FALSE
+392,47,Male,160,263,FALSE,normal,FALSE
+393,47,Male,140,276,TRUE,normal,TRUE
+394,48,Female,,308,FALSE,st-t abnormality,
+395,48,Female,120,,TRUE,st-t abnormality,FALSE
+396,48,Female,120,284,FALSE,normal,FALSE
+397,48,Female,120,195,FALSE,normal,FALSE
+398,48,Female,108,163,FALSE,normal,FALSE
+399,48,Female,120,254,FALSE,st-t abnormality,FALSE
+400,48,Female,150,227,FALSE,normal,TRUE
+401,48,Male,100,,FALSE,normal,FALSE
+402,48,Male,130,245,FALSE,normal,FALSE
+403,48,Male,140,238,FALSE,normal,FALSE
+404,48,Male,110,211,FALSE,normal,FALSE
+405,49,Female,110,,FALSE,normal,FALSE
+406,49,Female,110,,FALSE,normal,FALSE
+407,49,Female,124,201,FALSE,normal,FALSE
+408,49,Female,130,207,FALSE,st-t abnormality,FALSE
+409,49,Male,100,253,FALSE,normal,FALSE
+410,49,Male,140,187,FALSE,normal,FALSE
+411,49,Male,120,297,,normal,FALSE
+412,49,Male,140,,FALSE,normal,FALSE
+413,50,Female,110,202,FALSE,normal,FALSE
+414,50,Female,120,328,FALSE,normal,TRUE
+415,50,Male,120,168,FALSE,normal,FALSE
+416,50,Male,140,216,FALSE,normal,FALSE
+417,50,Male,170,209,FALSE,st-t abnormality,FALSE
+418,50,Male,140,129,FALSE,normal,FALSE
+419,50,Male,150,215,FALSE,normal,TRUE
+420,51,Female,160,194,FALSE,normal,FALSE
+421,51,Female,110,190,FALSE,normal,FALSE
+422,51,Female,130,220,FALSE,normal,TRUE
+423,51,Female,150,200,FALSE,normal,FALSE
+424,51,Male,125,188,FALSE,normal,FALSE
+425,51,Male,130,224,FALSE,normal,FALSE
+426,51,Male,130,179,FALSE,normal,FALSE
+427,52,Female,120,210,FALSE,normal,FALSE
+428,52,Female,140,,FALSE,normal,FALSE
+429,52,Female,125,272,FALSE,normal,FALSE
+430,52,Female,130,180,FALSE,normal,TRUE
+431,52,Male,120,284,FALSE,normal,FALSE
+432,52,Male,140,100,FALSE,normal,TRUE
+433,52,Male,160,196,FALSE,normal,FALSE
+434,52,Male,140,259,FALSE,st-t abnormality,FALSE
+435,53,Female,113,468,,normal,FALSE
+436,53,Female,140,216,FALSE,normal,TRUE
+437,53,Female,120,274,FALSE,normal,FALSE
+438,53,Male,120,,FALSE,normal,FALSE
+439,53,Male,140,320,FALSE,normal,FALSE
+440,53,Male,120,195,FALSE,normal,FALSE
+441,53,Male,124,260,FALSE,st-t abnormality,TRUE
+442,53,Male,130,182,FALSE,normal,FALSE
+443,53,Male,140,243,FALSE,normal,FALSE
+444,54,Female,120,221,FALSE,normal,FALSE
+445,54,Female,120,230,TRUE,normal,FALSE
+446,54,Female,120,273,FALSE,normal,FALSE
+447,54,Female,130,253,FALSE,st-t abnormality,FALSE
+448,54,Female,140,309,,st-t abnormality,FALSE
+449,54,Female,150,230,FALSE,normal,FALSE
+450,54,Female,160,312,FALSE,normal,FALSE
+451,54,Male,120,171,FALSE,normal,FALSE
+452,54,Male,110,208,FALSE,normal,FALSE
+453,54,Male,120,238,FALSE,normal,FALSE
+454,54,Male,120,246,FALSE,normal,FALSE
+455,54,Male,160,195,FALSE,st-t abnormality,FALSE
+456,54,Male,160,305,FALSE,normal,FALSE
+457,54,Male,120,217,FALSE,normal,FALSE
+458,54,Male,150,,FALSE,normal,FALSE
+459,54,Male,150,365,FALSE,st-t abnormality,FALSE
+460,55,Female,110,344,FALSE,st-t abnormality,FALSE
+461,55,Female,122,320,FALSE,normal,FALSE
+462,55,Female,130,394,FALSE,lv hypertrophy,FALSE
+463,55,Male,120,256,TRUE,normal,FALSE
+464,55,Male,140,196,FALSE,normal,FALSE
+465,55,Male,145,326,FALSE,normal,FALSE
+466,55,Male,110,277,FALSE,normal,FALSE
+467,55,Male,120,220,FALSE,lv hypertrophy,FALSE
+468,55,Male,120,270,FALSE,normal,FALSE
+469,55,Male,140,229,FALSE,normal,TRUE
+470,56,Female,130,219,,st-t abnormality,FALSE
+471,56,Male,130,184,FALSE,normal,FALSE
+472,56,Male,130,,FALSE,normal,FALSE
+473,56,Male,130,276,FALSE,normal,TRUE
+474,56,Male,120,85,FALSE,normal,FALSE
+475,57,Female,130,308,FALSE,normal,FALSE
+476,57,Female,180,347,FALSE,st-t abnormality,TRUE
+477,57,Male,140,260,TRUE,normal,FALSE
+478,58,Male,130,230,FALSE,normal,FALSE
+479,58,Male,130,251,FALSE,normal,FALSE
+480,58,Male,140,179,FALSE,normal,FALSE
+481,58,Male,135,222,FALSE,normal,FALSE
+482,59,Female,130,188,FALSE,normal,FALSE
+483,59,Male,140,287,FALSE,normal,FALSE
+484,59,Male,130,318,FALSE,normal,TRUE
+485,59,Male,180,213,FALSE,normal,FALSE
+486,59,Male,140,,FALSE,normal,FALSE
+487,60,Male,120,246,FALSE,lv hypertrophy,FALSE
+488,61,Female,130,294,FALSE,st-t abnormality,TRUE
+489,61,Male,125,292,FALSE,st-t abnormality,TRUE
+490,62,Female,160,193,FALSE,normal,FALSE
+491,62,Male,140,271,FALSE,normal,FALSE
+492,31,Male,120,270,FALSE,normal,TRUE
+493,33,Female,100,246,FALSE,normal,TRUE
+494,34,Male,140,156,FALSE,normal,FALSE
+495,35,Male,110,257,FALSE,normal,FALSE
+496,36,Male,120,267,FALSE,normal,FALSE
+497,37,Male,140,207,FALSE,normal,TRUE
+498,38,Male,110,196,FALSE,normal,FALSE
+499,38,Male,120,282,FALSE,normal,FALSE
+500,38,Male,92,117,FALSE,normal,TRUE
+501,40,Male,120,466,,normal,TRUE
+502,41,Male,110,289,FALSE,normal,FALSE
+503,41,Male,120,237,,normal,TRUE
+504,43,Male,150,247,FALSE,normal,TRUE
+505,46,Male,110,202,FALSE,normal,TRUE
+506,46,Male,118,186,FALSE,normal,FALSE
+507,46,Male,120,277,FALSE,normal,TRUE
+508,47,Male,140,193,FALSE,normal,TRUE
+509,47,Male,150,226,FALSE,normal,TRUE
+510,48,Male,106,263,TRUE,normal,FALSE
+511,48,Male,120,260,FALSE,normal,FALSE
+512,48,Male,160,268,FALSE,normal,TRUE
+513,49,Female,160,180,FALSE,normal,FALSE
+514,49,Male,115,265,FALSE,normal,FALSE
+515,49,Male,130,206,FALSE,normal,FALSE
+516,50,Female,140,288,FALSE,normal,TRUE
+517,50,Male,145,264,FALSE,normal,FALSE
+518,51,Female,160,303,FALSE,normal,TRUE
+519,52,Male,130,225,FALSE,normal,TRUE
+520,54,Male,125,216,FALSE,normal,FALSE
+521,54,Male,125,224,FALSE,normal,FALSE
+522,55,Male,140,201,FALSE,normal,TRUE
+523,57,Male,140,265,FALSE,st-t abnormality,TRUE
+524,58,Male,130,213,FALSE,st-t abnormality,FALSE
+525,59,Female,130,338,TRUE,st-t abnormality,TRUE
+526,60,Male,100,248,FALSE,normal,FALSE
+527,63,Male,150,223,FALSE,normal,FALSE
+528,65,Male,140,306,TRUE,normal,TRUE
+529,32,Male,118,529,FALSE,normal,FALSE
+530,38,Male,110,,FALSE,normal,TRUE
+531,39,Male,110,280,FALSE,normal,FALSE
+532,40,Female,150,392,FALSE,normal,FALSE
+533,43,Male,120,291,FALSE,st-t abnormality,FALSE
+534,45,Male,130,219,FALSE,st-t abnormality,TRUE
+535,46,Male,120,231,FALSE,normal,TRUE
+536,46,Male,130,222,FALSE,normal,FALSE
+537,48,Male,122,275,TRUE,st-t abnormality,TRUE
+538,48,Male,160,193,FALSE,normal,TRUE
+539,48,Male,160,329,FALSE,normal,TRUE
+540,48,Male,160,355,FALSE,normal,TRUE
+541,50,Male,130,233,FALSE,normal,TRUE
+542,52,Male,120,182,FALSE,normal,FALSE
+543,52,Male,170,,FALSE,normal,TRUE
+544,53,Male,120,246,FALSE,normal,TRUE
+545,54,Male,120,237,FALSE,normal,TRUE
+546,54,Male,130,242,FALSE,normal,TRUE
+547,54,Male,130,603,TRUE,normal,TRUE
+548,54,Male,140,,FALSE,normal,TRUE
+549,54,Male,200,198,FALSE,normal,TRUE
+550,55,Male,140,268,FALSE,normal,TRUE
+551,56,Male,150,213,TRUE,normal,TRUE
+552,57,Male,150,255,FALSE,normal,TRUE
+553,58,Male,160,211,TRUE,st-t abnormality,FALSE
+554,58,Male,130,263,FALSE,normal,TRUE
+555,41,Male,130,172,FALSE,st-t abnormality,FALSE
+556,43,Male,120,175,FALSE,normal,TRUE
+557,44,Male,150,288,FALSE,normal,TRUE
+558,44,Male,130,290,FALSE,normal,TRUE
+559,46,Male,140,272,TRUE,normal,FALSE
+560,47,Female,135,248,TRUE,normal,FALSE
+561,48,Female,138,214,FALSE,normal,TRUE
+562,49,Male,130,341,FALSE,normal,TRUE
+563,49,Male,140,234,FALSE,normal,TRUE
+564,51,Male,135,160,FALSE,normal,FALSE
+565,52,Male,112,342,FALSE,st-t abnormality,TRUE
+566,52,Male,130,298,FALSE,normal,TRUE
+567,52,Male,140,404,FALSE,normal,TRUE
+568,52,Male,160,246,FALSE,st-t abnormality,TRUE
+569,53,Male,145,518,FALSE,normal,FALSE
+570,53,Male,180,285,FALSE,st-t abnormality,TRUE
+571,54,Male,140,216,FALSE,normal,FALSE
+572,55,Male,140,295,FALSE,,FALSE
+573,55,Male,160,292,TRUE,normal,TRUE
+574,55,Male,145,248,FALSE,normal,TRUE
+575,56,Female,120,279,FALSE,normal,FALSE
+576,56,Male,150,230,FALSE,st-t abnormality,TRUE
+577,56,Male,170,388,FALSE,st-t abnormality,TRUE
+578,58,Male,136,164,FALSE,st-t abnormality,TRUE
+579,59,Male,130,,FALSE,normal,FALSE
+580,59,Male,140,264,TRUE,lv hypertrophy,TRUE
+581,65,Male,170,263,TRUE,normal,TRUE
+582,66,Male,140,,FALSE,normal,TRUE
+583,41,Male,120,336,FALSE,normal,TRUE
+584,43,Male,140,288,FALSE,normal,TRUE
+585,44,Male,135,491,FALSE,normal,FALSE
+586,47,Female,120,205,FALSE,normal,TRUE
+587,47,Male,160,291,FALSE,st-t abnormality,TRUE
+588,49,Male,128,212,FALSE,normal,TRUE
+589,49,Male,150,222,FALSE,normal,FALSE
+590,50,Male,140,231,FALSE,st-t abnormality,TRUE
+591,50,Male,140,341,FALSE,st-t abnormality,TRUE
+592,52,Male,140,266,FALSE,normal,TRUE
+593,52,Male,160,331,FALSE,normal,TRUE
+594,54,Female,130,294,FALSE,st-t abnormality,TRUE
+595,56,Male,155,342,TRUE,normal,TRUE
+596,58,Female,180,393,FALSE,normal,TRUE
+597,65,Male,130,275,FALSE,st-t abnormality,TRUE
+598,32,Male,95,0,,normal,FALSE
+599,34,Male,115,0,,,FALSE
+600,35,Male,,0,,normal,TRUE
+601,36,Male,110,0,,normal,TRUE
+602,38,Female,105,0,,normal,FALSE
+603,38,Female,110,0,FALSE,normal,FALSE
+604,38,Male,100,0,,normal,FALSE
+605,38,Male,115,0,FALSE,normal,TRUE
+606,38,Male,135,0,,normal,FALSE
+607,38,Male,150,0,,normal,TRUE
+608,40,Male,95,0,,st-t abnormality,FALSE
+609,41,Male,125,0,,normal,FALSE
+610,42,Male,105,0,,normal,TRUE
+611,42,Male,145,0,FALSE,normal,TRUE
+612,43,Male,100,0,,normal,FALSE
+613,43,Male,115,0,FALSE,normal,TRUE
+614,43,Male,140,0,FALSE,st-t abnormality,TRUE
+615,45,Male,110,0,,normal,FALSE
+616,46,Male,100,0,,st-t abnormality,FALSE
+617,46,Male,115,0,FALSE,normal,TRUE
+618,47,Male,110,0,,normal,TRUE
+619,47,Male,155,0,FALSE,normal,TRUE
+620,47,Male,110,0,,st-t abnormality,FALSE
+621,47,Male,160,0,FALSE,normal,TRUE
+622,48,Male,115,0,,normal,FALSE
+623,50,Female,160,0,,normal,FALSE
+624,50,Male,115,0,FALSE,normal,TRUE
+625,50,Male,120,0,FALSE,st-t abnormality,TRUE
+626,50,Male,145,0,,normal,TRUE
+627,51,Female,120,0,,normal,TRUE
+628,51,Male,110,0,,normal,FALSE
+629,51,Male,120,0,TRUE,normal,FALSE
+630,51,Male,130,0,,normal,FALSE
+631,51,Male,130,0,,st-t abnormality,FALSE
+632,51,Male,140,0,FALSE,normal,FALSE
+633,51,Male,95,0,,normal,FALSE
+634,52,Male,130,0,,normal,FALSE
+635,52,Male,135,0,,normal,TRUE
+636,52,Male,165,0,,normal,TRUE
+637,52,Male,95,0,,normal,TRUE
+638,53,Male,120,0,FALSE,normal,FALSE
+639,53,Male,130,0,,st-t abnormality,FALSE
+640,53,Male,105,0,FALSE,normal,FALSE
+641,53,Male,160,0,,lv hypertrophy,TRUE
+642,53,Male,120,0,,normal,FALSE
+643,53,Male,125,0,,normal,FALSE
+644,53,Male,130,0,FALSE,lv hypertrophy,TRUE
+645,53,Male,80,0,,normal,TRUE
+646,54,Male,120,0,FALSE,normal,FALSE
+647,54,Male,130,0,,normal,TRUE
+648,54,Male,180,0,,normal,FALSE
+649,55,Male,140,0,,st-t abnormality,FALSE
+650,55,Male,115,0,,normal,FALSE
+651,55,Male,120,0,FALSE,st-t abnormality,FALSE
+652,55,Male,140,0,FALSE,normal,FALSE
+653,56,Male,120,0,FALSE,normal,FALSE
+654,56,Male,125,0,,normal,FALSE
+655,56,Male,155,0,FALSE,st-t abnormality,FALSE
+656,56,Male,115,0,,st-t abnormality,FALSE
+657,56,Male,120,0,FALSE,st-t abnormality,TRUE
+658,56,Male,120,0,FALSE,st-t abnormality,FALSE
+659,56,Male,125,0,TRUE,normal,TRUE
+660,56,Male,140,0,,normal,TRUE
+661,57,Male,105,0,,normal,FALSE
+662,57,Male,110,0,,st-t abnormality,TRUE
+663,57,Male,140,0,FALSE,normal,TRUE
+664,57,Male,140,0,,normal,TRUE
+665,57,Male,160,0,,normal,TRUE
+666,57,Male,95,0,,normal,FALSE
+667,58,Male,115,0,,normal,FALSE
+668,58,Male,130,0,FALSE,st-t abnormality,TRUE
+669,58,Male,170,0,,st-t abnormality,TRUE
+670,59,Male,125,0,,normal,FALSE
+671,59,Male,110,0,,normal,FALSE
+672,59,Male,120,0,FALSE,normal,FALSE
+673,59,Male,125,0,,normal,TRUE
+674,59,Male,135,0,FALSE,normal,TRUE
+675,60,Male,115,0,,normal,FALSE
+676,60,Male,125,0,,normal,FALSE
+677,60,Male,130,0,,st-t abnormality,TRUE
+678,60,Male,135,0,FALSE,normal,TRUE
+679,60,Male,160,0,FALSE,st-t abnormality,TRUE
+680,60,Male,160,0,,normal,FALSE
+681,61,Male,200,0,,st-t abnormality,FALSE
+682,61,Male,105,0,,normal,TRUE
+683,61,Male,110,0,,normal,FALSE
+684,61,Male,125,0,FALSE,normal,TRUE
+685,61,Male,130,0,FALSE,lv hypertrophy,FALSE
+686,61,Male,130,0,,normal,FALSE
+687,61,Male,150,0,FALSE,normal,TRUE
+688,61,Male,150,0,FALSE,normal,TRUE
+689,61,Male,160,0,TRUE,st-t abnormality,FALSE
+690,62,Female,140,0,,normal,FALSE
+691,62,Female,120,0,,st-t abnormality,TRUE
+692,62,Male,120,0,,lv hypertrophy,FALSE
+693,62,Male,160,0,FALSE,normal,TRUE
+694,62,Male,115,0,,normal,TRUE
+695,62,Male,115,0,,normal,TRUE
+696,62,Male,150,0,,st-t abnormality,FALSE
+697,63,Male,100,0,,normal,FALSE
+698,63,Male,140,0,,lv hypertrophy,FALSE
+699,63,Male,150,0,FALSE,normal,TRUE
+700,63,Male,150,0,,st-t abnormality,FALSE
+701,63,Male,185,0,FALSE,normal,TRUE
+702,64,Female,200,0,FALSE,normal,TRUE
+703,64,Female,95,0,,normal,FALSE
+704,64,Male,110,0,,normal,TRUE
+705,65,Male,115,0,FALSE,normal,TRUE
+706,65,Male,145,0,,st-t abnormality,FALSE
+707,65,Male,155,0,,normal,FALSE
+708,65,Male,160,0,TRUE,st-t abnormality,FALSE
+709,66,Female,155,0,,normal,FALSE
+710,66,Male,150,0,FALSE,normal,TRUE
+711,67,Male,145,0,FALSE,lv hypertrophy,FALSE
+712,68,Male,135,0,FALSE,st-t abnormality,TRUE
+713,68,Male,145,0,,normal,FALSE
+714,69,Male,135,0,FALSE,normal,FALSE
+715,69,Male,,0,FALSE,st-t abnormality,
+716,70,Male,115,0,FALSE,st-t abnormality,TRUE
+717,70,Male,140,0,TRUE,normal,TRUE
+718,72,Male,160,0,,lv hypertrophy,FALSE
+719,73,Female,160,0,FALSE,st-t abnormality,FALSE
+720,74,Male,145,0,,st-t abnormality,FALSE
+721,63,Male,140,260,FALSE,st-t abnormality,TRUE
+722,44,Male,130,209,FALSE,st-t abnormality,FALSE
+723,60,Male,132,218,FALSE,st-t abnormality,TRUE
+724,55,Male,142,228,FALSE,st-t abnormality,TRUE
+725,66,Male,110,213,TRUE,lv hypertrophy,TRUE
+726,66,Male,120,0,FALSE,st-t abnormality,FALSE
+727,65,Male,150,236,TRUE,st-t abnormality,TRUE
+728,60,Male,180,0,FALSE,st-t abnormality,TRUE
+729,60,Male,120,0,,normal,TRUE
+730,60,Male,160,267,TRUE,st-t abnormality,FALSE
+731,56,Male,126,166,FALSE,st-t abnormality,FALSE
+732,59,Male,140,0,FALSE,st-t abnormality,TRUE
+733,62,Male,110,0,FALSE,normal,TRUE
+734,63,Male,,0,FALSE,lv hypertrophy,
+735,57,Male,128,0,TRUE,st-t abnormality,TRUE
+736,62,Male,120,220,FALSE,st-t abnormality,FALSE
+737,63,Male,170,177,FALSE,normal,TRUE
+738,46,Male,110,236,FALSE,normal,TRUE
+739,63,Male,126,0,FALSE,st-t abnormality,FALSE
+740,60,Male,152,0,FALSE,st-t abnormality,TRUE
+741,58,Male,116,0,FALSE,normal,FALSE
+742,64,Male,120,0,TRUE,st-t abnormality,FALSE
+743,63,Male,130,0,FALSE,st-t abnormality,TRUE
+744,74,Male,,0,FALSE,normal,
+745,52,Male,128,0,FALSE,st-t abnormality,FALSE
+746,69,Male,130,0,TRUE,st-t abnormality,FALSE
+747,51,Male,,0,TRUE,st-t abnormality,
+748,60,Male,130,186,TRUE,st-t abnormality,TRUE
+749,56,Male,120,100,FALSE,normal,TRUE
+750,55,Male,,228,FALSE,st-t abnormality,
+751,54,Male,,0,FALSE,st-t abnormality,
+752,77,Male,124,171,FALSE,st-t abnormality,TRUE
+753,63,Male,160,230,TRUE,normal,TRUE
+754,55,Male,0,0,FALSE,normal,FALSE
+755,52,Male,122,0,FALSE,normal,TRUE
+756,64,Male,144,0,FALSE,st-t abnormality,TRUE
+757,60,Male,,281,FALSE,st-t abnormality,
+758,60,Male,120,0,FALSE,normal,TRUE
+759,58,Male,,203,TRUE,normal,
+760,59,Male,154,0,FALSE,st-t abnormality,TRUE
+761,61,Male,120,0,FALSE,normal,TRUE
+762,40,Male,125,0,TRUE,normal,FALSE
+763,61,Male,,0,TRUE,st-t abnormality,FALSE
+764,41,Male,104,0,FALSE,st-t abnormality,FALSE
+765,57,Male,,277,TRUE,st-t abnormality,
+766,63,Male,136,0,FALSE,normal,TRUE
+767,59,Male,122,233,FALSE,normal,TRUE
+768,51,Male,128,0,FALSE,normal,FALSE
+769,59,Male,,0,FALSE,normal,TRUE
+770,42,Male,134,240,,normal,FALSE
+771,55,Male,120,0,FALSE,st-t abnormality,TRUE
+772,63,Female,,0,FALSE,normal,
+773,62,Male,152,153,FALSE,st-t abnormality,TRUE
+774,56,Male,124,224,TRUE,normal,FALSE
+775,53,Male,126,0,FALSE,normal,FALSE
+776,68,Male,138,0,FALSE,normal,TRUE
+777,53,Male,154,0,,st-t abnormality,TRUE
+778,60,Male,,316,TRUE,st-t abnormality,
+779,62,Male,,0,FALSE,normal,
+780,59,Male,178,0,TRUE,lv hypertrophy,TRUE
+781,51,Male,,218,TRUE,lv hypertrophy,
+782,61,Male,110,0,,normal,TRUE
+783,57,Male,130,311,,st-t abnormality,TRUE
+784,56,Male,170,0,FALSE,lv hypertrophy,TRUE
+785,58,Male,126,0,TRUE,normal,TRUE
+786,69,Male,140,0,,st-t abnormality,FALSE
+787,67,Male,142,270,TRUE,normal,FALSE
+788,58,Male,120,0,FALSE,lv hypertrophy,TRUE
+789,65,Male,,0,FALSE,normal,
+790,63,Male,,217,TRUE,st-t abnormality,
+791,55,Male,110,214,TRUE,st-t abnormality,FALSE
+792,57,Male,140,214,FALSE,st-t abnormality,TRUE
+793,65,Male,,252,FALSE,normal,
+794,54,Male,136,220,FALSE,normal,TRUE
+795,72,Male,120,214,FALSE,normal,TRUE
+796,75,Male,170,203,TRUE,st-t abnormality,FALSE
+797,49,Male,130,0,FALSE,st-t abnormality,FALSE
+798,51,Male,,339,FALSE,normal,
+799,60,Male,142,216,FALSE,normal,TRUE
+800,64,Female,142,276,FALSE,normal,TRUE
+801,58,Male,132,458,TRUE,normal,FALSE
+802,61,Male,146,241,FALSE,normal,TRUE
+803,67,Male,160,384,TRUE,st-t abnormality,TRUE
+804,62,Male,135,297,FALSE,normal,TRUE
+805,65,Male,136,248,FALSE,normal,TRUE
+806,63,Male,130,308,FALSE,normal,TRUE
+807,69,Male,140,208,FALSE,st-t abnormality,TRUE
+808,51,Male,,227,TRUE,st-t abnormality,
+809,62,Male,158,210,TRUE,normal,TRUE
+810,55,Male,,245,TRUE,st-t abnormality,
+811,75,Male,136,225,FALSE,normal,TRUE
+812,40,Male,106,240,FALSE,normal,TRUE
+813,67,Male,120,0,TRUE,normal,FALSE
+814,58,Male,110,198,FALSE,normal,FALSE
+815,60,Male,,195,FALSE,normal,
+816,63,Male,160,267,TRUE,st-t abnormality,TRUE
+817,35,Male,,161,FALSE,st-t abnormality,
+818,62,Male,112,258,FALSE,st-t abnormality,TRUE
+819,43,Male,122,0,FALSE,normal,FALSE
+820,63,Male,130,0,TRUE,st-t abnormality,FALSE
+821,68,Male,150,195,TRUE,normal,FALSE
+822,65,Male,150,235,FALSE,normal,TRUE
+823,48,Male,102,0,,st-t abnormality,TRUE
+824,63,Male,96,305,FALSE,st-t abnormality,TRUE
+825,64,Male,130,223,FALSE,st-t abnormality,FALSE
+826,61,Male,120,282,FALSE,st-t abnormality,TRUE
+827,50,Male,144,349,FALSE,lv hypertrophy,TRUE
+828,59,Male,124,,FALSE,normal,TRUE
+829,55,Male,150,160,FALSE,st-t abnormality,FALSE
+830,45,Male,,236,FALSE,normal,
+831,65,Male,,312,FALSE,lv hypertrophy,
+832,61,Male,,283,FALSE,normal,
+833,49,Male,,142,FALSE,normal,
+834,72,Male,,211,FALSE,normal,
+835,50,Male,,218,FALSE,normal,
+836,64,Male,,306,TRUE,st-t abnormality,
+837,55,Male,116,186,TRUE,st-t abnormality,FALSE
+838,63,Male,110,252,FALSE,st-t abnormality,TRUE
+839,59,Male,125,222,FALSE,normal,TRUE
+840,56,Male,,0,FALSE,lv hypertrophy,
+841,62,Male,,0,TRUE,st-t abnormality,
+842,74,Male,150,258,TRUE,st-t abnormality,TRUE
+843,54,Male,130,202,TRUE,normal,TRUE
+844,57,Male,110,197,FALSE,lv hypertrophy,FALSE
+845,62,Male,,204,FALSE,st-t abnormality,
+846,76,Male,104,,FALSE,lv hypertrophy,FALSE
+847,54,Female,138,274,FALSE,normal,TRUE
+848,70,Male,170,192,FALSE,st-t abnormality,TRUE
+849,61,Female,140,298,TRUE,normal,TRUE
+850,48,Male,,272,FALSE,st-t abnormality,
+851,48,Male,132,220,TRUE,st-t abnormality,FALSE
+852,61,Male,142,200,TRUE,st-t abnormality,FALSE
+853,66,Male,112,261,FALSE,normal,FALSE
+854,68,Male,,181,TRUE,st-t abnormality,
+855,55,Male,172,260,FALSE,normal,FALSE
+856,62,Male,120,220,FALSE,lv hypertrophy,FALSE
+857,71,Male,,221,FALSE,normal,
+858,74,Male,,216,TRUE,normal,
+859,53,Male,155,175,TRUE,st-t abnormality,FALSE
+860,58,Male,150,219,FALSE,st-t abnormality,TRUE
+861,75,Male,160,310,TRUE,normal,TRUE
+862,56,Male,,208,TRUE,st-t abnormality,
+863,58,Male,,232,FALSE,st-t abnormality,
+864,64,Male,134,273,FALSE,normal,TRUE
+865,54,Male,,203,FALSE,st-t abnormality,
+866,54,Male,,182,FALSE,st-t abnormality,
+867,59,Male,140,274,FALSE,normal,TRUE
+868,55,Male,,204,TRUE,st-t abnormality,
+869,57,Male,144,270,TRUE,st-t abnormality,TRUE
+870,61,Male,,292,FALSE,st-t abnormality,
+871,41,Male,150,171,FALSE,normal,TRUE
+872,71,Male,130,221,FALSE,st-t abnormality,TRUE
+873,38,Male,110,289,FALSE,normal,TRUE
+874,55,Male,158,217,FALSE,normal,TRUE
+875,56,Male,128,223,FALSE,st-t abnormality,TRUE
+876,69,Male,,,TRUE,normal,
+877,64,Male,150,193,FALSE,st-t abnormality,TRUE
+878,72,Male,160,,TRUE,lv hypertrophy,FALSE
+879,69,Male,,210,TRUE,st-t abnormality,
+880,56,Male,,282,TRUE,normal,
+881,62,Male,,170,FALSE,st-t abnormality,TRUE
+882,67,Male,,369,FALSE,normal,
+883,57,Male,156,173,FALSE,lv hypertrophy,TRUE
+884,69,Male,,289,TRUE,st-t abnormality,
+885,51,Male,,,TRUE,lv hypertrophy,
+886,48,Male,140,,FALSE,normal,TRUE
+887,69,Male,122,216,TRUE,lv hypertrophy,TRUE
+888,69,Male,,271,FALSE,lv hypertrophy,
+889,64,Male,,244,TRUE,st-t abnormality,
+890,57,Male,180,285,TRUE,st-t abnormality,FALSE
+891,53,Male,124,243,FALSE,normal,TRUE
+892,37,Male,118,240,FALSE,lv hypertrophy,FALSE
+893,67,Male,140,219,FALSE,st-t abnormality,TRUE
+894,74,Male,140,237,TRUE,normal,FALSE
+895,63,Male,,165,FALSE,st-t abnormality,
+896,58,Male,100,213,FALSE,st-t abnormality,FALSE
+897,61,Male,190,287,TRUE,lv hypertrophy,TRUE
+898,64,Male,130,258,TRUE,lv hypertrophy,FALSE
+899,58,Male,160,256,TRUE,lv hypertrophy,TRUE
+900,60,Male,130,186,TRUE,lv hypertrophy,TRUE
+901,57,Male,122,264,FALSE,lv hypertrophy,FALSE
+902,55,Male,,,FALSE,st-t abnormality,
+903,55,Male,120,226,FALSE,lv hypertrophy,TRUE
+904,56,Male,130,203,TRUE,normal,FALSE
+905,57,Male,130,207,FALSE,st-t abnormality,TRUE
+906,61,Male,,284,FALSE,normal,
+907,61,Male,120,337,FALSE,normal,TRUE
+908,58,Male,150,219,FALSE,st-t abnormality,TRUE
+909,74,Male,155,310,FALSE,normal,TRUE
+910,68,Male,134,254,TRUE,normal,TRUE
+911,51,Female,114,258,TRUE,lv hypertrophy,FALSE
+912,62,Male,160,254,TRUE,st-t abnormality,TRUE
+913,53,Male,144,300,TRUE,st-t abnormality,TRUE
+914,62,Male,158,170,FALSE,st-t abnormality,TRUE
+915,46,Male,134,310,FALSE,normal,FALSE
+916,54,Female,127,333,TRUE,st-t abnormality,FALSE
+917,62,Male,,139,FALSE,st-t abnormality,
+918,55,Male,122,223,TRUE,st-t abnormality,FALSE
+919,58,Male,,385,TRUE,lv hypertrophy,
+920,62,Male,120,254,FALSE,lv hypertrophy,TRUE
