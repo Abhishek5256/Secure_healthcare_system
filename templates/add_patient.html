@@ -16,34 +16,34 @@
 
     <form method="POST">
         <label>Patient ID:</label>
-        <input type="number" name="patient_id"><br><br>
+        <input type="number" name="patient_id" required><br><br>
 
         <label>Age:</label>
-        <input type="number" name="age"><br><br>
+        <input type="number" name="age" required><br><br>
 
         <label>Sex:</label>
-        <select name="sex">
+        <select name="sex" required>
             <option value="Male">Male</option>
             <option value="Female">Female</option>
         </select><br><br>
 
         <label>Resting BP:</label>
-        <input type="number" name="resting_bp"><br><br>
+        <input type="number" name="resting_bp" required><br><br>
 
         <label>Cholesterol:</label>
-        <input type="number" name="cholesterol"><br><br>
+        <input type="number" name="cholesterol" required><br><br>
 
         <label>Fasting Blood Sugar:</label>
-        <select name="fasting_blood_sugar">
+        <select name="fasting_blood_sugar" required>
             <option value="True">True</option>
             <option value="False">False</option>
         </select><br><br>
 
         <label>Resting ECG:</label>
-        <input type="text" name="resting_ecg"><br><br>
+        <input type="text" name="resting_ecg" required><br><br>
 
         <label>Exercise Induced Angina:</label>
-        <select name="exercise_induced_angina">
+        <select name="exercise_induced_angina" required>
             <option value="True">True</option>
             <option value="False">False</option>
         </select><br><br>
@@ -51,7 +51,6 @@
         <button type="submit">Add Patient</button>
     </form>
 
-    <p><a href="/search_patient">Search Patient by ID</a></p>
-    <p><a href="/">Back to Home</a></p>
+    <p><a href="/dashboard">Back to Dashboard</a></p>
 </body>
 </html>

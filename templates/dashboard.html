@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <h1>Dashboard</h1>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <p><strong>{{ message }}</strong></p>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <p>Logged in as: {{ username }}</p>
+    <p>Role: {{ role }}</p>
+
+    {% if role == "admin" or role == "clinician" %}
+        <p><a href="/add_patient">Add Patient Record</a></p>
+        <p><a href="/patient_view">Search / View Patient Record</a></p>
+    {% endif %}
+
+    <p><a href="/logout">Logout</a></p>
+</body>
+</html>

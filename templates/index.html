@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Heart Disease Patient Record System</h1>
-    <p>This system stores and retrieves structured patient records based on the uploaded dataset.</p>
+    <p>Welcome to the secure healthcare record system.</p>
 
     {% with messages = get_flashed_messages() %}
       {% if messages %}
@@ -15,14 +15,7 @@
       {% endif %}
     {% endwith %}
 
-    {% if session.username %}
-        <p>Logged in as: {{ session.username }}</p>
-        <p><a href="/add_patient">Add Patient Record</a></p>
-        <p><a href="/search_patient">Search Patient by ID</a></p>
-        <p><a href="/logout">Logout</a></p>
-    {% else %}
-        <p><a href="/register">Register</a></p>
-        <p><a href="/login">Login</a></p>
-    {% endif %}
+    <p><a href="/register">Register</a></p>
+    <p><a href="/login">Login</a></p>
 </body>
 </html>
