@@ -1,8 +1,8 @@
 # app.py
 # Main Flask application file.
-# This file controls the routes and connects the UI to authentication and patient record functions.
+# This file controls routing, login sessions, and patient record access.
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import init_db
 from auth import register_user, login_user
 from patient import add_patient_record, get_all_patients
@@ -14,6 +14,7 @@ app.secret_key = "simple-secret-key"
 @app.route("/")
 def home():
     # Display the home page.
+    # The page will show different options depending on whether the user is logged in.
     return render_template("index.html")
 
 
@@ -24,6 +25,7 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
 
+        # Basic validation for required fields
         if not username or not password:
             flash("Username and password are required.")
             return redirect(url_for("register"))
@@ -41,12 +43,14 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # Handle user login.
+    # Handle user login and create a session for the authenticated user.
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
 
         if login_user(username, password):
+            # Store username in session after successful login
+            session["username"] = username
             flash("Login successful.")
             return redirect(url_for("home"))
         else:
@@ -56,9 +60,21 @@ def login():
     return render_template("login.html")
 
 
+@app.route("/logout")
+def logout():
+    # End the user session and log the user out.
+    session.pop("username", None)
+    flash("You have been logged out.")
+    return redirect(url_for("home"))
+
+
 @app.route("/add_patient", methods=["GET", "POST"])
 def add_patient():
-    # Handle adding a new patient record based on the uploaded dataset fields.
+    # Only logged-in users can access this page.
+    if "username" not in session:
+        flash("Please log in to add patient records.")
+        return redirect(url_for("login"))
+
     if request.method == "POST":
         patient_id = request.form["patient_id"]
         age = request.form["age"]
@@ -69,7 +85,7 @@ def add_patient():
         resting_ecg = request.form["resting_ecg"]
         exercise_induced_angina = request.form["exercise_induced_angina"]
 
-        # Basic validation to prevent incomplete records.
+        # Basic validation to prevent incomplete records
         if not all([
             patient_id, age, sex, resting_bp, cholesterol,
             fasting_blood_sugar, resting_ecg, exercise_induced_angina
@@ -90,7 +106,11 @@ def add_patient():
 
 @app.route("/patients")
 def view_patients():
-    # Display all patient records.
+    # Only logged-in users can view patient records.
+    if "username" not in session:
+        flash("Please log in to view patient records.")
+        return redirect(url_for("login"))
+
     patients = get_all_patients()
     return render_template("patients.html", patients=patients)
 
