@@ -1,15 +1,15 @@
 # auth.py
-# This file handles user registration, login, and role lookup.
+# This file handles user registration, login, and role lookup using SQLite.
 
 from werkzeug.security import generate_password_hash, check_password_hash
-from database import get_connection
+from database import get_sqlite_connection
 
 
 def register_user(username, password, role):
-    # Hash the password before storing it.
+    # Hash password before storing it.
     hashed_password = generate_password_hash(password)
 
-    conn = get_connection()
+    conn = get_sqlite_connection()
     cursor = conn.cursor()
 
     cursor.execute(
@@ -22,8 +22,8 @@ def register_user(username, password, role):
 
 
 def login_user(username, password):
-    # Check whether login details match a stored user.
-    conn = get_connection()
+    # Verify login credentials.
+    conn = get_sqlite_connection()
     cursor = conn.cursor()
 
     cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
@@ -38,7 +38,7 @@ def login_user(username, password):
 
 def get_user_role(username):
     # Return the role of the logged-in user.
-    conn = get_connection()
+    conn = get_sqlite_connection()
     cursor = conn.cursor()
 
     cursor.execute("SELECT role FROM users WHERE username = ?", (username,))

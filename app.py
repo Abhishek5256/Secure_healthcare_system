@@ -1,12 +1,17 @@
 # app.py
 # Main Flask application file.
-# This version shows all patient data on the view/search page by default,
-# and allows searching for a specific patient on the same page.
+# SQLite is used for authentication.
+# MongoDB is used for patient records.
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from database import init_db
+from database import init_databases
 from auth import register_user, login_user, get_user_role
-from patient import add_patient_record, get_patient_by_patient_id, get_all_patients
+from patient import (
+    add_patient_record,
+    get_patient_by_patient_id,
+    get_all_patients,
+    patient_id_exists
+)
 from security import encrypt_value, decrypt_value, validate_patient_data
 from audit import log_event
 
@@ -15,12 +20,10 @@ app.secret_key = "simple-secret-key"
 
 
 def require_login():
-    # Ensure the user is logged in.
     return "username" in session
 
 
 def require_role(allowed_roles):
-    # Check whether the logged-in user has an allowed role.
     username = session.get("username")
     if not username:
         return False
@@ -29,32 +32,31 @@ def require_role(allowed_roles):
 
 
 def decrypt_patient_record(patient):
-    # Convert sqlite row to dictionary and decrypt cholesterol field.
+    # Convert MongoDB document to a display-friendly dictionary.
+    if not patient:
+        return None
+
     patient_dict = dict(patient)
+    patient_dict["id"] = str(patient_dict["_id"])
 
     try:
         patient_dict["cholesterol"] = decrypt_value(patient_dict["cholesterol"])
     except Exception:
-        # If value is not encrypted, show it as-is
         patient_dict["cholesterol"] = patient_dict["cholesterol"]
 
     return patient_dict
 
 
 def decrypt_patient_list(patients):
-    # Decrypt cholesterol for all patient records in a list.
-    decrypted_patients = []
-
+    # Decrypt all patient records for display.
+    decrypted = []
     for patient in patients:
-        decrypted_patients.append(decrypt_patient_record(patient))
-
-    return decrypted_patients
+        decrypted.append(decrypt_patient_record(patient))
+    return decrypted
 
 
 @app.route("/")
 def home():
-    # Show landing page to unauthenticated users,
-    # and dashboard to logged-in users.
     if require_login():
         return redirect(url_for("dashboard"))
     return render_template("index.html")
@@ -62,7 +64,6 @@ def home():
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    # Register a new user.
     if request.method == "POST":
         username = request.form["username"].strip()
         password = request.form["password"].strip()
@@ -85,7 +86,6 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # Log in the user and create a session.
     if request.method == "POST":
         username = request.form["username"].strip()
         password = request.form["password"].strip()
@@ -105,7 +105,6 @@ def login():
 
 @app.route("/logout")
 def logout():
-    # Clear the session and log out.
     username = session.get("username", "Unknown")
     log_event(username, "Logged out")
     session.clear()
@@ -115,7 +114,6 @@ def logout():
 
 @app.route("/dashboard")
 def dashboard():
-    # Show dashboard after login.
     if not require_login():
         flash("Please log in first.")
         return redirect(url_for("login"))
@@ -129,7 +127,6 @@ def dashboard():
 
 @app.route("/add_patient", methods=["GET", "POST"])
 def add_patient():
-    # Only admin and clinician roles can add patient records.
     if not require_login():
         flash("Please log in first.")
         return redirect(url_for("login"))
@@ -161,6 +158,10 @@ def add_patient():
                 flash(error)
             return redirect(url_for("add_patient"))
 
+        if patient_id_exists(patient_id):
+            flash("Patient ID already exists.")
+            return redirect(url_for("add_patient"))
+
         try:
             encrypted_cholesterol = encrypt_value(cholesterol)
 
@@ -177,12 +178,10 @@ def add_patient():
 
             log_event(session["username"], f"Added patient record {patient_id}")
             flash("Patient added successfully.")
-
-            # After adding, go to the main view/search page that shows all data
             return redirect(url_for("patient_view_page"))
 
         except Exception as e:
-            flash(f"Patient ID already exists or record could not be saved. {e}")
+            flash(f"Record could not be saved. {e}")
             return redirect(url_for("add_patient"))
 
     return render_template("add_patient.html")
@@ -190,7 +189,6 @@ def add_patient():
 
 @app.route("/patient_view")
 def patient_view_page():
-    # Show all patient records by default on the same page as search.
     if not require_login():
         flash("Please log in first.")
         return redirect(url_for("login"))
@@ -212,7 +210,6 @@ def patient_view_page():
 
 @app.route("/patient_search", methods=["POST"])
 def patient_search():
-    # Search patient by Patient ID on the same page that already shows data.
     if not require_login():
         flash("Please log in first.")
         return redirect(url_for("login"))
@@ -222,7 +219,6 @@ def patient_search():
         return redirect(url_for("dashboard"))
 
     patient_id = request.form["patient_id"].strip()
-
     all_patients = decrypt_patient_list(get_all_patients())
 
     if not patient_id:
@@ -255,5 +251,5 @@ def patient_search():
 
 
 if __name__ == "__main__":
-    init_db()
+    init_databases()
     app.run(debug=True)

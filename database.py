@@ -1,24 +1,39 @@
 # database.py
-# This file manages the SQLite database connection and creates the required tables.
+# This file manages both SQLite and MongoDB.
+# SQLite is used for authentication data.
+# MongoDB is used for patient records.
 
 import sqlite3
+from pymongo import MongoClient
 
-DATABASE_NAME = "healthcare.db"
+SQLITE_DB_NAME = "auth.db"
+
+# Local MongoDB server connection string
+MONGO_URI = "mongodb://localhost:27017/"
+MONGO_DB_NAME = "healthcare_db"
+MONGO_COLLECTION_NAME = "patients"
 
 
-def get_connection():
-    # Create and return a database connection.
-    conn = sqlite3.connect(DATABASE_NAME)
+def get_sqlite_connection():
+    # Return a connection to SQLite for authentication data.
+    conn = sqlite3.connect(SQLITE_DB_NAME)
     conn.row_factory = sqlite3.Row
     return conn
 
 
-def init_db():
-    # Create the users and patients tables if they do not already exist.
-    conn = get_connection()
+def get_mongo_collection():
+    # Return the MongoDB patients collection.
+    client = MongoClient(MONGO_URI)
+    db = client[MONGO_DB_NAME]
+    collection = db[MONGO_COLLECTION_NAME]
+    return collection
+
+
+def init_sqlite_db():
+    # Create the users table in SQLite.
+    conn = get_sqlite_connection()
     cursor = conn.cursor()
 
-    # Users table stores usernames, hashed passwords, and roles.
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -28,21 +43,10 @@ def init_db():
         )
     """)
 
-    # Patients table stores patient data.
-    # Sensitive fields such as cholesterol are encrypted before storage.
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS patients (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            patient_id INTEGER NOT NULL UNIQUE,
-            age INTEGER NOT NULL,
-            sex TEXT NOT NULL,
-            resting_bp INTEGER NOT NULL,
-            cholesterol TEXT NOT NULL,
-            fasting_blood_sugar TEXT NOT NULL,
-            resting_ecg TEXT NOT NULL,
-            exercise_induced_angina TEXT NOT NULL
-        )
-    """)
-
     conn.commit()
     conn.close()
+
+
+def init_databases():
+    # Initialise all required databases.
+    init_sqlite_db()
