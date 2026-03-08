@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Secure Healthcare System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<header class="site-header">
+    <div class="container">
+        <h1 class="site-title">Heart Disease Patient Record System</h1>
+
+        {% if session.username %}
+        <nav class="site-nav">
+            <a href="/dashboard">Dashboard</a>
+            <a href="/add_patient">Add Patient</a>
+            <a href="/patient_view">View Patients</a>
+            <a href="/logout">Logout</a>
+        </nav>
+        {% endif %}
+    </div>
+</header>
+
+<main class="container">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <p>Secure Healthcare System – Secure Software Development Coursework</p>
+    </div>
+</footer>
+
+</body>
+</html>

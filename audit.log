@@ -68,3 +68,44 @@
 [2026-03-08 10:44:55] User: ab | Action: Logged out
 [2026-03-08 10:45:18] User: abc | Action: Logged in
 [2026-03-08 10:45:31] User: abc | Action: Logged out
+[2026-03-08 11:07:10] User: ab | Action: Logged in
+[2026-03-08 11:07:20] User: ab | Action: Viewed all patient records
+[2026-03-08 11:08:01] User: ab | Action: Viewed all patient records
+[2026-03-08 11:08:09] User: ab | Action: Viewed all patient records
+[2026-03-08 11:09:11] User: ab | Action: Logged out
+[2026-03-08 11:09:52] User: ab | Action: Logged in
+[2026-03-08 11:09:56] User: ab | Action: Viewed all patient records
+[2026-03-08 11:10:21] User: ab | Action: Updated patient record 393
+[2026-03-08 11:10:21] User: ab | Action: Viewed all patient records
+[2026-03-08 11:11:42] User: ab | Action: Added patient record 1234
+[2026-03-08 11:11:42] User: ab | Action: Viewed all patient records
+[2026-03-08 11:11:50] User: ab | Action: Searched patient record 1234
+[2026-03-08 11:12:02] User: ab | Action: Deleted patient record 1234
+[2026-03-08 11:12:02] User: ab | Action: Viewed all patient records
+[2026-03-08 11:12:06] User: ab | Action: Search failed for patient record 1234
+[2026-03-08 11:12:41] User: ab | Action: Logged out
+[2026-03-08 11:18:51] User: ab | Action: Logged in
+[2026-03-08 11:18:54] User: ab | Action: Viewed all patient records
+[2026-03-08 11:22:08] User: ab | Action: Viewed all patient records
+[2026-03-08 11:22:16] User: ab | Action: Viewed all patient records
+[2026-03-08 11:22:19] User: ab | Action: Viewed all patient records
+[2026-03-08 11:22:23] User: ab | Action: Logged out
+[2026-03-08 11:24:35] User: ab | Action: Logged in
+[2026-03-08 11:24:38] User: ab | Action: Viewed all patient records
+[2026-03-08 11:24:53] User: ab | Action: Viewed all patient records
+[2026-03-08 11:24:56] User: ab | Action: Logged out
+[2026-03-08 11:49:07] User: ab | Action: Logged in
+[2026-03-08 11:49:15] User: ab | Action: Viewed all patient records
+[2026-03-08 11:49:28] User: ab | Action: Searched patient record 123
+[2026-03-08 11:49:46] User: ab | Action: Logged out
+[2026-03-08 12:00:01] User: ab | Action: Logged in
+[2026-03-08 12:00:04] User: ab | Action: Viewed all patient records
+[2026-03-08 12:00:10] User: ab | Action: Searched patient record 123
+[2026-03-08 12:01:39] User: ab | Action: Logged out
+[2026-03-08 12:01:59] User: abc | Action: Logged in
+[2026-03-08 12:02:08] User: abc | Action: Logged out
+[2026-03-08 12:08:59] User: ab | Action: Logged in
+[2026-03-08 12:09:03] User: ab | Action: Viewed all patient records
+[2026-03-08 12:09:12] User: ab | Action: Searched patient record 12
+[2026-03-08 12:09:34] User: ab | Action: Viewed all patient records
+[2026-03-08 12:09:48] User: ab | Action: Logged out

@@ -1,56 +1,54 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Add Patient</title>
-</head>
-<body>
-    <h1>Add Patient Record</h1>
+{% extends "base.html" %}
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <p>{{ message }}</p>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+{% block content %}
 
-    <form method="POST">
-        <label>Patient ID:</label>
-        <input type="number" name="patient_id" required><br><br>
+<h2>Add Patient Record</h2>
 
-        <label>Age:</label>
-        <input type="number" name="age" required><br><br>
+<form method="POST">
 
-        <label>Sex:</label>
-        <select name="sex" required>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-        </select><br><br>
+    <label>Patient ID</label>
+    <input type="number" name="patient_id" required>
+    <br><br>
 
-        <label>Resting BP:</label>
-        <input type="number" name="resting_bp" required><br><br>
+    <label>Age</label>
+    <input type="number" name="age" required>
+    <br><br>
 
-        <label>Cholesterol:</label>
-        <input type="number" name="cholesterol" required><br><br>
+    <label>Sex</label>
+    <select name="sex" required>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+    </select>
+    <br><br>
 
-        <label>Fasting Blood Sugar:</label>
-        <select name="fasting_blood_sugar" required>
-            <option value="True">True</option>
-            <option value="False">False</option>
-        </select><br><br>
+    <label>Resting BP</label>
+    <input type="number" name="resting_bp" required>
+    <br><br>
 
-        <label>Resting ECG:</label>
-        <input type="text" name="resting_ecg" required><br><br>
+    <label>Cholesterol</label>
+    <input type="number" name="cholesterol" required>
+    <br><br>
 
-        <label>Exercise Induced Angina:</label>
-        <select name="exercise_induced_angina" required>
-            <option value="True">True</option>
-            <option value="False">False</option>
-        </select><br><br>
+    <label>Fasting Blood Sugar</label>
+    <select name="fasting_blood_sugar" required>
+        <option value="True">True</option>
+        <option value="False">False</option>
+    </select>
+    <br><br>
 
-        <button type="submit">Add Patient</button>
-    </form>
+    <label>Resting ECG</label>
+    <input type="text" name="resting_ecg" required>
+    <br><br>
 
-    <p><a href="/dashboard">Back to Dashboard</a></p>
-</body>
-</html>
+    <label>Exercise Induced Angina</label>
+    <select name="exercise_induced_angina" required>
+        <option value="True">True</option>
+        <option value="False">False</option>
+    </select>
+    <br><br>
+
+    <button type="submit" class="btn btn-success">Add Patient</button>
+
+</form>
+
+{% endblock %}

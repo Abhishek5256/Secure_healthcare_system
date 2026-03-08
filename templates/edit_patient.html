@@ -1,57 +1,52 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit Patient</title>
-</head>
-<body>
-    <p>
-        <a href="/patient_view">⬅ Back to View/Search Patients</a>
-    </p>
+{% extends "base.html" %}
 
-    <h1>Edit Patient Record</h1>
+{% block content %}
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <p><strong>{{ message }}</strong></p>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+<h2>Edit Patient Record</h2>
 
-    <form method="POST">
-        <p><strong>Patient ID:</strong> {{ patient.patient_id }}</p>
+<form method="POST">
 
-        <label>Age:</label>
-        <input type="number" name="age" value="{{ patient.age }}" required><br><br>
+    <p><strong>Patient ID:</strong> {{ patient.patient_id }}</p>
 
-        <label>Sex:</label>
-        <select name="sex" required>
-            <option value="Male" {% if patient.sex == "Male" %}selected{% endif %}>Male</option>
-            <option value="Female" {% if patient.sex == "Female" %}selected{% endif %}>Female</option>
-        </select><br><br>
+    <label>Age</label>
+    <input type="number" name="age" value="{{ patient.age }}" required>
+    <br><br>
 
-        <label>Resting BP:</label>
-        <input type="number" name="resting_bp" value="{{ patient.resting_bp }}" required><br><br>
+    <label>Sex</label>
+    <select name="sex" required>
+        <option value="Male" {% if patient.sex == "Male" %}selected{% endif %}>Male</option>
+        <option value="Female" {% if patient.sex == "Female" %}selected{% endif %}>Female</option>
+    </select>
+    <br><br>
 
-        <label>Cholesterol:</label>
-        <input type="number" name="cholesterol" value="{{ patient.cholesterol }}" required><br><br>
+    <label>Resting BP</label>
+    <input type="number" name="resting_bp" value="{{ patient.resting_bp }}" required>
+    <br><br>
 
-        <label>Fasting Blood Sugar:</label>
-        <select name="fasting_blood_sugar" required>
-            <option value="True" {% if patient.fasting_blood_sugar == "True" %}selected{% endif %}>True</option>
-            <option value="False" {% if patient.fasting_blood_sugar == "False" %}selected{% endif %}>False</option>
-        </select><br><br>
+    <label>Cholesterol</label>
+    <input type="number" name="cholesterol" value="{{ patient.cholesterol }}" required>
+    <br><br>
 
-        <label>Resting ECG:</label>
-        <input type="text" name="resting_ecg" value="{{ patient.resting_ecg }}" required><br><br>
+    <label>Fasting Blood Sugar</label>
+    <select name="fasting_blood_sugar" required>
+        <option value="True" {% if patient.fasting_blood_sugar == "True" %}selected{% endif %}>True</option>
+        <option value="False" {% if patient.fasting_blood_sugar == "False" %}selected{% endif %}>False</option>
+    </select>
+    <br><br>
 
-        <label>Exercise Induced Angina:</label>
-        <select name="exercise_induced_angina" required>
-            <option value="True" {% if patient.exercise_induced_angina == "True" %}selected{% endif %}>True</option>
-            <option value="False" {% if patient.exercise_induced_angina == "False" %}selected{% endif %}>False</option>
-        </select><br><br>
+    <label>Resting ECG</label>
+    <input type="text" name="resting_ecg" value="{{ patient.resting_ecg }}" required>
+    <br><br>
 
-        <button type="submit">Update Patient</button>
-    </form>
-</body>
-</html>
+    <label>Exercise Induced Angina</label>
+    <select name="exercise_induced_angina" required>
+        <option value="True" {% if patient.exercise_induced_angina == "True" %}selected{% endif %}>True</option>
+        <option value="False" {% if patient.exercise_induced_angina == "False" %}selected{% endif %}>False</option>
+    </select>
+    <br><br>
+
+    <button type="submit" class="btn btn-primary">Update Patient</button>
+
+</form>
+
+{% endblock %}

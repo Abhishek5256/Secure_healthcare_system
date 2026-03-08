@@ -1,36 +1,44 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Register</title>
-</head>
-<body>
-    <h1>User Registration</h1>
+{% extends "base.html" %}
 
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        {% for message in messages %}
-          <p>{{ message }}</p>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+{% block content %}
+
+<div class="card center-card">
+
+    <h2>User Registration</h2>
+
+    <p>Create a new account to access the secure healthcare system.</p>
 
     <form method="POST">
-        <label>Username:</label>
-        <input type="text" name="username"><br><br>
 
-        <label>Password:</label>
-        <input type="password" name="password"><br><br>
+        <label>Username</label>
+        <input type="text" name="username" required>
 
-        <label>Role:</label>
-        <select name="role">
+        <br><br>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+
+        <br><br>
+
+        <label>Role</label>
+        <select name="role" required>
+            <option value="">Select role</option>
             <option value="admin">Admin</option>
             <option value="clinician">Clinician</option>
             <option value="patient">Patient</option>
-        </select><br><br>
+        </select>
 
-        <button type="submit">Register</button>
+        <br><br>
+
+        <button type="submit" class="btn btn-primary">Register</button>
+
     </form>
 
-    <p><a href="/login">Go to Login</a></p>
-</body>
-</html>
+    <hr>
+
+    <p>Already have an account?</p>
+    <p><a href="/login">Go to login</a></p>
+
+</div>
+
+{% endblock %}
