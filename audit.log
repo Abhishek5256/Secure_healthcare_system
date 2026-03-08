@@ -53,3 +53,18 @@
 [2026-03-07 23:51:06] User: ab | Action: Viewed all patient records
 [2026-03-07 23:51:14] User: ab | Action: Searched patient record 301
 [2026-03-07 23:52:27] User: ab | Action: Logged out
+[2026-03-08 10:42:18] User: ab | Action: Logged in
+[2026-03-08 10:42:22] User: ab | Action: Viewed all patient records
+[2026-03-08 10:42:54] User: ab | Action: Searched patient record 345
+[2026-03-08 10:43:20] User: ab | Action: Updated patient record 345
+[2026-03-08 10:43:20] User: ab | Action: Viewed all patient records
+[2026-03-08 10:44:16] User: ab | Action: Added patient record 1234
+[2026-03-08 10:44:16] User: ab | Action: Viewed all patient records
+[2026-03-08 10:44:21] User: ab | Action: Searched patient record 1234
+[2026-03-08 10:44:30] User: ab | Action: Deleted patient record 1234
+[2026-03-08 10:44:30] User: ab | Action: Viewed all patient records
+[2026-03-08 10:44:34] User: ab | Action: Search failed for patient record 1234
+[2026-03-08 10:44:39] User: ab | Action: Searched patient record 123
+[2026-03-08 10:44:55] User: ab | Action: Logged out
+[2026-03-08 10:45:18] User: abc | Action: Logged in
+[2026-03-08 10:45:31] User: abc | Action: Logged out

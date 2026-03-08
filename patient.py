@@ -22,8 +22,6 @@ def add_patient_record(patient_id, age, sex, resting_bp, cholesterol,
     }
 
     result = collection.insert_one(patient_document)
-
-    # Return inserted MongoDB object id as string
     return str(result.inserted_id)
 
 
@@ -53,3 +51,32 @@ def patient_id_exists(patient_id):
     collection = get_mongo_collection()
     patient = collection.find_one({"patient_id": int(patient_id)})
     return patient is not None
+
+
+def update_patient_record(record_id, age, sex, resting_bp, cholesterol,
+                          fasting_blood_sugar, resting_ecg, exercise_induced_angina):
+    # Update an existing patient record using MongoDB object id.
+    collection = get_mongo_collection()
+
+    result = collection.update_one(
+        {"_id": ObjectId(record_id)},
+        {"$set": {
+            "age": int(age),
+            "sex": sex,
+            "resting_bp": int(resting_bp),
+            "cholesterol": cholesterol,
+            "fasting_blood_sugar": fasting_blood_sugar,
+            "resting_ecg": resting_ecg,
+            "exercise_induced_angina": exercise_induced_angina
+        }}
+    )
+
+    return result.modified_count
+
+
+def delete_patient_record(record_id):
+    # Delete a patient record using MongoDB object id.
+    collection = get_mongo_collection()
+
+    result = collection.delete_one({"_id": ObjectId(record_id)})
+    return result.deleted_count

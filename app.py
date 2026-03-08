@@ -2,15 +2,19 @@
 # Main Flask application file.
 # SQLite is used for authentication.
 # MongoDB is used for patient records.
+# This version includes create, update, delete, search, and view operations.
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from database import init_databases
 from auth import register_user, login_user, get_user_role
 from patient import (
     add_patient_record,
+    get_patient_by_mongo_id,
     get_patient_by_patient_id,
     get_all_patients,
-    patient_id_exists
+    patient_id_exists,
+    update_patient_record,
+    delete_patient_record
 )
 from security import encrypt_value, decrypt_value, validate_patient_data
 from audit import log_event
@@ -248,6 +252,94 @@ def patient_search():
         patients=all_patients,
         searched_patient=searched_patient
     )
+
+
+@app.route("/edit_patient/<record_id>", methods=["GET", "POST"])
+def edit_patient(record_id):
+    # Only admin and clinician can edit patient records.
+    if not require_login():
+        flash("Please log in first.")
+        return redirect(url_for("login"))
+
+    if not require_role(["admin", "clinician"]):
+        flash("You do not have permission to edit patient records.")
+        return redirect(url_for("dashboard"))
+
+    patient = get_patient_by_mongo_id(record_id)
+
+    if not patient:
+        flash("Patient record not found.")
+        return redirect(url_for("patient_view_page"))
+
+    patient_dict = decrypt_patient_record(patient)
+
+    if request.method == "POST":
+        age = request.form["age"].strip()
+        sex = request.form["sex"].strip()
+        resting_bp = request.form["resting_bp"].strip()
+        cholesterol = request.form["cholesterol"].strip()
+        fasting_blood_sugar = request.form["fasting_blood_sugar"].strip()
+        resting_ecg = request.form["resting_ecg"].strip()
+        exercise_induced_angina = request.form["exercise_induced_angina"].strip()
+
+        if not all([age, sex, resting_bp, cholesterol, fasting_blood_sugar, resting_ecg, exercise_induced_angina]):
+            flash("All fields are required.")
+            return redirect(url_for("edit_patient", record_id=record_id))
+
+        validation_errors = validate_patient_data(age, resting_bp, cholesterol)
+        if validation_errors:
+            for error in validation_errors:
+                flash(error)
+            return redirect(url_for("edit_patient", record_id=record_id))
+
+        encrypted_cholesterol = encrypt_value(cholesterol)
+
+        update_patient_record(
+            record_id=record_id,
+            age=age,
+            sex=sex,
+            resting_bp=resting_bp,
+            cholesterol=encrypted_cholesterol,
+            fasting_blood_sugar=fasting_blood_sugar,
+            resting_ecg=resting_ecg,
+            exercise_induced_angina=exercise_induced_angina
+        )
+
+        log_event(session["username"], f"Updated patient record {patient_dict['patient_id']}")
+        flash("Patient record updated successfully.")
+        return redirect(url_for("patient_view_page"))
+
+    return render_template("edit_patient.html", patient=patient_dict)
+
+
+@app.route("/delete_patient/<record_id>", methods=["POST"])
+def delete_patient(record_id):
+    # Only admin and clinician can delete patient records.
+    if not require_login():
+        flash("Please log in first.")
+        return redirect(url_for("login"))
+
+    if not require_role(["admin", "clinician"]):
+        flash("You do not have permission to delete patient records.")
+        return redirect(url_for("dashboard"))
+
+    patient = get_patient_by_mongo_id(record_id)
+
+    if not patient:
+        flash("Patient record not found.")
+        return redirect(url_for("patient_view_page"))
+
+    patient_dict = decrypt_patient_record(patient)
+
+    deleted_count = delete_patient_record(record_id)
+
+    if deleted_count > 0:
+        log_event(session["username"], f"Deleted patient record {patient_dict['patient_id']}")
+        flash("Patient record deleted successfully.")
+    else:
+        flash("Patient record could not be deleted.")
+
+    return redirect(url_for("patient_view_page"))
 
 
 if __name__ == "__main__":
