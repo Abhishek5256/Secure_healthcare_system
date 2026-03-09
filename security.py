@@ -1,25 +1,8 @@
 # security.py
-# This file handles encryption and validation of patient data.
-
-from cryptography.fernet import Fernet
-
-# In production this key should be stored securely outside the code.
-FERNET_KEY = b'6wdfldtbgI6MfPmmiVBzgCdoDe8ScCUgpo1DzxONxts='
-cipher = Fernet(FERNET_KEY)
-
-
-def encrypt_value(value):
-    # Encrypt a value before storing it in the database.
-    return cipher.encrypt(str(value).encode()).decode()
-
-
-def decrypt_value(value):
-    # Decrypt a value when reading it from the database.
-    return cipher.decrypt(value.encode()).decode()
-
+# Handles validation of patient data.
 
 def validate_patient_data(age, resting_bp, cholesterol):
-    # Validate medical values to reduce bad or unrealistic input.
+    """Validate key numeric patient values and return a list of errors."""
     errors = []
 
     try:

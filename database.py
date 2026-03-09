@@ -1,38 +1,35 @@
 # database.py
-# This file manages both SQLite and MongoDB.
-# SQLite is used for authentication data.
-# MongoDB is used for patient records.
+# Handles both data stores:
+# - SQLite for authentication data
+# - MongoDB for patient records
 
 import sqlite3
 from pymongo import MongoClient
 
 SQLITE_DB_NAME = "auth.db"
-
-# Local MongoDB server connection string
 MONGO_URI = "mongodb://localhost:27017/"
 MONGO_DB_NAME = "healthcare_db"
 MONGO_COLLECTION_NAME = "patients"
 
 
 def get_sqlite_connection():
-    # Return a connection to SQLite for authentication data.
-    conn = sqlite3.connect(SQLITE_DB_NAME)
-    conn.row_factory = sqlite3.Row
-    return conn
+    """Return a SQLite connection for authentication data."""
+    connection = sqlite3.connect(SQLITE_DB_NAME)
+    connection.row_factory = sqlite3.Row
+    return connection
 
 
 def get_mongo_collection():
-    # Return the MongoDB patients collection.
+    """Return the MongoDB collection used for patient records."""
     client = MongoClient(MONGO_URI)
-    db = client[MONGO_DB_NAME]
-    collection = db[MONGO_COLLECTION_NAME]
-    return collection
+    database = client[MONGO_DB_NAME]
+    return database[MONGO_COLLECTION_NAME]
 
 
-def init_sqlite_db():
-    # Create the users table in SQLite.
-    conn = get_sqlite_connection()
-    cursor = conn.cursor()
+def init_sqlite_database():
+    """Create the users table in SQLite if it does not exist."""
+    connection = get_sqlite_connection()
+    cursor = connection.cursor()
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
@@ -43,10 +40,10 @@ def init_sqlite_db():
         )
     """)
 
-    conn.commit()
-    conn.close()
+    connection.commit()
+    connection.close()
 
 
 def init_databases():
-    # Initialise all required databases.
-    init_sqlite_db()
+    """Initialise all required databases."""
+    init_sqlite_database()

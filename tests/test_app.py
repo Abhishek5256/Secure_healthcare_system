@@ -1,6 +1,7 @@
 # tests/test_app.py
-# This file contains a basic unit test for the Flask application.
-# It checks that an unauthenticated user cannot access the dashboard directly.
+# Basic unit tests for the Flask healthcare application.
+# These tests verify that public pages load correctly
+# and that protected pages require login.
 
 import unittest
 from app import app
@@ -9,30 +10,45 @@ from app import app
 class FlaskAppTestCase(unittest.TestCase):
 
     def setUp(self):
-        # Create a test client for the Flask app.
-        self.app = app.test_client()
-        self.app.testing = True
+        # Create a Flask test client
+        self.client = app.test_client()
+        self.client.testing = True
 
-    def test_dashboard_requires_login(self):
-        # Verify that users who are not logged in are redirected away from dashboard.
-        response = self.app.get("/dashboard", follow_redirects=True)
-
+    def test_home_page_loads(self):
+        # Home page should load successfully
+        response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Please log in first.", response.data)
+        self.assertIn(b"Heart Disease Patient Record System", response.data)
 
     def test_login_page_loads(self):
-        # Verify that the login page loads successfully.
-        response = self.app.get("/login")
-
+        # Login page should load successfully
+        response = self.client.get("/login")
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"User Login", response.data)
 
-    def test_home_page_loads(self):
-        # Verify that the home page loads successfully.
-        response = self.app.get("/")
-
+    def test_register_page_loads(self):
+        # Register page should load successfully
+        response = self.client.get("/register")
         self.assertEqual(response.status_code, 200)
+        self.assertIn(b"User Registration", response.data)
 
+    def test_dashboard_requires_login(self):
+        # Dashboard should not be accessible without login
+        response = self.client.get("/dashboard", follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Please log in first.", response.data)
+
+    def test_add_patient_requires_login(self):
+        # Add patient page should not be accessible without login
+        response = self.client.get("/add_patient", follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Please log in first.", response.data)
+
+    def test_patient_view_requires_login(self):
+        # Patient view page should not be accessible without login
+        response = self.client.get("/patient_view", follow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Please log in first.", response.data)
 
 
 if __name__ == "__main__":

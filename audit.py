@@ -1,5 +1,5 @@
 # audit.py
-# This file stores audit logs for important user activity.
+# Writes simple audit events to a local log file.
 
 from datetime import datetime
 
@@ -7,7 +7,8 @@ LOG_FILE = "audit.log"
 
 
 def log_event(username, action):
-    # Write an audit event to the log file.
+    """Append a timestamped audit entry to the audit log."""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     with open(LOG_FILE, "a", encoding="utf-8") as file:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         file.write(f"[{timestamp}] User: {username} | Action: {action}\n")

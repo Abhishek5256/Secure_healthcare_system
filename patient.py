@@ -1,13 +1,13 @@
 # patient.py
-# This file handles patient record storage and retrieval using MongoDB.
+# Handles patient record storage and retrieval using MongoDB.
 
-from database import get_mongo_collection
 from bson import ObjectId
+from database import get_mongo_collection
 
 
 def add_patient_record(patient_id, age, sex, resting_bp, cholesterol,
                        fasting_blood_sugar, resting_ecg, exercise_induced_angina):
-    # Insert one patient record into MongoDB.
+    """Insert a new patient record into MongoDB and return the inserted id."""
     collection = get_mongo_collection()
 
     patient_document = {
@@ -15,7 +15,7 @@ def add_patient_record(patient_id, age, sex, resting_bp, cholesterol,
         "age": int(age),
         "sex": sex,
         "resting_bp": int(resting_bp),
-        "cholesterol": cholesterol,
+        "cholesterol": int(cholesterol),
         "fasting_blood_sugar": fasting_blood_sugar,
         "resting_ecg": resting_ecg,
         "exercise_induced_angina": exercise_induced_angina
@@ -26,36 +26,32 @@ def add_patient_record(patient_id, age, sex, resting_bp, cholesterol,
 
 
 def get_patient_by_mongo_id(record_id):
-    # Retrieve a patient by MongoDB object id.
+    """Return one patient document by MongoDB object id."""
     collection = get_mongo_collection()
-    patient = collection.find_one({"_id": ObjectId(record_id)})
-    return patient
+    return collection.find_one({"_id": ObjectId(record_id)})
 
 
 def get_patient_by_patient_id(patient_id):
-    # Retrieve a patient by Patient ID.
+    """Return one patient document by business patient_id."""
     collection = get_mongo_collection()
-    patient = collection.find_one({"patient_id": int(patient_id)})
-    return patient
+    return collection.find_one({"patient_id": int(patient_id)})
 
 
 def get_all_patients():
-    # Retrieve all patients from MongoDB.
+    """Return all patient records sorted by patient_id descending."""
     collection = get_mongo_collection()
-    patients = list(collection.find().sort("patient_id", -1))
-    return patients
+    return list(collection.find().sort("patient_id", -1))
 
 
 def patient_id_exists(patient_id):
-    # Check whether the patient ID already exists.
+    """Return True if a patient_id already exists."""
     collection = get_mongo_collection()
-    patient = collection.find_one({"patient_id": int(patient_id)})
-    return patient is not None
+    return collection.find_one({"patient_id": int(patient_id)}) is not None
 
 
 def update_patient_record(record_id, age, sex, resting_bp, cholesterol,
                           fasting_blood_sugar, resting_ecg, exercise_induced_angina):
-    # Update an existing patient record using MongoDB object id.
+    """Update an existing patient record by MongoDB object id."""
     collection = get_mongo_collection()
 
     result = collection.update_one(
@@ -64,7 +60,7 @@ def update_patient_record(record_id, age, sex, resting_bp, cholesterol,
             "age": int(age),
             "sex": sex,
             "resting_bp": int(resting_bp),
-            "cholesterol": cholesterol,
+            "cholesterol": int(cholesterol),
             "fasting_blood_sugar": fasting_blood_sugar,
             "resting_ecg": resting_ecg,
             "exercise_induced_angina": exercise_induced_angina
@@ -75,8 +71,7 @@ def update_patient_record(record_id, age, sex, resting_bp, cholesterol,
 
 
 def delete_patient_record(record_id):
-    # Delete a patient record using MongoDB object id.
+    """Delete a patient record by MongoDB object id."""
     collection = get_mongo_collection()
-
     result = collection.delete_one({"_id": ObjectId(record_id)})
     return result.deleted_count

@@ -81,7 +81,8 @@ main {
     padding: 35px;
     border: 1px solid #d6dbe1;
     border-radius: 10px;
-    margin-bottom: 25px;
+    margin: 0 auto 25px auto;
+    max-width: 900px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
     text-align: center;
 }
@@ -107,8 +108,7 @@ main {
     flex-wrap: wrap;
 }
 
-.dashboard-box,
-.info-box {
+.dashboard-box {
     flex: 1;
     min-width: 250px;
     background: white;
@@ -116,12 +116,6 @@ main {
     border: 1px solid #d6dbe1;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-
-.info-grid {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
 }
 
 /* Forms */

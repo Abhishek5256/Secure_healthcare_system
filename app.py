@@ -2,72 +2,66 @@
 # Main Flask application file.
 # SQLite is used for authentication.
 # MongoDB is used for patient records.
-# This version includes create, update, delete, search, and view operations.
 
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from database import init_databases
+
+from audit import log_event
 from auth import register_user, login_user, get_user_role
+from database import init_databases
 from patient import (
     add_patient_record,
+    delete_patient_record,
+    get_all_patients,
     get_patient_by_mongo_id,
     get_patient_by_patient_id,
-    get_all_patients,
     patient_id_exists,
     update_patient_record,
-    delete_patient_record
 )
-from security import encrypt_value, decrypt_value, validate_patient_data
-from audit import log_event
+from security import validate_patient_data
 
 app = Flask(__name__)
 app.secret_key = "simple-secret-key"
 
 
-def require_login():
+def is_logged_in():
+    """Return True if a user session exists."""
     return "username" in session
 
 
-def require_role(allowed_roles):
+def has_allowed_role(allowed_roles):
+    """Return True if the logged-in user has one of the allowed roles."""
     username = session.get("username")
     if not username:
         return False
-    role = get_user_role(username)
-    return role in allowed_roles
+    return get_user_role(username) in allowed_roles
 
 
-def decrypt_patient_record(patient):
-    # Convert MongoDB document to a display-friendly dictionary.
+def convert_patient_for_display(patient):
+    """Convert a MongoDB patient document into a display-friendly dictionary."""
     if not patient:
         return None
 
     patient_dict = dict(patient)
     patient_dict["id"] = str(patient_dict["_id"])
-
-    try:
-        patient_dict["cholesterol"] = decrypt_value(patient_dict["cholesterol"])
-    except Exception:
-        patient_dict["cholesterol"] = patient_dict["cholesterol"]
-
     return patient_dict
 
 
-def decrypt_patient_list(patients):
-    # Decrypt all patient records for display.
-    decrypted = []
-    for patient in patients:
-        decrypted.append(decrypt_patient_record(patient))
-    return decrypted
+def convert_patient_list_for_display(patients):
+    """Convert a list of MongoDB patient documents for display."""
+    return [convert_patient_for_display(patient) for patient in patients]
 
 
 @app.route("/")
 def home():
-    if require_login():
+    """Show the landing page or redirect logged-in users to dashboard."""
+    if is_logged_in():
         return redirect(url_for("dashboard"))
     return render_template("index.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
+    """Handle user registration."""
     if request.method == "POST":
         username = request.form["username"].strip()
         password = request.form["password"].strip()
@@ -90,6 +84,7 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """Handle user login."""
     if request.method == "POST":
         username = request.form["username"].strip()
         password = request.form["password"].strip()
@@ -109,6 +104,7 @@ def login():
 
 @app.route("/logout")
 def logout():
+    """Clear the current session and log the user out."""
     username = session.get("username", "Unknown")
     log_event(username, "Logged out")
     session.clear()
@@ -118,24 +114,26 @@ def logout():
 
 @app.route("/dashboard")
 def dashboard():
-    if not require_login():
+    """Display the user dashboard."""
+    if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
 
     return render_template(
         "dashboard.html",
         username=session.get("username"),
-        role=session.get("role")
+        role=session.get("role"),
     )
 
 
 @app.route("/add_patient", methods=["GET", "POST"])
 def add_patient():
-    if not require_login():
+    """Allow authorised users to create a patient record."""
+    if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
 
-    if not require_role(["admin", "clinician"]):
+    if not has_allowed_role(["admin", "clinician"]):
         flash("You do not have permission to add patient records.")
         return redirect(url_for("dashboard"))
 
@@ -167,25 +165,23 @@ def add_patient():
             return redirect(url_for("add_patient"))
 
         try:
-            encrypted_cholesterol = encrypt_value(cholesterol)
-
             add_patient_record(
                 patient_id=patient_id,
                 age=age,
                 sex=sex,
                 resting_bp=resting_bp,
-                cholesterol=encrypted_cholesterol,
+                cholesterol=int(cholesterol),
                 fasting_blood_sugar=fasting_blood_sugar,
                 resting_ecg=resting_ecg,
-                exercise_induced_angina=exercise_induced_angina
+                exercise_induced_angina=exercise_induced_angina,
             )
 
             log_event(session["username"], f"Added patient record {patient_id}")
             flash("Patient added successfully.")
             return redirect(url_for("patient_view_page"))
 
-        except Exception as e:
-            flash(f"Record could not be saved. {e}")
+        except Exception as error:
+            flash(f"Record could not be saved. {error}")
             return redirect(url_for("add_patient"))
 
     return render_template("add_patient.html")
@@ -193,44 +189,45 @@ def add_patient():
 
 @app.route("/patient_view")
 def patient_view_page():
-    if not require_login():
+    """Show all patient records and the search interface."""
+    if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
 
-    if not require_role(["admin", "clinician"]):
+    if not has_allowed_role(["admin", "clinician"]):
         flash("You do not have permission to view patient records.")
         return redirect(url_for("dashboard"))
 
-    patients = get_all_patients()
-    decrypted_patients = decrypt_patient_list(patients)
-
+    patients = convert_patient_list_for_display(get_all_patients())
     log_event(session["username"], "Viewed all patient records")
+
     return render_template(
         "patient_view.html",
-        patients=decrypted_patients,
-        searched_patient=None
+        patients=patients,
+        searched_patient=None,
     )
 
 
 @app.route("/patient_search", methods=["POST"])
 def patient_search():
-    if not require_login():
+    """Search for a patient by patient_id and show results on the same page."""
+    if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
 
-    if not require_role(["admin", "clinician"]):
+    if not has_allowed_role(["admin", "clinician"]):
         flash("You do not have permission to search patient records.")
         return redirect(url_for("dashboard"))
 
     patient_id = request.form["patient_id"].strip()
-    all_patients = decrypt_patient_list(get_all_patients())
+    all_patients = convert_patient_list_for_display(get_all_patients())
 
     if not patient_id:
         flash("Please enter a Patient ID.")
         return render_template(
             "patient_view.html",
             patients=all_patients,
-            searched_patient=None
+            searched_patient=None,
         )
 
     patient = get_patient_by_patient_id(patient_id)
@@ -241,37 +238,36 @@ def patient_search():
         return render_template(
             "patient_view.html",
             patients=all_patients,
-            searched_patient=None
+            searched_patient=None,
         )
 
-    searched_patient = decrypt_patient_record(patient)
-
+    searched_patient = convert_patient_for_display(patient)
     log_event(session["username"], f"Searched patient record {patient_id}")
+
     return render_template(
         "patient_view.html",
         patients=all_patients,
-        searched_patient=searched_patient
+        searched_patient=searched_patient,
     )
 
 
 @app.route("/edit_patient/<record_id>", methods=["GET", "POST"])
 def edit_patient(record_id):
-    # Only admin and clinician can edit patient records.
-    if not require_login():
+    """Allow authorised users to edit an existing patient record."""
+    if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
 
-    if not require_role(["admin", "clinician"]):
+    if not has_allowed_role(["admin", "clinician"]):
         flash("You do not have permission to edit patient records.")
         return redirect(url_for("dashboard"))
 
     patient = get_patient_by_mongo_id(record_id)
-
     if not patient:
         flash("Patient record not found.")
         return redirect(url_for("patient_view_page"))
 
-    patient_dict = decrypt_patient_record(patient)
+    patient_for_display = convert_patient_for_display(patient)
 
     if request.method == "POST":
         age = request.form["age"].strip()
@@ -292,49 +288,45 @@ def edit_patient(record_id):
                 flash(error)
             return redirect(url_for("edit_patient", record_id=record_id))
 
-        encrypted_cholesterol = encrypt_value(cholesterol)
-
         update_patient_record(
             record_id=record_id,
             age=age,
             sex=sex,
             resting_bp=resting_bp,
-            cholesterol=encrypted_cholesterol,
+            cholesterol=int(cholesterol),
             fasting_blood_sugar=fasting_blood_sugar,
             resting_ecg=resting_ecg,
-            exercise_induced_angina=exercise_induced_angina
+            exercise_induced_angina=exercise_induced_angina,
         )
 
-        log_event(session["username"], f"Updated patient record {patient_dict['patient_id']}")
+        log_event(session["username"], f"Updated patient record {patient_for_display['patient_id']}")
         flash("Patient record updated successfully.")
         return redirect(url_for("patient_view_page"))
 
-    return render_template("edit_patient.html", patient=patient_dict)
+    return render_template("edit_patient.html", patient=patient_for_display)
 
 
 @app.route("/delete_patient/<record_id>", methods=["POST"])
 def delete_patient(record_id):
-    # Only admin and clinician can delete patient records.
-    if not require_login():
+    """Allow authorised users to delete an existing patient record."""
+    if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
 
-    if not require_role(["admin", "clinician"]):
+    if not has_allowed_role(["admin", "clinician"]):
         flash("You do not have permission to delete patient records.")
         return redirect(url_for("dashboard"))
 
     patient = get_patient_by_mongo_id(record_id)
-
     if not patient:
         flash("Patient record not found.")
         return redirect(url_for("patient_view_page"))
 
-    patient_dict = decrypt_patient_record(patient)
-
+    patient_for_display = convert_patient_for_display(patient)
     deleted_count = delete_patient_record(record_id)
 
     if deleted_count > 0:
-        log_event(session["username"], f"Deleted patient record {patient_dict['patient_id']}")
+        log_event(session["username"], f"Deleted patient record {patient_for_display['patient_id']}")
         flash("Patient record deleted successfully.")
     else:
         flash("Patient record could not be deleted.")
