@@ -5,6 +5,7 @@
 <h2>Edit Patient Record</h2>
 
 <form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <p><strong>Patient ID:</strong> {{ patient.patient_id }}</p>
 

@@ -9,6 +9,12 @@
     <p>Create a new account to access the secure healthcare system.</p>
 
     <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label>Email Address</label>
+        <input type="email" name="email" required>
+
+        <br><br>
 
         <label>Username</label>
         <input type="text" name="username" required>
@@ -20,8 +26,17 @@
 
         <br><br>
 
+        <p>
+            <strong>Password Rules:</strong><br>
+            - Minimum 8 characters<br>
+            - Maximum 15 characters<br>
+            - At least one uppercase letter<br>
+            - At least one lowercase letter<br>
+            - At least one special character
+        </p>
+
         <label>Role</label>
-        <select name="role" required>
+        <select name="role" id="role" required onchange="togglePatientIdField()">
             <option value="">Select role</option>
             <option value="admin">Admin</option>
             <option value="clinician">Clinician</option>
@@ -30,8 +45,18 @@
 
         <br><br>
 
-        <button type="submit" class="btn btn-primary">Register</button>
+        <div id="patient-id-section" style="display: none;">
+            <label>Patient ID</label>
+            <input type="text" name="patient_id" id="patient_id">
 
+            <br><br>
+
+            <p>
+                Patients can register only if the Patient ID already exists in the healthcare record system.
+            </p>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Register</button>
     </form>
 
     <hr>
@@ -40,5 +65,24 @@
     <p><a href="/login">Go to login</a></p>
 
 </div>
+
+<script>
+function togglePatientIdField() {
+    const roleField = document.getElementById("role");
+    const patientSection = document.getElementById("patient-id-section");
+    const patientInput = document.getElementById("patient_id");
+
+    if (roleField.value === "patient") {
+        patientSection.style.display = "block";
+        patientInput.required = true;
+    } else {
+        patientSection.style.display = "none";
+        patientInput.required = false;
+        patientInput.value = "";
+    }
+}
+
+window.onload = togglePatientIdField;
+</script>
 
 {% endblock %}

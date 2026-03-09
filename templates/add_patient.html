@@ -5,6 +5,7 @@
 <h2>Add Patient Record</h2>
 
 <form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <label>Patient ID</label>
     <input type="number" name="patient_id" required>
