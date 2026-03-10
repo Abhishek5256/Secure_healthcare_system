@@ -8,7 +8,8 @@ These tests verify:
 2. Protected pages require authentication
 3. Invalid login attempts are rejected
 4. Logout behaviour works correctly
-5. Core role-protected routes are not accessible without login
+5. Core protected routes are not accessible without login
+6. Registration validation behaves safely for invalid patient registration
 """
 
 import unittest
@@ -72,10 +73,6 @@ class HealthcareSystemTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Please log in first", response.data)
 
-    # ----------------------------------------
-    # Role-Protected Route Tests
-    # ----------------------------------------
-
     def test_edit_patient_requires_login(self):
         """Edit patient route should not be accessible without login."""
         response = self.client.get("/edit_patient/test-id", follow_redirects=True)
@@ -104,6 +101,26 @@ class HealthcareSystemTests(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Invalid email or password", response.data)
+
+    # ----------------------------------------
+    # Registration Validation Tests
+    # ----------------------------------------
+
+    def test_patient_registration_without_patient_id_rejected(self):
+        """Patient registration should fail if no patient ID is supplied."""
+        response = self.client.post(
+            "/register",
+            data={
+                "email": "patient@example.com",
+                "username": "patientuser",
+                "password": "ValidPass1!",
+                "role": "patient",
+                "patient_id": ""
+            },
+            follow_redirects=True
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b"Patient ID is required for patient registration", response.data)
 
     # ----------------------------------------
     # Logout Behaviour Tests

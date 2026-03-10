@@ -4,7 +4,8 @@
 # MongoDB is used for patient records.
 # This version includes:
 # - email-based login
-# - username stored separately
+# - unique username for all roles
+# - username shown on dashboard instead of email
 # - patient registration linked to valid patient_id
 # - CSRF protection
 # - secure session configuration
@@ -16,7 +17,13 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from flask_wtf.csrf import CSRFProtect
 
 from audit import log_event
-from auth import register_user, login_user, get_user_role, get_user_patient_id
+from auth import (
+    register_user,
+    login_user,
+    get_user_role,
+    get_user_patient_id,
+    get_username_by_email,
+)
 from database import init_databases
 from patient import (
     add_patient_record,
@@ -154,6 +161,7 @@ def login():
 
         if login_user(email, password):
             session["email"] = email
+            session["username"] = get_username_by_email(email)
             session["role"] = get_user_role(email)
             session["patient_id"] = get_user_patient_id(email)
             session.permanent = True
@@ -188,7 +196,7 @@ def dashboard():
 
     return render_template(
         "dashboard.html",
-        username=session.get("email"),
+        username=session.get("username"),
         role=session.get("role"),
     )
 

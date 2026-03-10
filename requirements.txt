@@ -1,3 +1,5 @@
 flask
-cryptography
+flask-wtf
 pymongo
+werkzeug
+cryptography

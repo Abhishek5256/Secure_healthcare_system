@@ -1,14 +1,14 @@
 # import_dataset.py
-# Imports the CSV dataset into MongoDB for the Flask app.
+# Imports only the required attributes from the uploaded CSV into MongoDB.
+# The original CSV values are preserved as they appear in the source file.
 
 import csv
 import os
 
 from database import get_mongo_collection, init_databases
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CSV_FILE_NAME = "heart_disease_dataset_uci#.csv"
-CSV_FILE_PATH = os.path.join(BASE_DIR, CSV_FILE_NAME)
+# Use the uploaded CSV file directly
+CSV_FILE_PATH = "heart_disease_uci.csv"
 
 
 def import_csv_to_database():
@@ -33,24 +33,26 @@ def import_csv_to_database():
         for row in reader:
             # Skip rows with missing critical numeric values
             if (
-                row["Patient Id"] == "" or
-                row["Age"] == "" or
-                row["Resting BP"] == "" or
-                row["Cholesterol"] == ""
+                row["id"] == "" or
+                row["age"] == "" or
+                row["trestbps"] == "" or
+                row["chol"] == ""
             ):
                 print("Skipping row due to missing values:", row)
                 continue
 
             try:
                 patient_document = {
-                    "patient_id": int(row["Patient Id"]),
-                    "age": int(row["Age"]),
-                    "sex": row["Sex"],
-                    "resting_bp": int(row["Resting BP"]),
-                    "cholesterol": int(row["Cholesterol"]),
-                    "fasting_blood_sugar": row["Fasting Blood Sugar"],
-                    "resting_ecg": row["resting ecg"],
-                    "exercise_induced_angina": row["Excersie Induced angina"]
+                    "patient_id": int(float(row["id"])),
+                    "age": int(float(row["age"])),
+                    "sex": row["sex"],
+                    "resting_bp": int(float(row["trestbps"])),
+                    "cholesterol": int(float(row["chol"])),
+
+                    # Keep original CSV values unchanged
+                    "fasting_blood_sugar": row["fbs"],
+                    "resting_ecg": row["restecg"],
+                    "exercise_induced_angina": row["exang"]
                 }
 
                 collection.insert_one(patient_document)
@@ -60,6 +62,7 @@ def import_csv_to_database():
                 print("Error:", error)
 
     print("Dataset imported successfully.")
+    print("Imported file:", CSV_FILE_PATH)
     print("Database: healthcare_db")
     print("Collection: patients")
 

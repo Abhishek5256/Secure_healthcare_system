@@ -22,9 +22,6 @@ MONGO_DB_NAME = "healthcare_db"
 MONGO_COLLECTION_NAME = "patients"
 
 
-# ----------------------------------------
-# SQLite Connection
-# ----------------------------------------
 def get_sqlite_connection():
     """
     Return a SQLite connection for authentication data.
@@ -34,9 +31,6 @@ def get_sqlite_connection():
     return connection
 
 
-# ----------------------------------------
-# MongoDB Connection
-# ----------------------------------------
 def get_mongo_collection():
     """
     Return the MongoDB collection used for patient records.
@@ -46,16 +40,13 @@ def get_mongo_collection():
     return database[MONGO_COLLECTION_NAME]
 
 
-# ----------------------------------------
-# SQLite Initialisation
-# ----------------------------------------
 def init_sqlite_database():
     """
     Create the users table if it does not already exist.
 
     Fields:
     - email: used for login
-    - username: stored as display name
+    - username: used for dashboard display and must be unique
     - password: hashed password
     - role: admin / clinician / patient
     - patient_id: required for patient registration validation
@@ -67,7 +58,7 @@ def init_sqlite_database():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             email TEXT UNIQUE NOT NULL,
-            username TEXT NOT NULL,
+            username TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
             role TEXT NOT NULL,
             patient_id TEXT
@@ -78,9 +69,6 @@ def init_sqlite_database():
     connection.close()
 
 
-# ----------------------------------------
-# Database Initialisation
-# ----------------------------------------
 def init_databases():
     """
     Initialise required databases.
