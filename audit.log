@@ -216,3 +216,28 @@
 [2026-03-10 18:18:51] User: Unknown | Action: User logged out
 [2026-03-10 18:21:02] User: admin@gmail.com | Action: User logged in
 [2026-03-10 18:29:28] User: admin@gmail.com | Action: User logged out
+[2026-03-10 18:44:05] User: admin@gmail.com | Action: User logged in
+[2026-03-10 18:44:13] User: admin@gmail.com | Action: Viewed all patient records
+[2026-03-10 18:44:17] User: admin@gmail.com | Action: Searched patient record 123
+[2026-03-10 18:44:28] User: admin@gmail.com | Action: User logged out
+[2026-03-10 18:45:38] User: clinician@gmail.com | Action: User logged in
+[2026-03-10 18:45:51] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-10 18:45:57] User: clinician@gmail.com | Action: Searched patient record 123
+[2026-03-10 18:46:08] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-10 18:46:15] User: clinician@gmail.com | Action: User logged out
+[2026-03-10 18:47:05] User: patient@gmail.com | Action: User logged in
+[2026-03-10 18:47:08] User: patient@gmail.com | Action: Viewed own patient record 123
+[2026-03-10 18:47:15] User: patient@gmail.com | Action: User logged out
+[2026-03-10 18:58:03] User: admin@gmail.com | Action: User logged in
+[2026-03-10 18:58:08] User: admin@gmail.com | Action: Viewed all patient records
+[2026-03-10 18:58:20] User: admin@gmail.com | Action: Searched patient record 900
+[2026-03-10 18:58:32] User: admin@gmail.com | Action: User logged out
+[2026-03-10 19:01:56] User: admin@gmail.com | Action: User logged in
+[2026-03-10 19:04:15] User: admin@gmail.com | Action: Viewed all patient records
+[2026-03-10 19:04:49] User: admin@gmail.com | Action: User logged out
+[2026-03-10 19:11:47] User: admin@gmail.com | Action: User logged in
+[2026-03-10 19:13:49] User: admin@gmail.com | Action: Added patient record 1234
+[2026-03-10 19:13:49] User: admin@gmail.com | Action: Viewed all patient records
+[2026-03-10 19:13:52] User: admin@gmail.com | Action: Searched patient record 1234
+[2026-03-10 19:17:34] User: admin@gmail.com | Action: Viewed all patient records
+[2026-03-10 19:17:41] User: admin@gmail.com | Action: User logged out

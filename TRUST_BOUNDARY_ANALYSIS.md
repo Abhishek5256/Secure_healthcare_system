@@ -2,124 +2,159 @@
 
 ## 1. Introduction
 
-A trust boundary is a point within a system where the level of trust changes between components or actors. At these boundaries, security controls must be applied to prevent unauthorised access, data tampering, or information disclosure.
+A trust boundary is a point in the system where the level of trust changes between users, components, or data stores. At each trust boundary, security controls should be applied to reduce the risk of unauthorised access, tampering, or information disclosure.
 
-In this healthcare system, trust boundaries exist between the user interface, the web application, and the databases storing authentication and patient data.
+In this secure healthcare system, trust boundaries exist between the browser, the Flask web application, the SQLite authentication database, and the MongoDB patient records database.
 
 ---
 
-# 2. System Architecture Overview
+## 2. System Architecture Overview
 
-The system architecture contains the following components:
+The system architecture can be described as:
 
 User Browser  
 ↓  
 Flask Web Application  
 ↓  
-Authentication Database (SQLite)  
+SQLite Authentication Database  
 ↓  
-Patient Records Database (MongoDB)
+MongoDB Patient Records Database
 
-Each connection between components represents a potential trust boundary.
+Sessions and user requests move through the application layer, and all sensitive healthcare data access is controlled at the server side.
 
 ---
 
-# 3. Identified Trust Boundaries
+## 3. Identified Trust Boundaries
 
-## Boundary 1 — User Browser → Web Application
+## Boundary 1 — User Browser → Flask Web Application
 
 ### Description
-The user interacts with the system through a web browser. Any input submitted by the user must be treated as untrusted because it could be manipulated.
+Users interact with the application through browser-based forms and routes. All browser input must be treated as untrusted, because a user may submit invalid, malicious, or manipulated data.
 
 ### Risks
 - Malicious form input
-- Attempted access to protected routes
-- Manipulation of patient data
-- Session hijacking attempts
+- Unauthorised route access attempts
+- Manipulated patient values
+- Session misuse
+- Forged requests from another website
 
 ### Security Controls Implemented
-- Input validation for numeric healthcare values
+- Input validation
+- CSRF protection
 - Session-based authentication
-- Role-based access control
-- Protected routes requiring login
-- Password hashing for stored credentials
+- Role-based access checks
+- Patient ID validation during patient registration
+- Username uniqueness checks
+- Password policy enforcement
 
 ### Justification
-User input is the most common attack vector. Validation and authentication ensure that only legitimate users with valid data can interact with protected system functions.
+The browser is the least trusted part of the system because any user-controlled input can be altered. Validation, CSRF protection, and access checks are necessary to protect both patient data and account workflows.
 
 ---
 
-## Boundary 2 — Web Application → Authentication Database (SQLite)
+## Boundary 2 — Flask Web Application → SQLite Authentication Database
 
 ### Description
-The Flask application communicates with the SQLite database to store and retrieve authentication data.
+The Flask application communicates with SQLite to store and retrieve user account information such as email, username, hashed password, role, and linked patient ID.
 
 ### Risks
 - Credential exposure
-- User impersonation
-- unauthorised access to user roles
+- Account spoofing
+- Invalid role assignment
+- Disclosure of account relationships
 
 ### Security Controls Implemented
-- Password hashing using secure hashing algorithms
-- Parameterised database queries
-- Separation of authentication data from healthcare data
+- Password hashing
+- Unique username enforcement
+- Email-based account identity
+- Controlled role lookup
+- Separation of authentication data from patient clinical data
 
 ### Justification
-Authentication data must be protected because compromise could allow attackers to access the entire system.
+Authentication data is highly sensitive because compromise at this layer may expose the whole application. Password hashing and identity validation reduce the risk of account takeover.
 
 ---
 
-## Boundary 3 — Web Application → Patient Records Database (MongoDB)
+## Boundary 3 — Flask Web Application → MongoDB Patient Records Database
 
 ### Description
-The web application stores and retrieves patient medical records from MongoDB.
+The Flask application stores and retrieves patient healthcare data from MongoDB.
 
 ### Risks
-- Data tampering
-- unauthorised access to patient records
-- exposure of sensitive healthcare data
+- Tampering with medical records
+- Unauthorised viewing of patient data
+- Excessive disclosure of records
+- Record deletion or corruption
 
 ### Security Controls Implemented
-- Role-based access control before database operations
-- Validation of healthcare data values
+- Role-based access control before database actions
+- Input validation for core medical values
+- Patient-specific record restriction for patient users
+- Audit logging of record-related actions
 - Separation of patient records from authentication data
 
 ### Justification
-Separating healthcare data from authentication data reduces the impact of potential breaches and improves data management security.
+Patient records are sensitive healthcare assets. Access must be controlled by role and context, especially where patients should only see their own linked records.
 
 ---
 
-## Boundary 4 — Application Session Management
+## Boundary 4 — Session Management Boundary
 
 ### Description
-Once a user logs in, the system stores session information to maintain authentication.
+Once a user is authenticated, the application relies on session state to determine identity, role, and linked patient ID.
 
 ### Risks
 - Session hijacking
-- privilege escalation
-- unauthorised session reuse
+- Session reuse
+- Cookie theft
+- Cross-site abuse of session state
 
 ### Security Controls Implemented
 - Flask session management
-- server-side role checking before protected actions
-- session clearing during logout
+- `SESSION_COOKIE_HTTPONLY`
+- `SESSION_COOKIE_SAMESITE`
+- Session lifetime control
+- Session clearing during logout
 
 ### Justification
-Sessions must be protected because they represent authenticated user identity.
+Session state represents authenticated identity. If it is compromised, attackers may act as legitimate users. Secure cookie settings and timeout controls reduce this risk.
 
 ---
 
-# 4. Summary of Trust Boundaries
+## Boundary 5 — Account Identity to Patient Identity Link
+
+### Description
+For patient users, the application links the authentication account to a specific `patient_id`. This link is stored in SQLite and used to fetch only the correct MongoDB record.
+
+### Risks
+- Patient viewing the wrong record
+- Fake patient registration
+- Account-to-record mismatching
+- Information disclosure across patients
+
+### Security Controls Implemented
+- Patient registration allowed only with a valid existing patient ID
+- Session stores linked patient ID
+- Patient view route retrieves only the linked record
+- Server-side patient record lookup
+
+### Justification
+This is a critical healthcare trust boundary because it controls whether a patient can access only their own information. The server-side linkage reduces disclosure risk.
+
+---
+
+## 4. Summary of Trust Boundaries
 
 | Trust Boundary | Components | Main Risks | Security Controls |
 |----------------|-----------|-----------|-------------------|
-| Browser → Web App | User input interface | Malicious input, unauthorised access | Validation, authentication |
-| Web App → SQLite | Authentication data | Credential theft | Password hashing |
-| Web App → MongoDB | Patient records | Data tampering, privacy breach | Role-based access |
-| Session Boundary | User session data | Session hijacking | Session validation |
+| Browser → Flask App | User input interface | Malicious input, forged requests, unauthorised access | Validation, CSRF protection, authentication |
+| Flask App → SQLite | Authentication data | Credential theft, spoofing, role misuse | Password hashing, identity validation |
+| Flask App → MongoDB | Patient records | Tampering, privacy breach | Role checks, validation, patient-specific restriction |
+| Session Boundary | Session and cookies | Hijacking, reuse, cookie theft | Secure session config, logout clearing |
+| Account ↔ Patient Link | User account to patient record | Wrong-record access, fake registration | Patient ID validation, linked lookup |
 
 ---
 
-# 5. Conclusion
+## 5. Conclusion
 
-Defining trust boundaries helps identify where security controls must be applied within the system architecture. By implementing validation, authentication, role-based access control, and database separation, the system protects sensitive healthcare data and maintains secure interactions between users and system components.
+The trust boundaries in this healthcare system show where security controls must be applied to protect account identity, session state, and sensitive patient records. The current design uses validation, CSRF protection, password hashing, secure session settings, role-based access control, and patient-linked record restriction to reduce the risks associated with these boundaries.

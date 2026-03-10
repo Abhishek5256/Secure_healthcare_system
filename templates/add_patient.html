@@ -9,14 +9,17 @@
 
     <label>Patient ID</label>
     <input type="number" name="patient_id" required>
+    <small>Enter a unique patient ID.</small>
     <br><br>
 
     <label>Age</label>
     <input type="number" name="age" required>
+    <small>Enter patient age in years.</small>
     <br><br>
 
     <label>Sex</label>
     <select name="sex" required>
+        <option value="">Select sex</option>
         <option value="Male">Male</option>
         <option value="Female">Female</option>
     </select>
@@ -24,32 +27,41 @@
 
     <label>Resting BP</label>
     <input type="number" name="resting_bp" required>
+    <small>Allowed range: 50 to 250 mm Hg.</small>
     <br><br>
 
     <label>Cholesterol</label>
     <input type="number" name="cholesterol" required>
+    <small>Allowed range: 50 to 700 mg/dl.</small>
     <br><br>
 
     <label>Fasting Blood Sugar</label>
     <select name="fasting_blood_sugar" required>
+        <option value="">Select value</option>
         <option value="True">True</option>
         <option value="False">False</option>
     </select>
     <br><br>
 
     <label>Resting ECG</label>
-    <input type="text" name="resting_ecg" required>
+    <select name="resting_ecg" required>
+        <option value="">Select ECG result</option>
+        <option value="normal">normal</option>
+        <option value="lv hypertrophy">lv hypertrophy</option>
+        <option value="st-t abnormality">st-t abnormality</option>
+    </select>
+    <small>Choose one of the accepted ECG categories.</small>
     <br><br>
 
     <label>Exercise Induced Angina</label>
     <select name="exercise_induced_angina" required>
+        <option value="">Select value</option>
         <option value="True">True</option>
         <option value="False">False</option>
     </select>
     <br><br>
 
     <button type="submit" class="btn btn-success">Add Patient</button>
-
 </form>
 
 {% endblock %}

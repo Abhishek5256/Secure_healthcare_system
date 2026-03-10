@@ -2,52 +2,66 @@
 
 {% block content %}
 
-<h2>Edit Patient Record</h2>
+<h2>Add Patient Record</h2>
 
 <form method="POST">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-    <p><strong>Patient ID:</strong> {{ patient.patient_id }}</p>
+    <label>Patient ID</label>
+    <input type="number" name="patient_id" required>
+    <small>Enter a unique patient ID.</small>
+    <br><br>
 
     <label>Age</label>
-    <input type="number" name="age" value="{{ patient.age }}" required>
+    <input type="number" name="age" required>
+    <small>Enter patient age in years.</small>
     <br><br>
 
     <label>Sex</label>
     <select name="sex" required>
-        <option value="Male" {% if patient.sex == "Male" %}selected{% endif %}>Male</option>
-        <option value="Female" {% if patient.sex == "Female" %}selected{% endif %}>Female</option>
+        <option value="">Select sex</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
     </select>
     <br><br>
 
     <label>Resting BP</label>
-    <input type="number" name="resting_bp" value="{{ patient.resting_bp }}" required>
+    <input type="number" name="resting_bp" required>
+    <small>Allowed range: 50 to 250 mm Hg.</small>
     <br><br>
 
     <label>Cholesterol</label>
-    <input type="number" name="cholesterol" value="{{ patient.cholesterol }}" required>
+    <input type="number" name="cholesterol" required>
+    <small>Allowed range: 50 to 700 mg/dl.</small>
     <br><br>
 
     <label>Fasting Blood Sugar</label>
     <select name="fasting_blood_sugar" required>
-        <option value="True" {% if patient.fasting_blood_sugar == "True" %}selected{% endif %}>True</option>
-        <option value="False" {% if patient.fasting_blood_sugar == "False" %}selected{% endif %}>False</option>
+        <option value="">Select value</option>
+        <option value="True">True</option>
+        <option value="False">False</option>
     </select>
     <br><br>
 
     <label>Resting ECG</label>
-    <input type="text" name="resting_ecg" value="{{ patient.resting_ecg }}" required>
+    <select name="resting_ecg" required>
+        <option value="">Select ECG result</option>
+        <option value="normal">normal</option>
+        <option value="lv hypertrophy">lv hypertrophy</option>
+        <option value="st-t abnormality">st-t abnormality</option>
+    </select>
+    <small>Choose one of the accepted ECG categories.</small>
     <br><br>
 
     <label>Exercise Induced Angina</label>
     <select name="exercise_induced_angina" required>
-        <option value="True" {% if patient.exercise_induced_angina == "True" %}selected{% endif %}>True</option>
-        <option value="False" {% if patient.exercise_induced_angina == "False" %}selected{% endif %}>False</option>
+        <option value="">Select value</option>
+        <option value="True">True</option>
+        <option value="False">False</option>
     </select>
     <br><br>
 
-    <button type="submit" class="btn btn-primary">Update Patient</button>
-
+    <button type="submit" class="btn btn-success">Add Patient</button>
 </form>
 
 {% endblock %}
