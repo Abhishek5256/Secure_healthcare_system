@@ -2,66 +2,94 @@
 
 {% block content %}
 
-<h2>Add Patient Record</h2>
+<h2>Edit Patient Record</h2>
 
-<form method="POST">
+<!-- IMPORTANT:
+     This form must submit back to edit_patient for the SAME selected record.
+     It must not submit to add_patient. -->
+<form method="POST" action="{{ url_for('edit_patient', record_id=patient.id) }}">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-    <label>Patient ID</label>
-    <input type="number" name="patient_id" required>
-    <small>Enter a unique patient ID.</small>
-    <br><br>
+    <!-- Patient ID is shown only for reference and is not changed -->
+    <p><strong>Patient ID:</strong> {{ patient.patient_id }}</p>
 
     <label>Age</label>
-    <input type="number" name="age" required>
+    <input type="number" name="age" value="{{ patient.age }}" required>
     <small>Enter patient age in years.</small>
     <br><br>
 
     <label>Sex</label>
     <select name="sex" required>
-        <option value="">Select sex</option>
-        <option value="Male">Male</option>
-        <option value="Female">Female</option>
+        <option value="Male" {% if patient.sex == "Male" %}selected{% endif %}>Male</option>
+        <option value="Female" {% if patient.sex == "Female" %}selected{% endif %}>Female</option>
     </select>
     <br><br>
 
     <label>Resting BP</label>
-    <input type="number" name="resting_bp" required>
-    <small>Allowed range: 50 to 250 mm Hg.</small>
+    <input type="number" name="resting_bp" value="{{ patient.resting_bp }}" required>
+    <small>Validation range: 50 to 250 mm Hg.</small>
     <br><br>
 
     <label>Cholesterol</label>
-    <input type="number" name="cholesterol" required>
-    <small>Allowed range: 50 to 700 mg/dl.</small>
+    <input type="number" name="cholesterol" value="{{ patient.cholesterol }}" required>
+    <small>Validation range: 50 to 700 mg/dl.</small>
     <br><br>
 
     <label>Fasting Blood Sugar</label>
     <select name="fasting_blood_sugar" required>
-        <option value="">Select value</option>
-        <option value="True">True</option>
-        <option value="False">False</option>
+        <option value="True" {% if patient.fasting_blood_sugar == "True" %}selected{% endif %}>True</option>
+        <option value="False" {% if patient.fasting_blood_sugar == "False" %}selected{% endif %}>False</option>
     </select>
     <br><br>
 
     <label>Resting ECG</label>
     <select name="resting_ecg" required>
-        <option value="">Select ECG result</option>
-        <option value="normal">normal</option>
-        <option value="lv hypertrophy">lv hypertrophy</option>
-        <option value="st-t abnormality">st-t abnormality</option>
+        <option value="normal" {% if patient.resting_ecg == "normal" %}selected{% endif %}>normal</option>
+        <option value="lv hypertrophy" {% if patient.resting_ecg == "lv hypertrophy" %}selected{% endif %}>lv hypertrophy</option>
+        <option value="st-t abnormality" {% if patient.resting_ecg == "st-t abnormality" %}selected{% endif %}>st-t abnormality</option>
     </select>
     <small>Choose one of the accepted ECG categories.</small>
     <br><br>
 
     <label>Exercise Induced Angina</label>
     <select name="exercise_induced_angina" required>
-        <option value="">Select value</option>
-        <option value="True">True</option>
-        <option value="False">False</option>
+        <option value="True" {% if patient.exercise_induced_angina == "True" %}selected{% endif %}>True</option>
+        <option value="False" {% if patient.exercise_induced_angina == "False" %}selected{% endif %}>False</option>
     </select>
     <br><br>
 
-    <button type="submit" class="btn btn-success">Add Patient</button>
+    <h3>Appointment Information</h3>
+
+    <label>Appointment Date</label>
+    <input type="date" name="appointment_date" value="{{ patient.appointment_date }}">
+    <small>Optional: add the patient’s next or current appointment date.</small>
+    <br><br>
+
+    <label>Appointment Notes</label>
+    <textarea name="appointment_notes" rows="3" style="width: 100%;">{{ patient.appointment_notes }}</textarea>
+    <small>Optional: add notes about appointment purpose or follow-up.</small>
+    <br><br>
+
+    <h3>Prescription Information</h3>
+
+    <label>Prescription Name</label>
+    <input type="text" name="prescription_name" value="{{ patient.prescription_name }}">
+    <small>Optional: name of the prescribed medication.</small>
+    <br><br>
+
+    <label>Prescription Dosage</label>
+    <input type="text" name="prescription_dosage" value="{{ patient.prescription_dosage }}">
+    <small>Optional: dosage instructions, for example 5 mg twice daily.</small>
+    <br><br>
+
+    <label>Prescription Notes</label>
+    <textarea name="prescription_notes" rows="3" style="width: 100%;">{{ patient.prescription_notes }}</textarea>
+    <small>Optional: extra guidance relating to the prescription.</small>
+    <br><br>
+
+    <!-- IMPORTANT:
+         Button text clearly says Update, not Add -->
+    <button type="submit" class="btn btn-primary">Update Patient</button>
 </form>
 
 {% endblock %}

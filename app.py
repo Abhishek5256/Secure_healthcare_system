@@ -1,19 +1,10 @@
 # app.py
 # Main Flask application file.
-# SQLite is used for authentication.
+# SQLite is used for authentication data.
 # MongoDB is used for patient records.
-# This version includes:
-# - email-based login
-# - unique username for all roles
-# - username shown on dashboard instead of email
-# - patient registration linked to valid patient_id
-# - CSRF protection
-# - secure session configuration
-# - patient users restricted to their own record only
 
 from datetime import timedelta
-
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_wtf.csrf import CSRFProtect
 
 from audit import log_event
@@ -23,6 +14,7 @@ from auth import (
     get_user_role,
     get_user_patient_id,
     get_username_by_email,
+    username_exists,
 )
 from database import init_databases
 from patient import (
@@ -36,75 +28,80 @@ from patient import (
 )
 from security import validate_patient_data
 
-# -----------------------------
-# Create Flask application
-# -----------------------------
 app = Flask(__name__)
-
-# Secret key used to sign session cookies
 app.secret_key = "secure-healthcare-secret-key"
 
-# -----------------------------
-# Secure Session Configuration
-# -----------------------------
+# Session security configuration
 app.config["SESSION_COOKIE_SECURE"] = False
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30)
 
-# Enable CSRF protection for forms
+# Enable CSRF protection
 csrf = CSRFProtect(app)
 
 
-# -----------------------------
-# Utility Functions
-# -----------------------------
 def is_logged_in():
-    """Return True if a user session exists."""
+    """Return True if the user is logged in."""
     return "email" in session
 
 
 def has_allowed_role(allowed_roles):
-    """Return True if the logged-in user has one of the allowed roles."""
+    """Check whether current user has one of the required roles."""
     email = session.get("email")
-
     if not email:
         return False
-
-    user_role = get_user_role(email)
-    return user_role in allowed_roles
+    return get_user_role(email) in allowed_roles
 
 
 def convert_patient_for_display(patient):
-    """Convert a MongoDB patient document into a display-friendly dictionary."""
+    """Convert MongoDB patient document into template-friendly format."""
     if not patient:
         return None
 
     patient_dict = dict(patient)
     patient_dict["id"] = str(patient_dict["_id"])
+
+    # Ensure optional fields always exist
+    patient_dict.setdefault("appointment_date", "")
+    patient_dict.setdefault("appointment_notes", "")
+    patient_dict.setdefault("prescription_name", "")
+    patient_dict.setdefault("prescription_dosage", "")
+    patient_dict.setdefault("prescription_notes", "")
+
     return patient_dict
 
 
 def convert_patient_list_for_display(patients):
-    """Convert a list of MongoDB patient documents for display."""
+    """Convert list of patient documents for display."""
     return [convert_patient_for_display(patient) for patient in patients]
 
 
-# -----------------------------
-# Routes
-# -----------------------------
 @app.route("/")
 def home():
-    """Show the landing page or redirect logged-in users to dashboard."""
+    """Landing page."""
     if is_logged_in():
         return redirect(url_for("dashboard"))
-
     return render_template("index.html")
+
+
+@app.route("/check_username", methods=["GET"])
+def check_username():
+    """Check whether a username is already taken."""
+    username = request.args.get("username", "").strip()
+
+    if not username:
+        return jsonify({"available": False, "message": "Username is required."})
+
+    if username_exists(username):
+        return jsonify({"available": False, "message": "This username is already taken."})
+
+    return jsonify({"available": True, "message": "Username is available."})
 
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
-    """Handle user registration with email, username, role, and optional patient_id."""
+    """Register new users."""
     if request.method == "POST":
         email = request.form["email"].strip()
         username = request.form["username"].strip()
@@ -122,7 +119,6 @@ def register():
                 return redirect(url_for("register"))
 
             patient_record = get_patient_by_patient_id(patient_id)
-
             if not patient_record:
                 flash("Invalid Patient ID. Patient registration is only allowed for valid patient records.")
                 return redirect(url_for("register"))
@@ -137,10 +133,8 @@ def register():
                 role=role,
                 patient_id=patient_id
             )
-
             flash("Registration successful. Please log in.")
             return redirect(url_for("login"))
-
         except Exception as error:
             flash(str(error))
             return redirect(url_for("register"))
@@ -150,7 +144,7 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    """Handle user login using email and password."""
+    """Login route."""
     if request.method == "POST":
         email = request.form["email"].strip()
         password = request.form["password"].strip()
@@ -178,10 +172,9 @@ def login():
 
 @app.route("/logout")
 def logout():
-    """Clear the current session and log the user out."""
+    """Logout route."""
     email = session.get("email", "Unknown")
     log_event(email, "User logged out")
-
     session.clear()
     flash("You have been logged out.")
     return redirect(url_for("login"))
@@ -189,7 +182,7 @@ def logout():
 
 @app.route("/dashboard")
 def dashboard():
-    """Display the user dashboard."""
+    """Dashboard after login."""
     if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
@@ -203,7 +196,7 @@ def dashboard():
 
 @app.route("/add_patient", methods=["GET", "POST"])
 def add_patient():
-    """Allow authorised users to create a patient record."""
+    """Add a new patient record."""
     if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
@@ -222,11 +215,17 @@ def add_patient():
         resting_ecg = request.form["resting_ecg"].strip()
         exercise_induced_angina = request.form["exercise_induced_angina"].strip()
 
+        appointment_date = request.form.get("appointment_date", "").strip()
+        appointment_notes = request.form.get("appointment_notes", "").strip()
+        prescription_name = request.form.get("prescription_name", "").strip()
+        prescription_dosage = request.form.get("prescription_dosage", "").strip()
+        prescription_notes = request.form.get("prescription_notes", "").strip()
+
         if not all([
             patient_id, age, sex, resting_bp, cholesterol,
             fasting_blood_sugar, resting_ecg, exercise_induced_angina
         ]):
-            flash("All patient fields are required.")
+            flash("All core patient fields are required.")
             return redirect(url_for("add_patient"))
 
         validation_errors = validate_patient_data(age, resting_bp, cholesterol)
@@ -249,12 +248,16 @@ def add_patient():
                 fasting_blood_sugar=fasting_blood_sugar,
                 resting_ecg=resting_ecg,
                 exercise_induced_angina=exercise_induced_angina,
+                appointment_date=appointment_date,
+                appointment_notes=appointment_notes,
+                prescription_name=prescription_name,
+                prescription_dosage=prescription_dosage,
+                prescription_notes=prescription_notes,
             )
 
             log_event(session["email"], f"Added patient record {patient_id}")
             flash("Patient added successfully.")
             return redirect(url_for("patient_view_page"))
-
         except Exception as error:
             flash(f"Record could not be saved. {error}")
             return redirect(url_for("add_patient"))
@@ -264,7 +267,7 @@ def add_patient():
 
 @app.route("/patient_view")
 def patient_view_page():
-    """Show patient data according to user role."""
+    """Show patient records according to role."""
     if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
@@ -274,7 +277,6 @@ def patient_view_page():
     if role in ["admin", "clinician"]:
         patients = convert_patient_list_for_display(get_all_patients())
         log_event(session["email"], "Viewed all patient records")
-
         return render_template(
             "patient_view.html",
             patients=patients,
@@ -297,7 +299,6 @@ def patient_view_page():
 
         own_patient = convert_patient_for_display(patient)
         log_event(session["email"], f"Viewed own patient record {patient_id}")
-
         return render_template(
             "patient_view.html",
             patients=[own_patient],
@@ -311,7 +312,7 @@ def patient_view_page():
 
 @app.route("/patient_search", methods=["POST"])
 def patient_search():
-    """Search for a patient by patient_id and show results on the same page."""
+    """Search for a patient by patient ID."""
     if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
@@ -348,7 +349,6 @@ def patient_search():
 
     searched_patient = convert_patient_for_display(patient)
     log_event(session["email"], f"Searched patient record {patient_id}")
-
     return render_template(
         "patient_view.html",
         patients=all_patients,
@@ -359,7 +359,7 @@ def patient_search():
 
 @app.route("/edit_patient/<record_id>", methods=["GET", "POST"])
 def edit_patient(record_id):
-    """Allow authorised users to edit an existing patient record."""
+    """Edit the selected patient record only."""
     if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))
@@ -368,6 +368,7 @@ def edit_patient(record_id):
         flash("You do not have permission to edit patient records.")
         return redirect(url_for("dashboard"))
 
+    # Load the selected patient first
     patient = get_patient_by_mongo_id(record_id)
     if not patient:
         flash("Patient record not found.")
@@ -384,8 +385,17 @@ def edit_patient(record_id):
         resting_ecg = request.form["resting_ecg"].strip()
         exercise_induced_angina = request.form["exercise_induced_angina"].strip()
 
-        if not all([age, sex, resting_bp, cholesterol, fasting_blood_sugar, resting_ecg, exercise_induced_angina]):
-            flash("All fields are required.")
+        appointment_date = request.form.get("appointment_date", "").strip()
+        appointment_notes = request.form.get("appointment_notes", "").strip()
+        prescription_name = request.form.get("prescription_name", "").strip()
+        prescription_dosage = request.form.get("prescription_dosage", "").strip()
+        prescription_notes = request.form.get("prescription_notes", "").strip()
+
+        if not all([
+            age, sex, resting_bp, cholesterol,
+            fasting_blood_sugar, resting_ecg, exercise_induced_angina
+        ]):
+            flash("All core patient fields are required.")
             return redirect(url_for("edit_patient", record_id=record_id))
 
         validation_errors = validate_patient_data(age, resting_bp, cholesterol)
@@ -394,6 +404,7 @@ def edit_patient(record_id):
                 flash(error)
             return redirect(url_for("edit_patient", record_id=record_id))
 
+        # Update the SAME selected record
         update_patient_record(
             record_id=record_id,
             age=age,
@@ -403,18 +414,24 @@ def edit_patient(record_id):
             fasting_blood_sugar=fasting_blood_sugar,
             resting_ecg=resting_ecg,
             exercise_induced_angina=exercise_induced_angina,
+            appointment_date=appointment_date,
+            appointment_notes=appointment_notes,
+            prescription_name=prescription_name,
+            prescription_dosage=prescription_dosage,
+            prescription_notes=prescription_notes,
         )
 
         log_event(session["email"], f"Updated patient record {patient_for_display['patient_id']}")
         flash("Patient record updated successfully.")
         return redirect(url_for("patient_view_page"))
 
+    # Open edit page with selected patient's values already filled
     return render_template("edit_patient.html", patient=patient_for_display)
 
 
 @app.route("/delete_patient/<record_id>", methods=["POST"])
 def delete_patient(record_id):
-    """Allow authorised users to delete an existing patient record."""
+    """Delete selected patient record."""
     if not is_logged_in():
         flash("Please log in first.")
         return redirect(url_for("login"))

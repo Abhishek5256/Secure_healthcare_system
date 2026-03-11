@@ -4,7 +4,9 @@
 
 <h2>Add Patient Record</h2>
 
+<!-- Patient add form -->
 <form method="POST">
+    <!-- CSRF token for secure POST request -->
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <label>Patient ID</label>
@@ -27,12 +29,12 @@
 
     <label>Resting BP</label>
     <input type="number" name="resting_bp" required>
-    <small>Allowed range: 50 to 250 mm Hg.</small>
+    <small>Validation range: 50 to 250 mm Hg.</small>
     <br><br>
 
     <label>Cholesterol</label>
     <input type="number" name="cholesterol" required>
-    <small>Allowed range: 50 to 700 mg/dl.</small>
+    <small>Validation range: 50 to 700 mg/dl.</small>
     <br><br>
 
     <label>Fasting Blood Sugar</label>
@@ -59,6 +61,37 @@
         <option value="True">True</option>
         <option value="False">False</option>
     </select>
+    <br><br>
+
+    <!-- Appointment section -->
+    <h3>Appointment Information</h3>
+
+    <label>Appointment Date</label>
+    <input type="date" name="appointment_date">
+    <small>Optional: add the patient’s next or current appointment date.</small>
+    <br><br>
+
+    <label>Appointment Notes</label>
+    <textarea name="appointment_notes" rows="3" style="width: 100%;"></textarea>
+    <small>Optional: add notes about appointment purpose or follow-up.</small>
+    <br><br>
+
+    <!-- Prescription section -->
+    <h3>Prescription Information</h3>
+
+    <label>Prescription Name</label>
+    <input type="text" name="prescription_name">
+    <small>Optional: name of the prescribed medication.</small>
+    <br><br>
+
+    <label>Prescription Dosage</label>
+    <input type="text" name="prescription_dosage">
+    <small>Optional: dosage instructions, for example 5 mg twice daily.</small>
+    <br><br>
+
+    <label>Prescription Notes</label>
+    <textarea name="prescription_notes" rows="3" style="width: 100%;"></textarea>
+    <small>Optional: extra guidance relating to the prescription.</small>
     <br><br>
 
     <button type="submit" class="btn btn-success">Add Patient</button>

@@ -7,7 +7,7 @@ import os
 
 from database import get_mongo_collection, init_databases
 
-# Use the uploaded CSV file directly
+# Uploaded CSV file path
 CSV_FILE_PATH = "heart_disease_uci.csv"
 
 
@@ -52,7 +52,14 @@ def import_csv_to_database():
                     # Keep original CSV values unchanged
                     "fasting_blood_sugar": row["fbs"],
                     "resting_ecg": row["restecg"],
-                    "exercise_induced_angina": row["exang"]
+                    "exercise_induced_angina": row["exang"],
+
+                    # New optional fields
+                    "appointment_date": "",
+                    "appointment_notes": "",
+                    "prescription_name": "",
+                    "prescription_dosage": "",
+                    "prescription_notes": "",
                 }
 
                 collection.insert_one(patient_document)
