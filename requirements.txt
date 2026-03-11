@@ -3,3 +3,4 @@ flask-wtf
 pymongo
 werkzeug
 cryptography
+bson

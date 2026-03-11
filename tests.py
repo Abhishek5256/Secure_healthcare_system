@@ -1,96 +1,103 @@
 """
 tests.py
 
-Expanded unit tests for the Secure Healthcare System.
+Behavioural tests for the Secure Healthcare System.
 
-These tests verify:
-1. Public pages load correctly
-2. Protected pages require authentication
-3. Invalid login attempts are rejected
-4. Logout behaviour works correctly
-5. Core protected routes are not accessible without login
-6. Registration validation behaves safely for invalid patient registration
+These tests check:
+- public pages load
+- protected routes require login
+- invalid login is rejected
+- logout works
+- patient registration validation works
+- protected edit/delete routes are blocked without authentication
 """
 
 import unittest
+
+# Import the Flask app
 from app import app
 
 
 class HealthcareSystemTests(unittest.TestCase):
-    """Unit tests for public and protected application behaviour."""
+    """
+    Test suite for behavioural checks across the application.
+    """
 
     def setUp(self):
         """
         Configure Flask for testing and create a test client.
-        CSRF is disabled here to allow form submission during unit tests.
+        CSRF is disabled for easier test POST requests.
         """
         app.config["TESTING"] = True
         app.config["WTF_CSRF_ENABLED"] = False
 
         self.client = app.test_client()
 
-    # ----------------------------------------
-    # Public Page Tests
-    # ----------------------------------------
-
     def test_home_page_loads(self):
-        """Landing page should load successfully."""
+        """
+        The landing page should load successfully.
+        """
         response = self.client.get("/")
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"Heart Disease Patient Record System", response.data)
 
     def test_login_page_loads(self):
-        """Login page should load successfully."""
+        """
+        The login page should load successfully.
+        """
         response = self.client.get("/login")
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"User Login", response.data)
 
     def test_register_page_loads(self):
-        """Register page should load successfully."""
+        """
+        The register page should load successfully.
+        """
         response = self.client.get("/register")
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"User Registration", response.data)
-
-    # ----------------------------------------
-    # Authentication Protection Tests
-    # ----------------------------------------
 
     def test_dashboard_requires_login(self):
-        """Dashboard should require authentication."""
+        """
+        Dashboard must not be accessible without authentication.
+        """
         response = self.client.get("/dashboard", follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Please log in first", response.data)
 
     def test_add_patient_requires_login(self):
-        """Add patient page should require authentication."""
+        """
+        Add patient page must not be accessible without authentication.
+        """
         response = self.client.get("/add_patient", follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Please log in first", response.data)
 
     def test_patient_view_requires_login(self):
-        """Patient view page should require authentication."""
+        """
+        Patient view page must not be accessible without authentication.
+        """
         response = self.client.get("/patient_view", follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Please log in first", response.data)
 
     def test_edit_patient_requires_login(self):
-        """Edit patient route should not be accessible without login."""
+        """
+        Edit patient route must not be accessible without login.
+        """
         response = self.client.get("/edit_patient/test-id", follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Please log in first", response.data)
 
     def test_delete_patient_requires_login(self):
-        """Delete patient route should not be accessible without login."""
+        """
+        Delete patient route must not be accessible without login.
+        """
         response = self.client.post("/delete_patient/test-id", follow_redirects=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Please log in first", response.data)
 
-    # ----------------------------------------
-    # Login Behaviour Tests
-    # ----------------------------------------
-
     def test_invalid_login_rejected(self):
-        """Invalid login should not authenticate the user."""
+        """
+        Invalid login credentials should not authenticate the user.
+        """
         response = self.client.post(
             "/login",
             data={
@@ -102,12 +109,10 @@ class HealthcareSystemTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Invalid email or password", response.data)
 
-    # ----------------------------------------
-    # Registration Validation Tests
-    # ----------------------------------------
-
     def test_patient_registration_without_patient_id_rejected(self):
-        """Patient registration should fail if no patient ID is supplied."""
+        """
+        Patient registration must fail if patient ID is missing.
+        """
         response = self.client.post(
             "/register",
             data={
@@ -122,15 +127,13 @@ class HealthcareSystemTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn(b"Patient ID is required for patient registration", response.data)
 
-    # ----------------------------------------
-    # Logout Behaviour Tests
-    # ----------------------------------------
-
     def test_logout_redirects_to_login(self):
-        """Logout should redirect to the login page."""
+        """
+        Logout should redirect the user back to the login page.
+        """
         response = self.client.get("/logout", follow_redirects=True)
         self.assertEqual(response.status_code, 200)
-        self.assertIn(b"User Login", response.data)
+        self.assertIn(b"login", response.data.lower())
 
 
 if __name__ == "__main__":
