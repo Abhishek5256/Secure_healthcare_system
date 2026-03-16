@@ -413,3 +413,33 @@
 [2026-03-16 14:01:55] User: clinician@gmail.com | Action: Searched patient record 1235
 [2026-03-16 14:02:02] User: clinician@gmail.com | Action: Searched patient record 1234
 [2026-03-16 14:02:06] User: clinician@gmail.com | Action: User logged out
+[2026-03-16 14:09:07] User: admin@gmail.com | Action: User logged in
+[2026-03-16 14:09:19] User: admin@gmail.com | Action: User logged out
+[2026-03-16 14:33:54] User: admin@gmail.com | Action: User logged in
+[2026-03-16 15:13:53] User: admin@gmail.com | Action: User logged in
+[2026-03-16 15:14:04] User: admin@gmail.com | Action: Deactivated user account with ID 5
+[2026-03-16 15:14:11] User: admin@gmail.com | Action: User logged out
+[2026-03-16 15:14:34] User: patient@gmail.com | Action: User logged in
+[2026-03-16 15:14:37] User: patient@gmail.com | Action: Viewed own data for patient 123
+[2026-03-16 15:14:44] User: patient@gmail.com | Action: User logged out
+[2026-03-16 15:14:57] User: clinician@gmail.com | Action: User logged in
+[2026-03-16 15:15:03] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 15:15:15] User: clinician@gmail.com | Action: Deleted patient record 1235
+[2026-03-16 15:15:15] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 15:15:20] User: clinician@gmail.com | Action: Search failed for patient record 1235
+[2026-03-16 15:15:42] User: clinician@gmail.com | Action: Updated patient record 1234
+[2026-03-16 15:15:42] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 15:16:24] User: clinician@gmail.com | Action: Added patient record 12345
+[2026-03-16 15:16:24] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 15:16:30] User: clinician@gmail.com | Action: Searched patient record 12345
+[2026-03-16 15:16:38] User: clinician@gmail.com | Action: User logged out
+[2026-03-16 15:17:34] User: patient3@gmail.com | Action: User logged in
+[2026-03-16 15:17:37] User: patient3@gmail.com | Action: Viewed own data for patient 12346
+[2026-03-16 15:17:41] User: patient3@gmail.com | Action: User logged out
+[2026-03-16 15:17:53] User: admin@gmail.com | Action: User logged in
+[2026-03-16 15:18:00] User: admin@gmail.com | Action: Reactivated user account with ID 5
+[2026-03-16 15:18:30] User: admin@gmail.com | Action: Registered clinician account clinician2@gmail.com
+[2026-03-16 15:18:36] User: admin@gmail.com | Action: User logged out
+[2026-03-16 15:18:44] User: clinician2@gmail.com | Action: User logged in
+[2026-03-16 15:19:03] User: clinician2@gmail.com | Action: Viewed all patient records
+[2026-03-16 15:19:27] User: clinician2@gmail.com | Action: User logged out

@@ -15,6 +15,8 @@
         <th>Username</th>
         <th>Role</th>
         <th>Patient ID</th>
+        <th>Status</th>
+        <th>Action</th>
     </tr>
 
     {% for user in users %}
@@ -24,6 +26,34 @@
         <td>{{ user[2] }}</td>
         <td>{{ user[3] }}</td>
         <td>{{ user[4] }}</td>
+        <td>
+            {% if user[5] == 1 %}
+                Active
+            {% else %}
+                Deactivated
+            {% endif %}
+        </td>
+        <td>
+            {% if user[3] == "admin" %}
+                -
+            {% elif user[5] == 1 %}
+                <form method="POST" action="{{ url_for('deactivate_user', user_id=user[0]) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-danger"
+                            onclick="return confirm('Are you sure you want to deactivate this user?')">
+                        Deactivate
+                    </button>
+                </form>
+            {% else %}
+                <form method="POST" action="{{ url_for('reactivate_user', user_id=user[0]) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="btn btn-success"
+                            onclick="return confirm('Are you sure you want to reactivate this user?')">
+                        Reactivate
+                    </button>
+                </form>
+            {% endif %}
+        </td>
     </tr>
     {% endfor %}
 </table>

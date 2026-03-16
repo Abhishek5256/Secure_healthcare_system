@@ -8,6 +8,7 @@
 # - username lookup
 # - clinician creation by admin
 # - user listing for admin management
+# - account deactivation and reactivation support
 
 import re
 import sqlite3
@@ -60,9 +61,6 @@ def username_exists(username):
 def register_user(email, username, password, role, patient_id=None):
     """
     Register a new user account.
-
-    Public registration should only be used for patient accounts.
-    Admin routes may also use this for clinician creation.
     """
     password_error = validate_password(password)
 
@@ -81,9 +79,9 @@ def register_user(email, username, password, role, patient_id=None):
     cursor = conn.cursor()
 
     cursor.execute("""
-        INSERT INTO users (email, username, password, role, patient_id)
-        VALUES (?, ?, ?, ?, ?)
-    """, (email, username, hashed_password, role, patient_id))
+        INSERT INTO users (email, username, password, role, patient_id, is_active)
+        VALUES (?, ?, ?, ?, ?, ?)
+    """, (email, username, hashed_password, role, patient_id, 1))
 
     conn.commit()
     conn.close()
@@ -92,11 +90,16 @@ def register_user(email, username, password, role, patient_id=None):
 def login_user(email, password):
     """
     Verify login credentials.
+
+    Login is allowed only if:
+    - email exists
+    - password matches
+    - account is active
     """
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
-    cursor.execute("SELECT password FROM users WHERE email = ?", (email,))
+    cursor.execute("SELECT password, is_active FROM users WHERE email = ?", (email,))
     result = cursor.fetchone()
 
     conn.close()
@@ -105,6 +108,12 @@ def login_user(email, password):
         return False
 
     stored_password = result[0]
+    is_active = result[1]
+
+    # Block login for deactivated accounts
+    if is_active != 1:
+        return False
+
     return check_password_hash(stored_password, password)
 
 
@@ -165,12 +174,14 @@ def get_username_by_email(email):
 def get_all_users():
     """
     Return all registered system users for admin management.
+
+    Includes active/inactive status so admin can see account state.
     """
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
 
     cursor.execute("""
-        SELECT id, email, username, role, patient_id
+        SELECT id, email, username, role, patient_id, is_active
         FROM users
         ORDER BY id ASC
     """)
@@ -178,3 +189,60 @@ def get_all_users():
 
     conn.close()
     return rows
+
+
+def deactivate_user_by_id(user_id):
+    """
+    Deactivate a user account by setting is_active to 0.
+
+    Built-in safety:
+    - admin accounts cannot be deactivated through this function
+    """
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    # Prevent admin deactivation
+    cursor.execute("SELECT role FROM users WHERE id = ?", (user_id,))
+    row = cursor.fetchone()
+
+    if not row:
+        conn.close()
+        return 0
+
+    role = row[0]
+
+    if role == "admin":
+        conn.close()
+        return 0
+
+    cursor.execute("""
+        UPDATE users
+        SET is_active = 0
+        WHERE id = ?
+    """, (user_id,))
+
+    conn.commit()
+    affected = cursor.rowcount
+    conn.close()
+
+    return affected
+
+
+def reactivate_user_by_id(user_id):
+    """
+    Reactivate a user account by setting is_active to 1.
+    """
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        UPDATE users
+        SET is_active = 1
+        WHERE id = ?
+    """, (user_id,))
+
+    conn.commit()
+    affected = cursor.rowcount
+    conn.close()
+
+    return affected

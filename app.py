@@ -4,11 +4,10 @@
 # MongoDB is used for patient records.
 #
 # This version includes:
-# - patient-only public registration
-# - existing patients can register using an existing patient ID
-# - new patients can register without a patient ID
-# - when no patient ID is provided, a new MongoDB patient record is created
-# - SQLite stores only the linked user account data
+# - admin deactivation of user accounts
+# - admin reactivation of user accounts
+# - clinician deletion of patient records
+# - updated built-in login credentials
 
 from datetime import datetime, timedelta
 import csv
@@ -29,10 +28,13 @@ from auth import (
     get_user_patient_id,
     get_username_by_email,
     get_all_users,
+    deactivate_user_by_id,
+    reactivate_user_by_id,
 )
 from database import init_databases
 from patient import (
     add_patient_record,
+    delete_patient_record,
     get_all_patients,
     get_patient_by_mongo_id,
     get_patient_by_patient_id,
@@ -83,20 +85,13 @@ def has_allowed_role(allowed_roles):
 def convert_patient_for_display(patient):
     """
     Convert a MongoDB patient document into a template-friendly dictionary.
-
-    This function:
-    - converts MongoDB _id into string form
-    - ensures optional fields always exist
     """
     if not patient:
         return None
 
     patient_dict = dict(patient)
-
-    # Convert MongoDB ObjectId to string for URLs/templates
     patient_dict["id"] = str(patient_dict["_id"])
 
-    # Ensure optional fields exist for consistent display
     patient_dict.setdefault("appointment_date", "")
     patient_dict.setdefault("appointment_notes", "")
     patient_dict.setdefault("prescription_name", "")
@@ -116,9 +111,6 @@ def convert_patient_list_for_display(patients):
 def get_patient_safe_view_for_patient(patient):
     """
     Build a reduced patient-facing view of a record.
-
-    Patient can see only their own linked record.
-    Appointment notes are hidden from patients.
     """
     if not patient:
         return None
@@ -143,8 +135,6 @@ def get_upcoming_patient_appointment(patient_record):
     """
     Return appointment information only if the appointment exists
     and is today or in the future.
-
-    If the appointment date has already passed, return None.
     """
     if not patient_record:
         return None
@@ -185,11 +175,6 @@ def home():
 def register():
     """
     Public registration route for patients.
-
-    Registration behaviour:
-    - if patient enters an existing patient ID, link the account to that MongoDB record
-    - if patient leaves patient ID blank, create a brand-new MongoDB patient record
-      and link the new SQLite user account to that generated patient ID
     """
     if request.method == "POST":
         email = request.form["email"].strip()
@@ -197,27 +182,21 @@ def register():
         password = request.form["password"].strip()
         patient_id = request.form.get("patient_id", "").strip()
 
-        # Public registration is restricted to patient role only
         role = "patient"
 
-        # Basic required fields
         if not email or not username or not password:
             flash("Email, username, and password are required.")
             return redirect(url_for("register"))
 
         try:
-            # ---------------------------------------------------------
-            # Case 1: Existing patient enters a patient ID
-            # ---------------------------------------------------------
+            # Existing patient registration
             if patient_id:
                 patient_record = get_patient_by_patient_id(patient_id)
 
-                # If patient_id was given, it must already exist in MongoDB
                 if not patient_record:
                     flash("Entered Patient ID does not exist. Use a valid existing Patient ID, or leave it blank to create a new patient record.")
                     return redirect(url_for("register"))
 
-                # Register account in SQLite linked to the existing MongoDB record
                 register_user(
                     email=email,
                     username=username,
@@ -229,15 +208,10 @@ def register():
                 flash("Patient registration successful. Please log in.")
                 return redirect(url_for("login"))
 
-            # ---------------------------------------------------------
-            # Case 2: New patient leaves patient ID blank
-            # ---------------------------------------------------------
+            # New patient registration
             new_patient_id = generate_next_patient_id()
-
-            # First create a new placeholder record in MongoDB
             create_placeholder_patient_record(new_patient_id)
 
-            # Then create the SQLite user account linked to that record
             register_user(
                 email=email,
                 username=username,
@@ -315,6 +289,54 @@ def manage_users():
     return render_template("manage_users.html", users=users)
 
 
+@app.route("/deactivate_user/<int:user_id>", methods=["POST"])
+def deactivate_user(user_id):
+    """
+    Admin-only route to deactivate a user account.
+    """
+    if not is_logged_in():
+        flash("Please log in first.")
+        return redirect(url_for("login"))
+
+    if not has_allowed_role(["admin"]):
+        flash("Only admin can deactivate users.")
+        return redirect(url_for("dashboard"))
+
+    affected = deactivate_user_by_id(user_id)
+
+    if affected > 0:
+        log_event(session["email"], f"Deactivated user account with ID {user_id}")
+        flash("User deactivated successfully.")
+    else:
+        flash("User could not be deactivated.")
+
+    return redirect(url_for("manage_users"))
+
+
+@app.route("/reactivate_user/<int:user_id>", methods=["POST"])
+def reactivate_user(user_id):
+    """
+    Admin-only route to reactivate a user account.
+    """
+    if not is_logged_in():
+        flash("Please log in first.")
+        return redirect(url_for("login"))
+
+    if not has_allowed_role(["admin"]):
+        flash("Only admin can reactivate users.")
+        return redirect(url_for("dashboard"))
+
+    affected = reactivate_user_by_id(user_id)
+
+    if affected > 0:
+        log_event(session["email"], f"Reactivated user account with ID {user_id}")
+        flash("User reactivated successfully.")
+    else:
+        flash("User could not be reactivated.")
+
+    return redirect(url_for("manage_users"))
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     """
@@ -339,7 +361,7 @@ def login():
             flash("Login successful.")
             return redirect(url_for("dashboard"))
 
-        flash("Invalid email or password.")
+        flash("Invalid email or password, or account is deactivated.")
         return redirect(url_for("login"))
 
     return render_template("login.html")
@@ -362,8 +384,6 @@ def logout():
 def dashboard():
     """
     Show role-specific dashboard.
-
-    For patient users, also show upcoming appointment if one exists.
     """
     if not is_logged_in():
         flash("Please log in first.")
@@ -759,6 +779,36 @@ def edit_patient(record_id):
         return redirect(url_for("patient_view_page"))
 
     return render_template("edit_patient.html", patient=patient_for_display)
+
+
+@app.route("/delete_patient/<record_id>", methods=["POST"])
+def delete_patient(record_id):
+    """
+    Clinician-only route for deleting a selected patient record.
+    """
+    if not is_logged_in():
+        flash("Please log in first.")
+        return redirect(url_for("login"))
+
+    if not has_allowed_role(["clinician"]):
+        flash("Only clinician can delete patient records.")
+        return redirect(url_for("dashboard"))
+
+    patient = get_patient_by_mongo_id(record_id)
+    if not patient:
+        flash("Patient record not found.")
+        return redirect(url_for("patient_view_page"))
+
+    patient_for_display = convert_patient_for_display(patient)
+    deleted_count = delete_patient_record(record_id)
+
+    if deleted_count > 0:
+        log_event(session["email"], f"Deleted patient record {patient_for_display['patient_id']}")
+        flash("Patient record deleted successfully.")
+    else:
+        flash("Patient record could not be deleted.")
+
+    return redirect(url_for("patient_view_page"))
 
 
 if __name__ == "__main__":
