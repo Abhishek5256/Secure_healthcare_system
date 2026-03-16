@@ -1,237 +1,215 @@
 # STRIDE Threat Model
 
-## 1. System Overview
+## 1. Introduction
 
-The system is a secure healthcare web application that supports:
+This document explains the main security threats in the Secure Healthcare System using the STRIDE model.
 
-- user registration and login
-- email-based authentication
-- role-based access control
-- patient-linked registration for patient users
-- patient record creation
-- patient record viewing and searching
-- patient record updating
-- patient record deletion
-- patient self-service record viewing for registered patient users
+STRIDE stands for:
 
-Authentication and account data are stored in SQLite, while patient health records are stored in MongoDB.
+- **S** = Spoofing
+- **T** = Tampering
+- **R** = Repudiation
+- **I** = Information Disclosure
+- **D** = Denial of Service
+- **E** = Elevation of Privilege
 
----
-
-## 2. Key Assets
-
-The main assets that require protection are:
-
-1. User credentials
-2. User roles and access permissions
-3. Patient medical records
-4. Session data
-5. Audit log entries
-6. Database integrity
-7. System availability
-8. Patient-linked identity relationships between user accounts and patient IDs
+The purpose of this document is to show the main security risks in the system and how the current design reduces them.
 
 ---
 
-## 3. Main Actors
+## 2. Main System Assets
 
-The main actors interacting with the system are:
+The main assets that need protection are:
 
-- Administrator
-- Clinician
-- Patient
-- Unauthenticated external user
-- Potential malicious attacker
+- user accounts
+- passwords
+- user roles
+- patient records
+- appointment data
+- prescription data
+- session data
+- audit logs
 
----
-
-## 4. Main Entry Points
-
-The main entry points in the system are:
-
-- Registration page
-- Login page
-- Dashboard
-- Add patient page
-- View/Search patient page
-- Edit patient page
-- Delete patient request
-- Database connections
-- Session cookies
-- Username availability checks
-- Patient ID registration validation
+These are important because they include sensitive healthcare and account information.
 
 ---
 
-## 5. STRIDE Threat Analysis
+## 3. Main Users
 
-| STRIDE Category | Example Threat in This System | Affected Asset | Possible Impact | Mitigation in System |
-|-----------------|-------------------------------|----------------|-----------------|----------------------|
-| Spoofing | An attacker attempts to log in using guessed or stolen credentials | User accounts, patient records | Unauthorised access to sensitive healthcare data | Password hashing, email-based login, secure session handling |
-| Tampering | A malicious or unauthorised user changes patient data | Patient records | Corrupted clinical records, loss of integrity | Role-based access control, validation rules, CSRF protection, controlled update routes |
-| Repudiation | A user denies modifying or viewing a patient record | Auditability, accountability | Difficult investigation of misuse | Audit logging of login, add, edit, search, view, and delete actions |
-| Information Disclosure | A patient or attacker views records not intended for them | Patient confidentiality | Privacy breach and disclosure of sensitive medical data | Protected routes, role-based access, patient-specific record restriction, session validation |
-| Denial of Service | Repeated requests overload routes or data access functions | Application availability | Users cannot access the system when needed | Basic access controls exist; residual DoS risk remains because no rate limiting is implemented |
-| Elevation of Privilege | A lower-privileged user attempts to access admin/clinician features | Access permissions, patient records | Unauthorised record creation, editing, deletion, or search | Server-side role checks before protected actions |
+The main users in the system are:
+
+- admin
+- clinician
+- patient
+- unauthorised outsider
 
 ---
 
-## 6. Threats Arising from Business Processes
+## 4. STRIDE Analysis
 
-### 6.1 Registration Process
-Threats:
-- Spoofing
-- Tampering
-- Elevation of Privilege
+## 4.1 Spoofing
 
-Reason:
-The registration process establishes new identities and role assignments. If abused, unauthorised users could obtain access or create misleading accounts.
+### Threat
+An attacker pretends to be a valid user.
 
-Mitigations:
-- Email format validation
-- Username uniqueness checks
-- Password strength enforcement
-- Patient registration linked to valid patient ID
-- Password uniqueness rule across users
+### Example
+Someone tries to log in as:
+- admin
+- clinician
+- patient
 
-### 6.2 Authentication Process
-Threats:
-- Spoofing
-- Information Disclosure
-- Elevation of Privilege
+using stolen or guessed credentials.
 
-Reason:
-The login process protects all restricted application functions. If compromised, attackers may gain access to sensitive healthcare data and management operations.
+### Risk
+If successful, the attacker may gain access to sensitive healthcare data or administrative features.
 
-Mitigations:
-- Password hashing
-- Email-based login
-- Session-based authentication
-- Secure session cookie settings
-- Logout session clearing
-
-### 6.3 Patient Record Creation
-Threats:
-- Tampering
-- Elevation of Privilege
-- Repudiation
-
-Reason:
-Creating patient records affects healthcare data quality and record integrity.
-
-Mitigations:
-- Restricted access by authenticated role
-- Validation of age, resting blood pressure, and cholesterol
-- CSRF protection
-- Audit logging
-
-### 6.4 Patient Record Search and Viewing
-Threats:
-- Information Disclosure
-- Spoofing
-- Elevation of Privilege
-
-Reason:
-Viewing patient data exposes sensitive information and must be carefully restricted.
-
-Mitigations:
-- Protected routes
-- Role-based access control
-- Patient-specific record restriction for patient users
-- Session validation
-- Search restriction to authenticated roles
-
-### 6.5 Patient Record Updating
-Threats:
-- Tampering
-- Repudiation
-- Elevation of Privilege
-
-Reason:
-Updating patient records can alter medical information relied on by staff.
-
-Mitigations:
-- Role restriction
-- Validation rules
-- CSRF protection
-- Audit logging of updates
-
-### 6.6 Patient Record Deletion
-Threats:
-- Tampering
-- Repudiation
-- Denial of Service through malicious record removal
-
-Reason:
-Deletion removes healthcare data and may damage integrity or availability if abused.
-
-Mitigations:
-- Role restriction
-- Confirmation dialog in the interface
-- CSRF protection
-- Audit logging
-
-### 6.7 Patient Self-Service Record Access
-Threats:
-- Information Disclosure
-- Elevation of Privilege
-
-Reason:
-A patient account should be able to view only the record linked to its registered patient ID.
-
-Mitigations:
-- Session-linked patient ID
-- Patient-specific lookup in MongoDB
-- Restriction to one linked record only
+### Current controls
+- login requires email and password
+- passwords are hashed
+- session-based authentication is used
+- inactive users cannot log in
 
 ---
 
-## 7. Implemented Security Controls Linked to Threats
+## 4.2 Tampering
 
-The system currently implements the following secure programming controls:
+### Threat
+Someone changes data in an unauthorised way.
 
-1. **Password hashing**  
-   Passwords are hashed before storage, reducing the impact of authentication database exposure.
+### Example
+A user tries to:
+- edit patient records without permission
+- delete patient records without permission
+- change appointment or prescription data incorrectly
 
-2. **Input validation**  
-   Numeric clinical values such as age, resting blood pressure, and cholesterol are validated before storage.
+### Risk
+Patient information may become inaccurate or harmful.
 
-3. **CSRF protection**  
-   POST forms are protected using CSRF tokens to reduce forged cross-site requests.
-
-4. **Secure session configuration**  
-   The application uses:
-   - `SESSION_COOKIE_HTTPONLY`
-   - `SESSION_COOKIE_SAMESITE`
-   - controlled session lifetime  
-   These reduce session theft and cross-site abuse risk.
-
-5. **Role-based access control**  
-   Only authorised roles can access protected patient-management functions.
-
-6. **Patient-specific record restriction**  
-   Patient users can access only the record linked to their registered patient ID.
-
-7. **Username uniqueness and password policy**  
-   Usernames must be unique, and passwords must satisfy a defined complexity policy.
-
-8. **Audit logging**  
-   Important actions are written to an audit log to support accountability.
+### Current controls
+- role-based route restrictions
+- clinician-only record management
+- validation of important fields
+- CSRF protection on forms
 
 ---
 
-## 8. Residual Risks
+## 4.3 Repudiation
 
-Some risks remain partially mitigated:
+### Threat
+A user denies performing an action.
 
-1. No rate limiting is currently implemented, so denial-of-service risk remains.
-2. `SESSION_COOKIE_SECURE` is disabled in local development because the app is tested over HTTP rather than HTTPS.
-3. MongoDB security still depends on local database server configuration.
-4. No multi-factor authentication is implemented.
-5. The system does not yet include advanced intrusion detection or anomaly monitoring.
+### Example
+A clinician denies deleting a patient record.
+An admin denies deactivating a user.
+
+### Risk
+It becomes difficult to know who performed a sensitive action.
+
+### Current controls
+- audit logging
+- login/logout logging
+- record action logging
+- user-management action logging
 
 ---
 
-## 9. Summary
+## 4.4 Information Disclosure
 
-The STRIDE model shows that the main security risks in this healthcare system arise from authentication, patient record access, record modification functions, and user interaction with sensitive health data. The current system mitigates several of these risks through password hashing, input validation, CSRF protection, secure session handling, role-based access control, patient-specific record restriction, and audit logging. Some residual risks remain and could be improved in future development.
+### Threat
+Sensitive data is shown to someone who should not see it.
+
+### Example
+- a patient tries to access another patient’s record
+- an unauthorised user tries to open protected routes
+- too much information is shown to the wrong role
+
+### Risk
+Private healthcare information may be exposed.
+
+### Current controls
+- patient can view only their own linked data
+- clinician-only patient record routes
+- admin does not access patient record pages
+- protected routes require login
+
+---
+
+## 4.5 Denial of Service
+
+### Threat
+The system becomes unavailable or difficult to use.
+
+### Example
+An attacker sends too many requests or repeatedly tries to log in.
+
+### Risk
+Valid users may not be able to use the system.
+
+### Current controls
+- only basic protections currently exist
+- there is no strong rate limiting yet
+
+### Remaining weakness
+This is still a remaining risk in the current project.
+
+---
+
+## 4.6 Elevation of Privilege
+
+### Threat
+A user gains a higher level of access than allowed.
+
+### Example
+- patient tries to access clinician pages
+- clinician tries to access admin user-management functions
+- deactivated user tries to continue using the system
+
+### Risk
+Unauthorised actions may be performed.
+
+### Current controls
+- server-side role checks
+- role-based dashboard and navigation
+- active/inactive account checks
+- route restrictions for admin, clinician, and patient
+
+---
+
+## 5. Summary Table
+
+| STRIDE Type | Example in This System | Risk | Current Control |
+|-------------|------------------------|------|-----------------|
+| Spoofing | Fake login attempt | Unauthorised access | Password hashing, login checks |
+| Tampering | Unauthorised record update/delete | Wrong or unsafe patient data | Role checks, validation, CSRF |
+| Repudiation | User denies an action | Poor accountability | Audit logging |
+| Information Disclosure | Patient sees another patient’s data | Privacy breach | Patient-only own-data rule |
+| Denial of Service | Too many login requests | System unavailable | Limited current controls |
+| Elevation of Privilege | Patient accesses clinician route | Unauthorised actions | Server-side role checks |
+
+---
+
+## 6. Most Important Threats in This System
+
+The most important threats are:
+
+### 1. Information disclosure
+Because healthcare data is sensitive, exposing one patient’s data to another person would be serious.
+
+### 2. Elevation of privilege
+If a patient or clinician accesses a higher-level role’s features, the system becomes unsafe.
+
+### 3. Tampering
+Changing or deleting patient records in an unauthorised way can directly affect care quality.
+
+---
+
+## 7. Remaining Risks
+
+Even with the current protections, some risks still remain:
+
+- no rate limiting
+- no multi-factor authentication
+- local development settings may not be fully production-safe
+- database server security depends on environment configuration
+
+---

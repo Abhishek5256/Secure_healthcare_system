@@ -1,204 +1,255 @@
 # Business Logic Analysis
 
-## 1. System Purpose
+## 1. Introduction
 
-The Secure Healthcare System is designed to support the secure storage, retrieval, and management of patient records within a healthcare context. The system enables authorised users to register, log in, manage patient information, and access appointment and prescription details in a controlled way.
+The Secure Healthcare System is designed to manage healthcare records in a secure and role-based way. The system supports three main users:
 
-The core business goal is to support healthcare workflows while protecting patient confidentiality, preserving data integrity, and ensuring accountability.
+- admin
+- clinician
+- patient
+
+Each user has different responsibilities and different levels of access. This is important because healthcare data is sensitive and should only be accessed by the right person.
+
+The business logic of the system explains how the system works according to healthcare needs and user roles.
 
 ---
 
-## 2. Main User Roles
+## 2. Main Business Goal
 
-The system supports three main user roles:
+The main goal of the system is to allow healthcare records to be stored and managed securely while making sure:
 
-### Administrator
-The administrator is responsible for broad record management tasks. In the current system, the administrator can:
-- register and log in
+- only authorised users can log in
+- users can only perform the actions allowed for their role
+- patients can only see their own data
+- healthcare staff can manage patient records properly
+- the system keeps a clear separation between account data and patient data
+
+---
+
+## 3. User Roles and Responsibilities
+
+## 3.1 Admin
+
+The admin is responsible for user management only.
+
+### Admin can:
+- log in
+- view all system users
+- register clinician accounts
+- deactivate users
+- reactivate users
+
+### Admin cannot:
 - add patient records
-- view all patient records
-- search for patient records
+- view patient records
 - edit patient records
 - delete patient records
 
-### Clinician
-The clinician supports patient care by working with existing healthcare records. In the current system, the clinician can:
-- register and log in
+### Business reason
+The admin manages the system users, but does not take part in patient treatment or patient record handling. This reduces unnecessary exposure to sensitive patient information.
+
+---
+
+## 3.2 Clinician
+
+The clinician is responsible for patient record management.
+
+### Clinician can:
+- log in
 - add patient records
 - view all patient records
-- search for patient records
+- search patient records by patient ID
 - edit patient records
 - delete patient records
+- see booked patient data
 
-### Patient
-The patient is a restricted end user whose access is limited to their own linked record. In the current system, the patient can:
-- register and log in
-- register only with a valid existing patient ID
-- view only the record linked to their patient ID
-- view appointment and prescription information related to their own record
+### Clinician cannot:
+- manage users
+- register admin accounts
+- manage system user activation
 
----
-
-## 3. Core Healthcare Workflows
-
-## 3.1 Registration and Access Workflow
-
-### Business Need
-Healthcare systems must ensure that only valid users can gain access to protected data and functions.
-
-### System Behaviour
-- users register with email, username, password, and role
-- patient users must provide a valid patient ID already present in the healthcare record system
-- users log in using email and password
-- a session is created after successful authentication
-- the dashboard is shown after login
-
-### Healthcare Relevance
-This workflow supports controlled access to healthcare information and helps prevent unauthorised entry into the system.
+### Business reason
+The clinician is the healthcare worker who needs access to patient data in order to manage records, treatment information, prescriptions, and appointments.
 
 ---
 
-## 3.2 Patient Record Creation Workflow
+## 3.3 Patient
 
-### Business Need
-Healthcare organisations must be able to create records for new patients in a structured and accurate form.
+The patient is responsible only for their own account and appointment actions.
 
-### System Behaviour
-- authorised staff can add a patient record
-- required medical fields must be entered
-- appointment and prescription information can also be recorded
-- duplicate patient IDs are blocked
-- invalid medical values are rejected
+### Patient can:
+- register
+- log in
+- book appointments
+- view only their own linked data
+- download only their own linked data
 
-### Healthcare Relevance
-This workflow supports the initial creation of patient records and helps maintain data quality.
+### Patient cannot:
+- view other patients’ records
+- add patient records
+- edit patient records
+- delete patient records
+- access clinician-only pages
 
----
-
-## 3.3 Patient Record Viewing Workflow
-
-### Business Need
-Healthcare staff need access to patient information for treatment and administrative purposes, while patients should only see their own data.
-
-### System Behaviour
-- admin and clinician users can view all patient records
-- admin and clinician users can search by patient ID
-- patient users can view only their own linked record
-- records include medical fields, appointment details, and prescription details
-
-### Healthcare Relevance
-This workflow supports clinical review, administrative access, and controlled patient self-service.
+### Business reason
+A patient should only access their own information. This protects privacy and matches the idea of least privilege.
 
 ---
 
-## 3.4 Patient Record Editing Workflow
+## 4. Main Business Processes
 
-### Business Need
-Patient records must be updateable when medical or administrative details change.
+## 4.1 Patient Registration
 
-### System Behaviour
-- admin and clinician users can select a patient record
-- the selected record opens in the edit page
-- existing values are prefilled
-- updated values are saved back to the same selected record
-- appointment and prescription details can also be updated
+The system allows only patients to register publicly.
 
-### Healthcare Relevance
-This supports continuity of care by allowing records to remain accurate over time.
+There are two registration paths:
 
----
+### Existing patient
+If the patient already has a patient record in MongoDB, they register using their patient ID.
 
-## 3.5 Patient Record Deletion Workflow
+### New patient
+If the patient does not already have a patient ID, they leave the field blank. The system then:
+- creates a new patient ID
+- creates a placeholder patient record in MongoDB
+- creates a linked user account in SQLite
 
-### Business Need
-In some situations, healthcare systems require record deletion or record clean-up by authorised staff.
-
-### System Behaviour
-- admin and clinician users can delete selected patient records
-- deletion is tied to a specific selected record
-- deletion is logged for accountability
-
-### Healthcare Relevance
-This workflow supports controlled record management while maintaining accountability.
+### Business reason
+This supports both:
+- patients already known to the healthcare system
+- completely new patients entering the system for the first time
 
 ---
 
-## 3.6 Appointment Management Workflow
+## 4.2 User Login
 
-### Business Need
-Appointments are an important part of healthcare coordination and follow-up.
+All users log in using:
+- email
+- password
 
-### System Behaviour
-- patient records can contain an appointment date
-- patient records can contain appointment notes
-- appointment information is visible in add, edit, and view workflows
+The system checks:
+- whether the email exists
+- whether the password is correct
+- whether the account is active
 
-### Healthcare Relevance
-This supports follow-up care, appointment scheduling visibility, and ongoing patient management.
-
----
-
-## 3.7 Prescription Management Workflow
-
-### Business Need
-Prescriptions are an important part of ongoing treatment and should be documented with patient records.
-
-### System Behaviour
-- patient records can store prescription name
-- patient records can store dosage details
-- patient records can store prescription notes
-- prescription information is available in add, edit, and view workflows
-
-### Healthcare Relevance
-This supports medication tracking and improves the usefulness of the patient record.
+### Business reason
+Login protects the system from unauthorised access and ensures only valid users enter the system.
 
 ---
 
-## 4. Workflow-to-System Function Mapping
+## 4.3 User Management
 
-| Healthcare Workflow | Main Actor | System Function |
-|---------------------|------------|-----------------|
-| Register for access | All users | Register account |
-| Authenticate into system | All users | Login |
-| Maintain active authenticated session | All users | Session management |
-| Create patient record | Admin / Clinician | Add patient |
-| View all patient records | Admin / Clinician | Patient view |
-| Search for a patient | Admin / Clinician | Patient search |
-| Update a selected patient record | Admin / Clinician | Edit patient |
-| Delete a selected patient record | Admin / Clinician | Delete patient |
-| View own linked record | Patient | Patient self-view |
-| Store appointment data | Admin / Clinician | Add/Edit patient |
-| Store prescription data | Admin / Clinician | Add/Edit patient |
-| Accountability of actions | Staff users | Audit logging |
+The admin manages users through the Manage Users page.
+
+This includes:
+- viewing users
+- registering clinicians
+- deactivating users
+- reactivating users
+
+### Business reason
+The healthcare system needs controlled user administration, but this should be separate from patient care functions.
 
 ---
 
-## 5. Business Rules
+## 4.4 Patient Record Management
 
-The system enforces the following business rules:
+The clinician manages patient records.
 
-1. All protected routes require authenticated access.
-2. Patient users may only view the record linked to their own patient ID.
-3. Patient registration is allowed only if the patient ID already exists in the system.
-4. Patient IDs must be unique within patient records.
-5. Required medical fields must be completed before a record is stored.
-6. Age, resting blood pressure, and cholesterol must pass validation checks.
-7. Appointment and prescription information may be stored with the patient record.
-8. Important user actions should be logged for accountability.
+This includes:
+- creating records
+- viewing records
+- searching records by patient ID
+- updating records
+- deleting records
 
----
+Each patient record can store:
+- health data
+- appointment data
+- prescription data
 
-## 6. Security Relevance of the Business Logic
-
-The business logic is directly linked to healthcare security needs:
-
-- **Confidentiality** is supported through role-based access and patient-specific record restriction.
-- **Integrity** is supported through validation, controlled editing, and duplicate prevention.
-- **Availability** is supported by maintaining accessible digital records for authorised users.
-- **Accountability** is supported through audit logging of important actions.
+### Business reason
+Clinicians need complete access to patient records to support treatment and record management.
 
 ---
 
-## 7. Conclusion
+## 4.5 Appointment Booking
 
-The business logic of the Secure Healthcare System maps closely to core healthcare workflows such as user access control, patient record creation, record review, record updates, appointment tracking, and prescription tracking. The current system design supports these workflows while applying security controls that are appropriate for handling sensitive healthcare data.
+Patients can book their own appointments.
+
+The appointment is stored in the patient’s MongoDB record.
+
+The patient can also see an upcoming appointment on the dashboard if the appointment date has not passed yet.
+
+### Business reason
+Patients need a simple self-service function for appointments, but they should not be able to change clinical record data.
+
+---
+
+## 4.6 Patient Self-Service Data Access
+
+Patients can open **My Data** to see only their own linked record.
+
+This page shows:
+- personal health-related fields
+- appointment date
+- prescription data
+
+Patients can also download their own data as CSV.
+
+### Business reason
+Patients should be able to access their own information, but not other patients’ records.
+
+---
+
+## 5. Data Separation Logic
+
+The system uses two databases:
+
+### SQLite
+Stores:
+- email
+- username
+- password hash
+- role
+- linked patient ID
+- active/inactive status
+
+### MongoDB
+Stores:
+- patient records
+- appointment data
+- prescription data
+
+### Business reason
+Authentication data and healthcare record data are different types of information. Keeping them separate improves system design and reduces unnecessary risk.
+
+---
+
+## 6. Important Business Rules
+
+The system follows these important rules:
+
+1. Only patients can register publicly.
+2. Admin manages users only.
+3. Clinician manages patient records only.
+4. Patients can access only their own linked record.
+5. Patients cannot access clinician-only routes.
+6. Deactivated users cannot log in.
+7. Each patient user account must be linked to a patient record in MongoDB.
+8. Clinicians can search patient records by patient ID.
+9. Clinicians can delete patient records.
+10. Admin can deactivate and reactivate users.
+
+---
+
+## 7. Why This Business Logic Is Suitable
+
+This business logic is suitable because it matches healthcare needs:
+
+- it protects patient privacy
+- it limits user access by role
+- it allows patient self-service without exposing other records
+- it supports proper patient record management by clinicians
+- it separates administrative work from clinical work
+
+---
