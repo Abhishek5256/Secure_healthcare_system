@@ -4,26 +4,27 @@
 
 <div class="card center-card">
 
-    <h2>User Registration</h2>
+    <h2>Patient Registration</h2>
 
-    <p>Create a new account to access the secure healthcare system.</p>
+    <p>Patients can register in two ways:</p>
+    <p>
+        1. If your patient data already exists in the system, enter your Patient ID.<br>
+        2. If you are a new patient and do not yet have a Patient ID, leave it blank and the system will create one for you automatically.
+    </p>
 
     <form method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
         <label>Email Address</label>
         <input type="email" name="email" required>
-
         <br><br>
 
         <label>Username</label>
         <input type="text" name="username" required>
-
         <br><br>
 
         <label>Password</label>
         <input type="password" name="password" required>
-
         <br><br>
 
         <p>
@@ -35,28 +36,16 @@
             - At least one special character
         </p>
 
-        <label>Role</label>
-        <select name="role" id="role" required onchange="togglePatientIdField()">
-            <option value="">Select role</option>
-            <option value="admin">Admin</option>
-            <option value="clinician">Clinician</option>
-            <option value="patient">Patient</option>
-        </select>
-
+        <label>Patient ID (Optional)</label>
+        <input type="text" name="patient_id">
         <br><br>
 
-        <div id="patient-id-section" style="display: none;">
-            <label>Patient ID</label>
-            <input type="text" name="patient_id" id="patient_id">
+        <p>
+            Enter Patient ID only if your patient record already exists in the system.
+            If you are a new patient, leave it blank and a new patient record with a new Patient ID will be created automatically.
+        </p>
 
-            <br><br>
-
-            <p>
-                Patients can register only if the Patient ID already exists in the healthcare record system.
-            </p>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary">Register as Patient</button>
     </form>
 
     <hr>
@@ -65,24 +54,5 @@
     <p><a href="/login">Go to login</a></p>
 
 </div>
-
-<script>
-function togglePatientIdField() {
-    const roleField = document.getElementById("role");
-    const patientSection = document.getElementById("patient-id-section");
-    const patientInput = document.getElementById("patient_id");
-
-    if (roleField.value === "patient") {
-        patientSection.style.display = "block";
-        patientInput.required = true;
-    } else {
-        patientSection.style.display = "none";
-        patientInput.required = false;
-        patientInput.value = "";
-    }
-}
-
-window.onload = togglePatientIdField;
-</script>
 
 {% endblock %}

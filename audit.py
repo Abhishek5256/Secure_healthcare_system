@@ -1,4 +1,3 @@
-# audit.py
 # Writes simple audit events to a local log file.
 
 from datetime import datetime

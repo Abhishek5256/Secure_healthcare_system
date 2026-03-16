@@ -1,16 +1,13 @@
-"""
-auth.py
-
-Handles authentication logic:
-- user registration
-- login verification
-- password security validation
-- user role lookup
-- patient_id lookup for patient accounts
-- username lookup for dashboard display
-- unique username enforcement
-- unique password enforcement across all users
-"""
+# auth.py
+# Handles authentication logic:
+# - user registration
+# - login verification
+# - password validation
+# - user role lookup
+# - patient_id lookup
+# - username lookup
+# - clinician creation by admin
+# - user listing for admin management
 
 import re
 import sqlite3
@@ -22,15 +19,7 @@ DATABASE = "users.db"
 def validate_password(password):
     """
     Validate password strength according to system policy.
-
-    Requirements:
-    - minimum length 8
-    - maximum length 15
-    - at least one uppercase letter
-    - at least one lowercase letter
-    - at least one special symbol
     """
-
     if len(password) < 8 or len(password) > 15:
         return "Password must be between 8 and 15 characters."
 
@@ -68,30 +57,12 @@ def username_exists(username):
     return result is not None
 
 
-def password_already_used(password):
-    """
-    Return True if the plaintext password matches any existing stored password hash.
-    This enforces that no two user accounts can use the same password.
-    """
-    conn = sqlite3.connect(DATABASE)
-    cursor = conn.cursor()
-
-    cursor.execute("SELECT password FROM users")
-    rows = cursor.fetchall()
-
-    conn.close()
-
-    for row in rows:
-        stored_hash = row[0]
-        if check_password_hash(stored_hash, password):
-            return True
-
-    return False
-
-
 def register_user(email, username, password, role, patient_id=None):
     """
-    Register a new system user.
+    Register a new user account.
+
+    Public registration should only be used for patient accounts.
+    Admin routes may also use this for clinician creation.
     """
     password_error = validate_password(password)
 
@@ -103,9 +74,6 @@ def register_user(email, username, password, role, patient_id=None):
 
     if username_exists(username):
         raise Exception("Username already exists. Please choose a different username.")
-
-    if password_already_used(password):
-        raise Exception("This password is already used by another account. Please choose a different password.")
 
     hashed_password = generate_password_hash(password)
 
@@ -179,7 +147,6 @@ def get_user_patient_id(email):
 def get_username_by_email(email):
     """
     Return the username linked to the given email.
-    This is used for dashboard display and session display.
     """
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
@@ -193,3 +160,21 @@ def get_username_by_email(email):
         return result[0]
 
     return None
+
+
+def get_all_users():
+    """
+    Return all registered system users for admin management.
+    """
+    conn = sqlite3.connect(DATABASE)
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT id, email, username, role, patient_id
+        FROM users
+        ORDER BY id ASC
+    """)
+    rows = cursor.fetchall()
+
+    conn.close()
+    return rows

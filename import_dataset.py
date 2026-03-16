@@ -1,6 +1,4 @@
-# import_dataset.py
 # Imports only the required attributes from the uploaded CSV into MongoDB.
-# The original CSV values are preserved as they appear in the source file.
 
 import csv
 import os

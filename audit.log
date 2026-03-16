@@ -295,3 +295,121 @@
 [2026-03-11 18:28:46] User: admin@gmail.com | Action: Searched patient record 123
 [2026-03-11 18:28:51] User: admin@gmail.com | Action: User logged out
 [2026-03-11 18:44:02] User: Unknown | Action: User logged out
+[2026-03-12 00:02:51] User: clinician@gmail.com | Action: User logged in
+[2026-03-12 00:02:58] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-12 00:03:04] User: clinician@gmail.com | Action: Searched patient record 123
+[2026-03-12 00:03:11] User: clinician@gmail.com | Action: Searched patient record 12
+[2026-03-12 00:03:25] User: clinician@gmail.com | Action: Search failed for patient record 1234
+[2026-03-12 00:03:37] User: clinician@gmail.com | Action: Search failed for patient record 1234
+[2026-03-12 00:05:50] User: clinician@gmail.com | Action: Added patient record 1234
+[2026-03-12 00:05:50] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-12 00:05:54] User: clinician@gmail.com | Action: Searched patient record 1234
+[2026-03-12 00:06:29] User: clinician@gmail.com | Action: Updated patient record 1234
+[2026-03-12 00:06:29] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-12 00:06:35] User: clinician@gmail.com | Action: User logged out
+[2026-03-13 17:36:42] User: clinician@gmail.com | Action: User logged in
+[2026-03-13 17:36:46] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-13 17:37:34] User: clinician@gmail.com | Action: Searched patient record 1234
+[2026-03-13 17:39:10] User: clinician@gmail.com | Action: Updated patient record 1234
+[2026-03-13 17:39:10] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-13 17:39:15] User: clinician@gmail.com | Action: User logged out
+[2026-03-13 17:39:31] User: admin@gmail.com | Action: User logged in
+[2026-03-13 17:40:10] User: admin@gmail.com | Action: User logged out
+[2026-03-13 17:44:55] User: admin@gmail.com | Action: User logged in
+[2026-03-13 17:45:04] User: admin@gmail.com | Action: Viewed all patient records
+[2026-03-13 17:45:37] User: admin@gmail.com | Action: User logged out
+[2026-03-13 18:01:51] User: admin@gmail.com | Action: User logged in
+[2026-03-13 18:02:26] User: admin@gmail.com | Action: Viewed all patient records
+[2026-03-13 18:02:30] User: admin@gmail.com | Action: User logged out
+[2026-03-16 09:45:41] User: admin@gmail.com | Action: User logged in
+[2026-03-16 09:45:50] User: admin@gmail.com | Action: User logged out
+[2026-03-16 09:45:59] User: patient@gmail.com | Action: User logged in
+[2026-03-16 09:46:02] User: patient@gmail.com | Action: Viewed own patient record 123
+[2026-03-16 09:46:08] User: patient@gmail.com | Action: Viewed own patient record 123
+[2026-03-16 09:46:16] User: patient@gmail.com | Action: User logged out
+[2026-03-16 09:46:27] User: clinician@gmail.com | Action: User logged in
+[2026-03-16 09:46:30] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 09:46:54] User: clinician@gmail.com | Action: Updated patient record 1234
+[2026-03-16 09:46:54] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 09:49:22] User: clinician@gmail.com | Action: User logged out
+[2026-03-16 09:54:25] User: admin@gmail.com | Action: User logged in
+[2026-03-16 09:56:23] User: admin@gmail.com | Action: Viewed all patient records
+[2026-03-16 09:58:07] User: admin@gmail.com | Action: User logged out
+[2026-03-16 09:58:18] User: patient@gmail.com | Action: User logged in
+[2026-03-16 09:58:24] User: patient@gmail.com | Action: Viewed own patient record 123
+[2026-03-16 09:59:30] User: patient@gmail.com | Action: Viewed own patient record 123
+[2026-03-16 09:59:31] User: patient@gmail.com | Action: Viewed own patient record 123
+[2026-03-16 09:59:35] User: patient@gmail.com | Action: User logged out
+[2026-03-16 09:59:43] User: clinician@gmail.com | Action: User logged in
+[2026-03-16 09:59:47] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 10:00:29] User: clinician@gmail.com | Action: User logged out
+[2026-03-16 10:05:06] User: patient@gmail.com | Action: User logged in
+[2026-03-16 10:05:10] User: patient@gmail.com | Action: Viewed own patient record 123
+[2026-03-16 10:05:23] User: patient@gmail.com | Action: User logged out
+[2026-03-16 10:05:44] User: clinician@gmail.com | Action: User logged in
+[2026-03-16 10:05:48] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 10:06:19] User: clinician@gmail.com | Action: User logged out
+[2026-03-16 10:07:08] User: admin@gmail.com | Action: User logged in
+[2026-03-16 10:08:04] User: admin@gmail.com | Action: User logged out
+[2026-03-16 11:32:07] User: admin@gmail.com | Action: User logged in
+[2026-03-16 11:33:02] User: admin@gmail.com | Action: Registered clinician account clinician2@gmail.com
+[2026-03-16 11:33:11] User: admin@gmail.com | Action: User logged out
+[2026-03-16 11:33:22] User: clinician@gmail.com | Action: User logged in
+[2026-03-16 11:33:25] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 11:33:40] User: clinician@gmail.com | Action: Searched patient record 123
+[2026-03-16 11:33:56] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 11:34:02] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 11:34:10] User: clinician@gmail.com | Action: User logged out
+[2026-03-16 11:34:21] User: patient@gmail.com | Action: User logged in
+[2026-03-16 11:34:34] User: patient@gmail.com | Action: User logged out
+[2026-03-16 11:37:25] User: clinician@gmail.com | Action: User logged in
+[2026-03-16 11:37:29] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 11:37:35] User: clinician@gmail.com | Action: Searched patient record 123
+[2026-03-16 11:53:23] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 11:53:37] User: clinician@gmail.com | Action: User logged out
+[2026-03-16 11:58:14] User: admin@gmail.com | Action: User logged in
+[2026-03-16 11:58:49] User: admin@gmail.com | Action: User logged out
+[2026-03-16 11:58:59] User: clinician2@gmail.com | Action: User logged in
+[2026-03-16 11:59:07] User: clinician2@gmail.com | Action: Viewed all patient records
+[2026-03-16 11:59:31] User: clinician2@gmail.com | Action: User logged out
+[2026-03-16 11:59:53] User: patient@gmail.com | Action: User logged in
+[2026-03-16 12:00:49] User: patient@gmail.com | Action: Booked appointment for patient 123 on 2026-03-20
+[2026-03-16 12:00:55] User: patient@gmail.com | Action: User logged out
+[2026-03-16 12:01:06] User: clinician@gmail.com | Action: User logged in
+[2026-03-16 12:01:08] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 12:02:23] User: clinician@gmail.com | Action: Updated patient record 1234
+[2026-03-16 12:02:23] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 12:03:04] User: clinician@gmail.com | Action: User logged out
+[2026-03-16 12:14:17] User: patient@gmail.com | Action: User logged in
+[2026-03-16 12:14:21] User: patient@gmail.com | Action: Viewed own data for patient 123
+[2026-03-16 12:14:27] User: patient@gmail.com | Action: Viewed own data for patient 123
+[2026-03-16 12:14:59] User: patient@gmail.com | Action: Viewed own data for patient 123
+[2026-03-16 12:15:21] User: patient@gmail.com | Action: User logged out
+[2026-03-16 12:15:48] User: patient@gmail.com | Action: User logged in
+[2026-03-16 12:15:50] User: patient@gmail.com | Action: Viewed own data for patient 123
+[2026-03-16 12:16:05] User: patient@gmail.com | Action: Viewed own data for patient 123
+[2026-03-16 12:16:08] User: patient@gmail.com | Action: User logged out
+[2026-03-16 13:01:51] User: clinician@gmail.com | Action: User logged in
+[2026-03-16 13:01:58] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 13:02:09] User: clinician@gmail.com | Action: Searched patient record 123
+[2026-03-16 13:02:14] User: clinician@gmail.com | Action: User logged out
+[2026-03-16 13:02:24] User: patient@gmail.com | Action: User logged in
+[2026-03-16 13:02:32] User: patient@gmail.com | Action: Viewed own data for patient 123
+[2026-03-16 13:02:39] User: patient@gmail.com | Action: User logged out
+[2026-03-16 13:09:17] User: patient@gmail.com | Action: User logged in
+[2026-03-16 13:09:40] User: patient@gmail.com | Action: Viewed own data for patient 123
+[2026-03-16 13:09:49] User: patient@gmail.com | Action: Viewed own data for patient 123
+[2026-03-16 13:11:04] User: patient@gmail.com | Action: Viewed own data for patient 123
+[2026-03-16 13:11:10] User: patient@gmail.com | Action: Downloaded own data for patient 123
+[2026-03-16 13:11:28] User: patient@gmail.com | Action: User logged out
+[2026-03-16 13:40:49] User: admin@gmail.com | Action: User logged in
+[2026-03-16 13:41:12] User: admin@gmail.com | Action: User logged out
+[2026-03-16 13:59:06] User: patient2@gmail.com | Action: User logged in
+[2026-03-16 13:59:10] User: patient2@gmail.com | Action: Viewed own data for patient 1235
+[2026-03-16 13:59:27] User: patient2@gmail.com | Action: User logged out
+[2026-03-16 13:59:36] User: clinician@gmail.com | Action: User logged in
+[2026-03-16 14:01:02] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 14:01:51] User: clinician@gmail.com | Action: Viewed all patient records
+[2026-03-16 14:01:55] User: clinician@gmail.com | Action: Searched patient record 1235
+[2026-03-16 14:02:02] User: clinician@gmail.com | Action: Searched patient record 1234
+[2026-03-16 14:02:06] User: clinician@gmail.com | Action: User logged out

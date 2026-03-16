@@ -1,4 +1,3 @@
-# security.py
 # Handles validation of patient data.
 
 def validate_patient_data(age, resting_bp, cholesterol):

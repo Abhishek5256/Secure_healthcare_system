@@ -1,5 +1,4 @@
 """
-tests.py
 
 Behavioural tests for the Secure Healthcare System.
 

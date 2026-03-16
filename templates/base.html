@@ -8,13 +8,27 @@
 
 <header class="site-header">
     <div class="container">
-        <h1 class="site-title">Heart Disease Patient Record System</h1>
+        <h1 class="site-title">Secure Healthcare System</h1>
 
         {% if session.email %}
         <nav class="site-nav">
             <a href="/dashboard">Dashboard</a>
-            <a href="/add_patient">Add Patient</a>
-            <a href="/patient_view">View Patients</a>
+
+            {% if session.role == "admin" %}
+                <a href="/manage_users">Manage Users</a>
+                <a href="/register_clinician">Register Clinician</a>
+            {% endif %}
+
+            {% if session.role == "clinician" %}
+                <a href="/patient_view">View Patients</a>
+                <a href="/add_patient">Add Patient</a>
+            {% endif %}
+
+            {% if session.role == "patient" %}
+                <a href="/book_appointment">Book Appointment</a>
+                <a href="/my_data">My Data</a>
+            {% endif %}
+
             <a href="/logout">Logout</a>
         </nav>
         {% endif %}
@@ -40,7 +54,7 @@
 
 <footer class="site-footer">
     <div class="container">
-        <p>Secure Healthcare System – Secure Software Development Coursework</p>
+        <p>Secure Healthcare System</p>
     </div>
 </footer>
 

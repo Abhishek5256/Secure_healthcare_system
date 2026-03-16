@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card center-card">
+
+    <h2>Book Appointment</h2>
+
+    <p>Use this form to book an appointment linked to your own patient record.</p>
+
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label>Appointment Date</label>
+        <input type="date" name="appointment_date" required>
+        <br><br>
+
+        <label>Appointment Notes</label>
+        <textarea name="appointment_notes" rows="4" style="width: 100%;"></textarea>
+        <small>Optional: include any relevant booking notes.</small>
+        <br><br>
+
+        <button type="submit" class="btn btn-success">Book Appointment</button>
+    </form>
+
+</div>
+
+{% endblock %}

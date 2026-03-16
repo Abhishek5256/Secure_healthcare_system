@@ -1,13 +1,14 @@
-"""
-database.py
-
-Handles both databases:
-- SQLite for authentication data
-- MongoDB for patient records
-"""
+# database.py
+# Handles both databases:
+# - SQLite for authentication data
+# - MongoDB for patient records
+#
+# This version also creates built-in admin and clinician accounts
+# if they do not already exist.
 
 import sqlite3
 from pymongo import MongoClient
+from werkzeug.security import generate_password_hash
 
 # ----------------------------------------
 # SQLite Configuration
@@ -43,13 +44,6 @@ def get_mongo_collection():
 def init_sqlite_database():
     """
     Create the users table if it does not already exist.
-
-    Fields:
-    - email: used for login
-    - username: used for dashboard display and must be unique
-    - password: hashed password
-    - role: admin / clinician / patient
-    - patient_id: required for patient registration validation
     """
     connection = get_sqlite_connection()
     cursor = connection.cursor()
@@ -69,8 +63,49 @@ def init_sqlite_database():
     connection.close()
 
 
+def seed_builtin_users():
+    """
+    Create built-in admin and clinician accounts if they do not already exist.
+
+    You can change these default values later, but they help ensure
+    that admin and clinician are not created through public registration.
+    """
+    connection = get_sqlite_connection()
+    cursor = connection.cursor()
+
+    # Built-in admin account
+    admin_email = "admin@gmail.com"
+    admin_username = "Admin1"
+    admin_password_hash = generate_password_hash("Admin@123")
+
+    # Built-in clinician account
+    clinician_email = "clinician@gmail.com"
+    clinician_username = "Clinician1"
+    clinician_password_hash = generate_password_hash("Clinician@123")
+
+    # Insert built-in admin if not already present
+    cursor.execute("SELECT id FROM users WHERE email = ?", (admin_email,))
+    if cursor.fetchone() is None:
+        cursor.execute("""
+            INSERT INTO users (email, username, password, role, patient_id)
+            VALUES (?, ?, ?, ?, ?)
+        """, (admin_email, admin_username, admin_password_hash, "admin", None))
+
+    # Insert built-in clinician if not already present
+    cursor.execute("SELECT id FROM users WHERE email = ?", (clinician_email,))
+    if cursor.fetchone() is None:
+        cursor.execute("""
+            INSERT INTO users (email, username, password, role, patient_id)
+            VALUES (?, ?, ?, ?, ?)
+        """, (clinician_email, clinician_username, clinician_password_hash, "clinician", None))
+
+    connection.commit()
+    connection.close()
+
+
 def init_databases():
     """
-    Initialise required databases.
+    Initialise all required databases and seed built-in users.
     """
     init_sqlite_database()
+    seed_builtin_users()

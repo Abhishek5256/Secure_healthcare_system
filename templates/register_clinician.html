@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card center-card">
+
+    <h2>Register Clinician</h2>
+
+    <p>Only admin can create clinician accounts.</p>
+
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <label>Email Address</label>
+        <input type="email" name="email" required>
+        <br><br>
+
+        <label>Username</label>
+        <input type="text" name="username" required>
+        <br><br>
+
+        <label>Password</label>
+        <input type="password" name="password" required>
+        <br><br>
+
+        <p>
+            <strong>Password Rules:</strong><br>
+            - Minimum 8 characters<br>
+            - Maximum 15 characters<br>
+            - At least one uppercase letter<br>
+            - At least one lowercase letter<br>
+            - At least one special character
+        </p>
+
+        <button type="submit" class="btn btn-success">Create Clinician</button>
+    </form>
+
+</div>
+
+{% endblock %}

@@ -4,13 +4,13 @@
 
 <h2>Edit Patient Record</h2>
 
-<!-- IMPORTANT:
-     This form must submit back to edit_patient for the SAME selected record.
-     It must not submit to add_patient. -->
+<!--
+This form edits the currently selected patient only.
+It submits back to the clinician edit route for that specific record.
+-->
 <form method="POST" action="{{ url_for('edit_patient', record_id=patient.id) }}">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-    <!-- Patient ID is shown only for reference and is not changed -->
     <p><strong>Patient ID:</strong> {{ patient.patient_id }}</p>
 
     <label>Age</label>
@@ -87,8 +87,6 @@
     <small>Optional: extra guidance relating to the prescription.</small>
     <br><br>
 
-    <!-- IMPORTANT:
-         Button text clearly says Update, not Add -->
     <button type="submit" class="btn btn-primary">Update Patient</button>
 </form>
 

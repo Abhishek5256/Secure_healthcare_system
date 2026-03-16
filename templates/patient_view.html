@@ -4,136 +4,110 @@
 
 <h2>Patient Records</h2>
 
-{% if role == "admin" or role == "clinician" %}
+<!-- Clinician-only search form -->
+<h3>Search Patient by Patient ID</h3>
+<form method="POST" action="{{ url_for('patient_search') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
-    <!-- Search form for staff roles -->
-    <h3>Search Patient by Patient ID</h3>
-    <form method="POST" action="{{ url_for('patient_search') }}">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    <label>Patient ID</label>
+    <input type="number" name="patient_id">
+    <br><br>
 
-        <label>Patient ID</label>
-        <input type="number" name="patient_id">
-        <br><br>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
 
-        <button type="submit" class="btn btn-primary">Search</button>
-    </form>
+<hr>
+
+{% if searched_patient %}
+    <!-- Show searched patient details -->
+    <h3>Searched Patient Result</h3>
+    <table>
+        <tr><th>Patient ID</th><td>{{ searched_patient.patient_id }}</td></tr>
+        <tr><th>Age</th><td>{{ searched_patient.age }}</td></tr>
+        <tr><th>Sex</th><td>{{ searched_patient.sex }}</td></tr>
+        <tr><th>Resting BP</th><td>{{ searched_patient.resting_bp }}</td></tr>
+        <tr><th>Cholesterol</th><td>{{ searched_patient.cholesterol }}</td></tr>
+        <tr><th>Fasting Blood Sugar</th><td>{{ searched_patient.fasting_blood_sugar }}</td></tr>
+        <tr><th>Resting ECG</th><td>{{ searched_patient.resting_ecg }}</td></tr>
+        <tr><th>Exercise Induced Angina</th><td>{{ searched_patient.exercise_induced_angina }}</td></tr>
+        <tr><th>Appointment Date</th><td>{{ searched_patient.appointment_date }}</td></tr>
+        <tr><th>Appointment Notes</th><td>{{ searched_patient.appointment_notes }}</td></tr>
+        <tr><th>Prescription Name</th><td>{{ searched_patient.prescription_name }}</td></tr>
+        <tr><th>Prescription Dosage</th><td>{{ searched_patient.prescription_dosage }}</td></tr>
+        <tr><th>Prescription Notes</th><td>{{ searched_patient.prescription_notes }}</td></tr>
+    </table>
+
+    <div class="action-group mt-small">
+        <a href="{{ url_for('edit_patient', record_id=searched_patient.id) }}" class="btn btn-warning">Edit</a>
+    </div>
 
     <hr>
+{% endif %}
 
-    {% if searched_patient %}
-        <!-- Detailed search result for one selected patient -->
-        <h3>Searched Patient Result</h3>
-        <table>
-            <tr><th>Patient ID</th><td>{{ searched_patient.patient_id }}</td></tr>
-            <tr><th>Age</th><td>{{ searched_patient.age }}</td></tr>
-            <tr><th>Sex</th><td>{{ searched_patient.sex }}</td></tr>
-            <tr><th>Resting BP</th><td>{{ searched_patient.resting_bp }}</td></tr>
-            <tr><th>Cholesterol</th><td>{{ searched_patient.cholesterol }}</td></tr>
-            <tr><th>Fasting Blood Sugar</th><td>{{ searched_patient.fasting_blood_sugar }}</td></tr>
-            <tr><th>Resting ECG</th><td>{{ searched_patient.resting_ecg }}</td></tr>
-            <tr><th>Exercise Induced Angina</th><td>{{ searched_patient.exercise_induced_angina }}</td></tr>
-            <tr><th>Appointment Date</th><td>{{ searched_patient.appointment_date }}</td></tr>
-            <tr><th>Appointment Notes</th><td>{{ searched_patient.appointment_notes }}</td></tr>
-            <tr><th>Prescription Name</th><td>{{ searched_patient.prescription_name }}</td></tr>
-            <tr><th>Prescription Dosage</th><td>{{ searched_patient.prescription_dosage }}</td></tr>
-            <tr><th>Prescription Notes</th><td>{{ searched_patient.prescription_notes }}</td></tr>
-        </table>
+<!-- Show booked patient data clearly for clinician -->
+<h3>Booked Patients</h3>
 
-        <!-- IMPORTANT:
-             Edit must go to the selected patient's edit route,
-             not to add_patient. -->
-        <div class="action-group mt-small">
-            <a href="{{ url_for('edit_patient', record_id=searched_patient.id) }}" class="btn btn-warning">Edit</a>
+{% if booked_patients and booked_patients|length > 0 %}
+    <table>
+        <tr>
+            <th>Patient ID</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Appointment Date</th>
+            <th>Appointment Notes</th>
+        </tr>
 
-            <form method="POST" action="{{ url_for('delete_patient', record_id=searched_patient.id) }}" class="inline-form">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button type="submit"
-                        class="btn btn-danger"
-                        onclick="return confirm('Are you sure you want to delete this patient record?')">
-                    Delete
-                </button>
-            </form>
-        </div>
-
-        <hr>
-    {% endif %}
-
-    <!-- All patients summary table -->
-    <h3>All Patient Records</h3>
-
-    {% if patients and patients|length > 0 %}
-        <table>
-            <tr>
-                <th>Patient ID</th>
-                <th>Age</th>
-                <th>Sex</th>
-                <th>Resting BP</th>
-                <th>Cholesterol</th>
-                <th>Appointment Date</th>
-                <th>Prescription Name</th>
-                <th>Actions</th>
-            </tr>
-
-            {% for patient in patients %}
-            <tr>
-                <td>{{ patient.patient_id }}</td>
-                <td>{{ patient.age }}</td>
-                <td>{{ patient.sex }}</td>
-                <td>{{ patient.resting_bp }}</td>
-                <td>{{ patient.cholesterol }}</td>
-                <td>{{ patient.appointment_date }}</td>
-                <td>{{ patient.prescription_name }}</td>
-                <td>
-                    <!-- IMPORTANT:
-                         This Edit button must use patient.id -->
-                    <div class="action-group">
-                        <a href="{{ url_for('edit_patient', record_id=patient.id) }}" class="btn btn-warning">Edit</a>
-
-                        <form method="POST" action="{{ url_for('delete_patient', record_id=patient.id) }}" class="inline-form">
-                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                            <button type="submit"
-                                    class="btn btn-danger"
-                                    onclick="return confirm('Are you sure you want to delete this patient record?')">
-                                Delete
-                            </button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% else %}
-        <p>No patient data available.</p>
-    {% endif %}
-
-{% elif role == "patient" %}
-
-    <!-- Patient user can only view their own linked record -->
-    <h3>My Patient Record</h3>
-
-    {% if patients and patients|length > 0 %}
-        {% set patient = patients[0] %}
-        <table>
-            <tr><th>Patient ID</th><td>{{ patient.patient_id }}</td></tr>
-            <tr><th>Age</th><td>{{ patient.age }}</td></tr>
-            <tr><th>Sex</th><td>{{ patient.sex }}</td></tr>
-            <tr><th>Resting BP</th><td>{{ patient.resting_bp }}</td></tr>
-            <tr><th>Cholesterol</th><td>{{ patient.cholesterol }}</td></tr>
-            <tr><th>Fasting Blood Sugar</th><td>{{ patient.fasting_blood_sugar }}</td></tr>
-            <tr><th>Resting ECG</th><td>{{ patient.resting_ecg }}</td></tr>
-            <tr><th>Exercise Induced Angina</th><td>{{ patient.exercise_induced_angina }}</td></tr>
-            <tr><th>Appointment Date</th><td>{{ patient.appointment_date }}</td></tr>
-            <tr><th>Appointment Notes</th><td>{{ patient.appointment_notes }}</td></tr>
-            <tr><th>Prescription Name</th><td>{{ patient.prescription_name }}</td></tr>
-            <tr><th>Prescription Dosage</th><td>{{ patient.prescription_dosage }}</td></tr>
-            <tr><th>Prescription Notes</th><td>{{ patient.prescription_notes }}</td></tr>
-        </table>
-    {% else %}
-        <p>Your patient record is not available.</p>
-    {% endif %}
-
+        {% for patient in booked_patients %}
+        <tr>
+            <td>{{ patient.patient_id }}</td>
+            <td>{{ patient.age }}</td>
+            <td>{{ patient.sex }}</td>
+            <td>{{ patient.appointment_date }}</td>
+            <td>{{ patient.appointment_notes }}</td>
+        </tr>
+        {% endfor %}
+    </table>
 {% else %}
-    <p>You do not have permission to view patient records.</p>
+    <p>No patients currently have booked appointments.</p>
+{% endif %}
+
+<hr>
+
+<!-- Show all patient records -->
+<h3>All Patient Records</h3>
+
+{% if patients and patients|length > 0 %}
+    <table>
+        <tr>
+            <th>Patient ID</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Resting BP</th>
+            <th>Cholesterol</th>
+            <th>Appointment Date</th>
+            <th>Prescription Name</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for patient in patients %}
+        <tr>
+            <td>{{ patient.patient_id }}</td>
+            <td>{{ patient.age }}</td>
+            <td>{{ patient.sex }}</td>
+            <td>{{ patient.resting_bp }}</td>
+            <td>{{ patient.cholesterol }}</td>
+            <td>{{ patient.appointment_date }}</td>
+            <td>{{ patient.prescription_name }}</td>
+            <td>
+                <div class="action-group">
+                    <a href="{{ url_for('edit_patient', record_id=patient.id) }}" class="btn btn-warning">Edit</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No patient data available.</p>
 {% endif %}
 
 {% endblock %}

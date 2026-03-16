@@ -4,9 +4,9 @@
 
 <h2>Add Patient Record</h2>
 
-<!-- Patient add form -->
+<!-- Clinician add-patient form -->
 <form method="POST">
-    <!-- CSRF token for secure POST request -->
+    <!-- CSRF token for secure form submission -->
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
     <label>Patient ID</label>
@@ -63,7 +63,6 @@
     </select>
     <br><br>
 
-    <!-- Appointment section -->
     <h3>Appointment Information</h3>
 
     <label>Appointment Date</label>
@@ -76,7 +75,6 @@
     <small>Optional: add notes about appointment purpose or follow-up.</small>
     <br><br>
 
-    <!-- Prescription section -->
     <h3>Prescription Information</h3>
 
     <label>Prescription Name</label>
