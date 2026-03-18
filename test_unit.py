@@ -1,7 +1,7 @@
 # test_unit.py
 # Unit tests for small isolated logic in the Secure Healthcare System.
 #
-# This file focuses on:
+# This focuses on:
 # - password validation
 # - email validation
 # - patient-safe data formatting logic

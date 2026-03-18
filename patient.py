@@ -1,7 +1,7 @@
 # patient.py
 # Handles patient record storage and retrieval using MongoDB.
-#
-# This version supports:
+
+# This supports:
 # - full patient record creation
 # - placeholder patient creation for new patient registration
 # - patient lookup
@@ -31,11 +31,6 @@ def add_patient_record(
 ):
     """
     Insert a full patient record into MongoDB.
-
-    This stores:
-    - core medical data
-    - appointment information
-    - prescription information
     """
     collection = get_mongo_collection()
 
@@ -64,7 +59,6 @@ def create_placeholder_patient_record(patient_id):
     Create a basic placeholder patient record in MongoDB.
 
     This is used when a new patient registers without an existing patient ID.
-    The record is intentionally minimal and can later be completed by a clinician.
     """
     collection = get_mongo_collection()
 
@@ -91,11 +85,8 @@ def create_placeholder_patient_record(patient_id):
 def generate_next_patient_id():
     """
     Generate the next available numeric patient ID from MongoDB.
-
-    Logic:
-    - find the highest current patient_id
-    - return the next number
-    - if no patient exists yet, start from 1001
+         Does so by finding the highest current patient_id and return the next number.
+         Also, if no patient exists yet, start from 1001
     """
     collection = get_mongo_collection()
 
@@ -146,8 +137,6 @@ def get_all_patients():
 def get_patients_with_appointments():
     """
     Return patient records that currently have a non-empty appointment date.
-
-    This helps clinicians review booked patient data.
     """
     collection = get_mongo_collection()
 
@@ -183,11 +172,6 @@ def update_patient_record(
 ):
     """
     Update the selected patient record by MongoDB object ID.
-
-    This updates:
-    - medical data
-    - appointment data
-    - prescription data
     """
     collection = get_mongo_collection()
 
@@ -215,9 +199,6 @@ def update_patient_record(
 def delete_patient_record(record_id):
     """
     Delete a patient record by MongoDB object ID.
-
-    Returns:
-        int: number of deleted records
     """
     collection = get_mongo_collection()
 
@@ -228,8 +209,6 @@ def delete_patient_record(record_id):
 def book_patient_appointment(patient_id, appointment_date, appointment_notes=""):
     """
     Update only the appointment fields for a patient identified by patient_id.
-
-    This is used by the patient dashboard booking flow.
     """
     collection = get_mongo_collection()
 

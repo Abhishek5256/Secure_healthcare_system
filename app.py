@@ -2,12 +2,6 @@
 # Main Flask application file.
 # SQLite is used for authentication data.
 # MongoDB is used for patient records.
-#
-# This version includes:
-# - admin deactivation of user accounts
-# - admin reactivation of user accounts
-# - clinician deletion of patient records
-# - updated built-in login credentials
 
 from datetime import datetime, timedelta
 import csv
@@ -110,7 +104,7 @@ def convert_patient_list_for_display(patients):
 
 def get_patient_safe_view_for_patient(patient):
     """
-    Build a reduced patient-facing view of a record.
+    Build a reduced patient record according to need.
     """
     if not patient:
         return None

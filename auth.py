@@ -196,7 +196,7 @@ def deactivate_user_by_id(user_id):
     Deactivate a user account by setting is_active to 0.
 
     Built-in safety:
-    - admin accounts cannot be deactivated through this function
+       admin accounts cannot be deactivated through this function
     """
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()

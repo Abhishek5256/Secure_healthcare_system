@@ -2,12 +2,7 @@
 # Handles both databases:
 # - SQLite for authentication data
 # - MongoDB for patient records
-#
-# This version includes:
-# - built-in admin and clinician accounts
-# - updated default built-in credentials
-# - safe migration logic to avoid UNIQUE constraint errors
-# - user active/inactive status for admin deactivation/reactivation control
+
 
 import sqlite3
 from pymongo import MongoClient
@@ -99,19 +94,6 @@ def _upsert_builtin_user(cursor, target_email, target_username, target_password_
     """
     Safely create or update one built-in user without causing UNIQUE conflicts.
 
-    Problem being solved:
-    Older databases may contain partial or duplicate built-in rows, for example:
-    - old built-in email with the same username
-    - new built-in email with a different row
-    - duplicate role rows from previous experiments
-
-    Safe strategy:
-    1. Find all rows matching the built-in email OR built-in username OR built-in role
-       with no patient_id (so we only target system-level built-in accounts).
-    2. Choose one row to keep.
-    3. Delete the other conflicting rows.
-    4. Update the kept row to the correct target values.
-    5. If no row exists, insert a fresh one.
     """
     # Find rows that may represent the same built-in account
     cursor.execute("""
@@ -152,13 +134,6 @@ def _upsert_builtin_user(cursor, target_email, target_username, target_password_
 def seed_builtin_users():
     """
     Create or update built-in admin and clinician accounts safely.
-
-    Default built-in credentials:
-    - admin@gmail.com / Admin@123
-    - clinician@gmail.com / Clinician@123
-
-    This version avoids UNIQUE constraint failures by resolving duplicate
-    built-in rows before updating.
     """
     connection = get_sqlite_connection()
     cursor = connection.cursor()

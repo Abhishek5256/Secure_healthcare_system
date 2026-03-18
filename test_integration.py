@@ -4,7 +4,7 @@
 # - MongoDB patient records
 # - Flask routes
 #
-# This file focuses on:
+# This focuses on:
 # - new patient registration without patient ID
 # - existing patient registration with patient ID
 # - patient booking appointment and seeing it through linked record

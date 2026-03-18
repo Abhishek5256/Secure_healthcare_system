@@ -1,7 +1,7 @@
 # test_functional.py
 # Functional tests for user-facing system behaviour.
 #
-# This file focuses on:
+# This focuses on:
 # - public pages loading
 # - login protection
 # - patient registration behaviour

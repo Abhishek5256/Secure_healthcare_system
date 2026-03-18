@@ -4,10 +4,7 @@
 
 <h2>Edit Patient Record</h2>
 
-<!--
-This form edits the currently selected patient only.
-It submits back to the clinician edit route for that specific record.
--->
+
 <form method="POST" action="{{ url_for('edit_patient', record_id=patient.id) }}">
     <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
 
