@@ -114,6 +114,7 @@ It stores:
 ### MongoDB
 MongoDB is used for all patient data.
 Also, the patient data that has been used was taken from: https://www.kaggle.com/datasets/redwankarimsony/heart-disease-data
+But only the following data from that dataset has been used in this project with addition of appointment and prescriptions information.
 
 It stores:
 - patient ID
