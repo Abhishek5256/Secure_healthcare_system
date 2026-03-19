@@ -113,6 +113,7 @@ It stores:
 
 ### MongoDB
 MongoDB is used for all patient data.
+Also, the patient data that has been used was taken from: https://www.kaggle.com/datasets/redwankarimsony/heart-disease-data
 
 It stores:
 - patient ID
@@ -310,6 +311,9 @@ For Business Logic Analysis, Stride threat model and Trust Boundary Analysis acc
 - Business_logic_Analysis.md
 - STRIDE_THREAT_MODEL.md
 - TRUST_BOUNDARY_ANALYSIS.md
+
+## GITHUB LINK FOR PROJECT
+ https://github.com/Abhishek5256/Secure_healthcare_system.git
 
 ## References 
 
